@@ -1,0 +1,439 @@
+serial_number,name,nem_candidate_id,party,criminal_cases,education,age,assets,assets_in_words,liabilities,liabilities_in_words
+0,A.A. Sabri,6819,IND,0,12th Pass,69,"23,26,979",23 Lacs,0,
+1,Aare Ellanna,5819,IND,0,5th Pass,53,"30,000",30 Thou,0,
+2,Aare Sayanna,6311,IND,0,12th Pass,37,"6,50,000",6 Lacs,0,
+3,Abdallah Ibrahim,6787,IND,0,12th Pass,53,"1,02,38,358",1 Crore,0,
+4,Abdul Azeem,6792,IND,0,10th Pass,49,0,0,0,
+5,Admala Mahipal Reddy,6312,IND,0,12th Pass,36,"16,20,000",16 Lacs,"1,00,000",1 Lacs
+6,Aila Prasanna,6272,Anti Corruption Dynamic Party,0,Illiterate,45,"2,50,000",2 Lacs,0,
+7,Aitha Praveen Kumar,6875,IND,0,12th Pass,35,"10,000",10 Thou,0,
+8,Akhil Chirravuri,6791,IND,0,Post Graduate,25,"2,14,000",2 Lacs,0,
+9,Akula Hanmandlu,6313,IND,0,Literate,41,0,0,0,
+10,Akula Paul,4605,Pyramid Party of India,0,10th Pass,36,"40,140",40 Thou,0,
+11,Alakunta Rajanna,6314,IND,0,Illiterate,55,"1,000",1 Thou,0,
+12,Aleti Malla Reddy,6315,IND,1,Illiterate,40,"1,03,83,500",1 Crore,"2,30,000",2 Lacs
+13,Aleti Rajareddy,4834,IND,0,10th Pass,44,"12,73,000",12 Lacs,"1,00,000",1 Lacs
+14,Aleti Sanjeev Reddy,6316,IND,0,10th Pass,33,"45,49,481",45 Lacs,"10,20,000",10 Lacs
+15,Alige Jeevan,6759,Bahujan Mukti Party,0,Graduate,28,"51,000",51 Thou,0,
+16,Alluri Limba Reddy,6317,IND,0,Illiterate,51,"16,80,000",16 Lacs,0,
+17,Aloori Anil Kumar,6318,IND,0,10th Pass,27,"5,53,000",5 Lacs,0,
+18,Ambala Mahendar,4650,IND,0,12th Pass,46,0,0,0,
+19,Anagandula Venkanna,6273,BSP,1,Graduate,43,0,0,"3,50,000",3 Lacs
+20,Andrapu Sudharshan Gangaputra,6795,IND,0,Graduate,43,"60,000",60 Thou,0,
+21,Andukuri Vijaya Bhaskar,6790,India Praja Bandhu Party,0,Graduate Professional,49,"5,000",5 Thou,0,
+22,Angu Poshetty,6319,IND,0,5th Pass,32,"1,37,500",1 Lacs,0,
+23,Anil Kumar Gali,5080,INC,1,10th Pass,46,"12,15,68,484",12 Crore,"3,81,00,000",3 Crore
+24,Anjaiah Kondani,5074,Pyramid Party of India,0,12th Pass,36,"8,22,000",8 Lacs,0,
+25,Anjan Kumar Yadav,4666,INC,0,Graduate,58,"2,46,55,065",2 Crore,"24,00,000",24 Lacs
+26,Anugu Thirumal,6751,IND,0,10th Pass,42,"40,85,000",40 Lacs,"2,75,000",2 Lacs
+27,Anumula Revanth Reddy,5081,INC,42,Graduate,51,"24,53,57,182",24 Crore,"2,78,07,304",2 Crore
+28,Anusha Keshavabhatla,6818,IND,0,Graduate Professional,32,"92,75,000",92 Lacs,"46,00,000",46 Lacs
+29,Armoor Sagar,6320,IND,0,10th Pass,34,0,0,"75,000",75 Thou
+30,Arsham Ashok,6215,IND,0,10th Pass,31,0,0,0,
+31,Arun Kumar Mypathi,6878,Telangana Jana Samithi,1,Post Graduate,33,0,0,0,
+32,Asaduddin Owaisi,4589,AIMIM,5,Graduate Professional,49,"17,90,44,376",17 Crore,"12,05,00,000",12 Crore
+33,Asli Ganesh,6321,IND,0,12th Pass,29,"7,62,000",7 Lacs,0,
+34,Avutapalli Rambabu,7208,IND,0,10th Pass,62,"74,950",74 Thou,0,
+35,Ayileni Vikram Reddy,6322,IND,0,Post Graduate,39,"65,000",65 Thou,"1,30,000",1 Lacs
+36,B Yosef,5786,BSP,0,10th Pass,52,"7,75,000",7 Lacs,0,
+37,B. Janardhan Reddy,6814,BJP,0,Others,58,"1,19,73,13,405",119 Crore,"6,68,70,634",6 Crore
+38,B. Srinivas,6726,IND,0,10th Pass,38,"99,33,775",99 Lacs,"2,00,000",2 Lacs
+39,B.B.Patil,6753,TRS,18,Graduate,63,0,0,"1,15,35,000",1 Crore
+40,Baaki Renuka,6836,National Womens Party,0,10th Pass,39,"7,00,000",7 Lacs,0,
+41,Baddam Ashok,6323,IND,0,10th Pass,29,"10,500",10 Thou,"1,10,000",1 Lacs
+42,Baddam Balaraju,6324,IND,0,10th Pass,39,"2,25,40,100",2 Crore,"13,18,875",13 Lacs
+43,Baddam Devendar,6325,IND,0,10th Pass,34,"50,500",50 Thou,"1,00,000",1 Lacs
+44,Baddam Indrasena Reddy,6326,IND,0,10th Pass,33,"33,07,500",33 Lacs,"4,65,000",4 Lacs
+45,Baddam Srinivasa Reddy,6328,IND,0,Graduate Professional,44,"20,05,198",20 Lacs,"2,00,000",2 Lacs
+46,Bakkashetti Ganagdhar,6329,IND,0,Illiterate,52,"1,01,50,000",1 Crore,"9,80,000",9 Lacs
+47,Bala Kalyan Panja,6216,BSP,0,Graduate Professional,36,"7,65,220",7 Lacs,0,
+48,Balakishna Nalla,6330,IND,0,5th Pass,48,"50,81,638",50 Lacs,"6,50,000",6 Lacs
+49,Balamani Buru,6774,India Praja Bandhu Party,0,Graduate,32,0,0,0,
+50,Balaram Naik Porika,4644,INC,1,10th Pass,55,"4,35,70,110",4 Crore,"3,36,00,000",3 Crore
+51,Balije Laxmirajam,6334,IND,0,5th Pass,58,"16,37,500",16 Lacs,"1,25,000",1 Lacs
+52,Balsingh Daravath,6880,Bhartiya Anarakshit Party,0,Post Graduate,33,"1,06,000",1 Lacs,0,
+53,Balu Nayak Bhukya,6881,IND,0,Post Graduate,38,"27,50,000",27 Lacs,"10,25,000",10 Lacs
+54,Banala Laxma Reddy,6754,BJP,3,12th Pass,47,"5,85,77,327",5 Crore,"52,50,000",52 Lacs
+55,Bandaru Nagaraju,6852,IND,0,Post Graduate,25,"2,26,000",2 Lacs,0,
+56,Bandela Venkatarajam,6335,IND,0,Illiterate,55,"20,50,000",20 Lacs,"6,00,000",6 Lacs
+57,Bandi Sanjay Kumar,6274,BJP,6,Post Graduate,47,"22,70,000",22 Lacs,"13,41,800",13 Lacs
+58,Bangaru Krishna,6769,IND,0,12th Pass,33,"51,000",51 Thou,0,
+59,Banoth Laxma Naik,4640,IND,0,12th Pass,62,0,0,0,
+60,Bapu Rao Soyam,5069,BJP,52,12th Pass,52,"30,99,414",30 Lacs,"2,31,450",2 Lacs
+61,Barla Srinivas,5783,IND,0,Post Graduate,30,"15,000",15 Thou,0,
+62,Baswaiah Madiga,6813,Prajaa Swaraaj Party,0,10th Pass,47,"24,75,117",24 Lacs,"12,42,117",12 Lacs
+63,Bathnathe Shankar,6336,Janasena Party,0,12th Pass,42,"80,00,000",80 Lacs,0,
+64,Bathula Ravi,6782,IND,0,12th Pass,48,"75,000",75 Thou,0,
+65,Beeramganti Venkat Ramesh Naidu,4635,IND,0,Illiterate,59,"30,71,000",30 Lacs,0,
+66,Bejjenki Linga Reddy,6337,IND,0,Illiterate,34,"6,60,000",6 Lacs,"2,00,000",2 Lacs
+67,Benjamin Raju,6752,IND,0,Post Graduate,49,"75,58,960",75 Lacs,"30,00,000",30 Lacs
+68,Bennala Julee,6820,National Women,0,12th Pass,34,"50,000",50 Thou,0,
+69,Bhagavanth Rao Pawar,6805,BJP,3,Graduate Professional,67,0,0,"4,839",4 Thou
+70,Bhanu Laxman Pabba,4825,IND,0,12th Pass,26,"4,94,297",4 Lacs,0,
+71,Bharatesh,6765,SUCI(C),0,Post Graduate,42,"42,300",42 Thou,0,
+72,Bhaskar Naik Bhukya.,6883,Janasena Party,0,Graduate,51,"1,30,70,000",1 Crore,"16,00,000",16 Lacs
+73,Bheem Rao,5816,Ambedkarite Party of India,0,5th Pass,33,"2,74,000",2 Lacs,0,
+74,Bheemanaboina Ramesh,6859,IND,0,10th Pass,32,"1,10,000",1 Lacs,0,
+75,Bochu Krupakar,6873,Hum Bhartiya Party,0,Graduate,45,"11,50,000",11 Lacs,0,
+76,Boda Venkat,4868,CPI(M),0,Graduate,54,"96,11,087",96 Lacs,"31,85,000",31 Lacs
+77,Boddu Satish,6797,IND,0,Post Graduate,34,"33,000",33 Thou,0,
+78,Bodugam Narender,6338,IND,0,12th Pass,42,"24,50,000",24 Lacs,"3,50,000",3 Lacs
+79,Bollapally Saraiah,6870,BSP,0,Graduate,60,0,0,0,
+80,Borranna Gummerla,6339,IND,0,Illiterate,60,"14,50,000",14 Lacs,0,
+81,Bunga Jyothi Ramana,6872,Aihra National Party,1,Graduate,45,"16,65,000",16 Lacs,"3,00,000",3 Lacs
+82,Byagari Shanthaiah,6340,IND,0,10th Pass,49,"32,06,000",32 Lacs,"95,000",95 Thou
+83,Chalika Chandra Sekhar,4664,IND,0,Graduate,38,"42,70,000",42 Lacs,"7,02,000",7 Lacs
+84,Challa Ram Kalyan,6789,Bhartiya Anarakshit Party,0,Post Graduate,37,"1,26,78,418",1 Crore,0,
+85,Challa Vamshi Chand Reddy,4636,INC,4,12th Pass,38,"1,57,59,063",1 Crore,"17,22,846",17 Lacs
+86,Chamakura Rajaiah,6772,Social Justice Party of India,1,Graduate,43,"3,05,000",3 Lacs,0,
+87,Charagonda Krishnamma,6837,IND,0,12th Pass,45,"50,000",50 Thou,0,
+88,Chepuri Raju,6821,Dalita Bahujana Party,0,5th Pass,39,"15,000",15 Thou,0,
+89,Chiluveru Prathap,5775,IND,0,10th Pass,48,0,0,0,
+90,Chinnaiah Mukkera,6341,IND,0,10th Pass,35,"43,22,700",43 Lacs,"9,50,000",9 Lacs
+91,Chintalapelly Gangareddy,6342,IND,0,10th Pass,49,"12,60,000",12 Lacs,"1,00,000",1 Lacs
+92,Chintha Anil Kumar,4592,Pyramid Party of India,0,Post Graduate,33,"25,000",25 Thou,0,
+93,Chintha Sambamurthy,6869,BJP,0,12th Pass,65,"25,03,100",25 Lacs,"6,60,000",6 Lacs
+94,Chinthalapally Raghupathi Reddy,6343,IND,0,10th Pass,41,"36,85,000",36 Lacs,"1,50,000",1 Lacs
+95,D Thimmappa,4667,IND,0,Illiterate,53,"4,80,000",4 Lacs,"4,00,000",4 Lacs
+96,D. K. Aruna,6832,BJP,2,10th Pass,59,"78,83,98,644",78 Crore,"5,16,70,191",5 Crore
+97,Dabba Raja Reddy,6344,IND,0,Literate,48,"51,20,000",51 Lacs,"1,00,000",1 Lacs
+98,Dayakar Pasnori,5094,TRS,0,Graduate,51,"2,48,89,712",2 Crore,"14,28,227",14 Lacs
+99,Devaki Vasudeva Rao,7209,BJP,0,Others,47,0,0,"46,86,270",46 Lacs
+100,Devanna Pindi,6346,IND,0,Illiterate,68,"6,42,000",6 Lacs,0,
+101,Dharavth Narendhar,5815,Janasena Party,0,Post Graduate,27,"50,000",50 Thou,0,
+102,Dharmapuri Arvind,4828,BJP,1,Post Graduate,43,"87,69,30,468",87 Crore,"33,75,80,746",33 Crore
+103,Dharmasanam Bhanumurthy,6773,Praja Satta Party,2,10th Pass,57,"52,59,500",52 Lacs,"6,00,000",6 Lacs
+104,Doda Mutta Reddy,6347,IND,0,5th Pass,31,"17,00,000",17 Lacs,"2,00,000",2 Lacs
+105,Donthula Bikshapathi,6777,IND,0,Graduate,43,"1,86,10,000",1 Crore,0,
+106,Dornala Jaya Prakash,6780,New India Party,2,Graduate,36,"13,64,218",13 Lacs,"1,00,000",1 Lacs
+107,Dornala Jaya Prakash,4842,New India Party,2,Graduate,36,"13,64,218",13 Lacs,"1,00,000",1 Lacs
+108,Dr Mallu Ravi,4637,INC,4,Graduate Professional,68,"26,57,82,483",26 Crore,"1,88,00,000",1 Crore
+109,Dr. Agama Chandrashekar,4630,INC,0,Graduate Professional,60,0,0,"50,00,000",50 Lacs
+110,Dr. Narsaiah Boora,5089,TRS,0,Post Graduate,60,"23,74,58,144",23 Crore,"4,29,63,534",4 Crore
+111,Dr.Gaddam Ranjith Reddy,4846,TRS,0,Post Graduate,54,"1,63,46,95,131",163 Crore,"19,70,07,553",19 Crore
+112,Dr.Hingolikar Susheel Raj,6801,IND,0,10th Pass,34,"16,44,000",16 Lacs,"29,50,000",29 Lacs
+113,Dunuku Veladri,6902,IND,0,Doctorate,57,"5,94,217",5 Lacs,0,
+114,Durgam. Rajanna,4649,IND,0,Graduate Professional,27,"15,500",15 Thou,0,
+115,Durvasa Reddy Pakala,6275,IND,1,Post Graduate,38,"55,67,500",55 Lacs,"9,50,000",9 Lacs
+116,Edamala Ravinder Reddy,6348,IND,0,10th Pass,50,"20,48,000",20 Lacs,"1,50,000",1 Lacs
+117,Eleti Laxmareddy,4835,IND,0,10th Pass,41,"8,44,000",8 Lacs,"40,000",40 Thou
+118,Enugu Mallesh,4653,IND,0,Illiterate,60,"53,30,000",53 Lacs,"1,00,000",1 Lacs
+119,Ergamreddy Shivadurgavaraprasad Reddy,4849,Indian Rakshaka Nayakudu Party,0,8th Pass,28,0,0,0,
+120,Erugurala Bhagya Laxmi,4631,Pyramid Party of India,0,Post Graduate,27,"2,000",2 Thou,0,
+121,Ettedi Saireddy,6352,IND,0,10th Pass,30,"4,50,000",4 Lacs,"1,50,000",1 Lacs
+122,Farah Naaz Khan,6796,IND,0,12th Pass,33,"19,33,207",19 Lacs,"86,600",86 Thou
+123,G . Laxminarsimha Rao,6786,Telangana Prajala Party,1,Graduate Professional,51,"1,22,83,000",1 Crore,"20,00,000",20 Lacs
+124,G. Ravi Kumar Yadav,6822,IND,0,Post Graduate,31,"91,000",91 Thou,0,
+125,Gaddala Vinay Kumar,7240,IND,0,8th Pass,62,"1,23,09,436",1 Crore,"4,50,000",4 Lacs
+126,Gaddam Gangareddy,6353,IND,0,Illiterate,57,"30,80,000",30 Lacs,"1,00,000",1 Lacs
+127,Gaddam Mohan,6607,IND,0,Graduate Professional,34,"10,500",10 Thou,"2,00,000",2 Lacs
+128,Gaddam Purushotham,6608,IND,0,Graduate,29,"8,79,000",8 Lacs,"1,70,000",1 Lacs
+129,Gaddam Rajendharreddy,6609,IND,0,Illiterate,32,0,0,0,
+130,Gaddam Rajeshwar,6610,IND,0,Illiterate,37,"14,66,000",14 Lacs,0,
+131,Gaddam Suman,6611,IND,0,8th Pass,30,"6,85,000",6 Lacs,0,
+132,Gaddam Vijay Kumar,5787,Bahujan Mukti Party,0,Post Graduate,34,"18,03,217",18 Lacs,"44,000",44 Thou
+133,Gadepalli Prthviraj,6612,IND,0,10th Pass,45,"60,000",60 Thou,0,
+134,Gadepally Ramesh,6613,IND,0,5th Pass,45,"47,76,000",47 Lacs,"4,20,000",4 Lacs
+135,Gadkole Chinna Gangareddy,6614,IND,0,5th Pass,52,"45,29,560",45 Lacs,"1,40,000",1 Lacs
+136,Gadkolu Ramesh,6615,IND,0,Illiterate,37,"5,60,000",5 Lacs,"1,99,000",1 Lacs
+137,Gajabinkar Bansilal,4660,IND,0,5th Pass,61,"5,10,000",5 Lacs,"30,000",30 Thou
+138,Gajjala Sai Prasad,6616,IND,0,Illiterate,39,"9,000",9 Thou,0,
+139,Ganga Reddy Kallem,6618,IND,0,Graduate,44,0,0,"40,000",40 Thou
+140,Ganga Reddy Peesu Peesu,6619,IND,0,5th Pass,41,"13,75,000",13 Lacs,0,
+141,Gangadhar Andheti,4833,IND,0,5th Pass,43,"1,33,66,300",1 Crore,"3,40,000",3 Lacs
+142,Gangadhar Baddam,6620,IND,0,12th Pass,45,"1,27,16,000",1 Crore,"8,67,000",8 Lacs
+143,Ganganna Chilkuri,6621,IND,0,Illiterate,41,"11,46,500",11 Lacs,0,
+144,Gangapuram Kishan Reddy,4839,BJP,0,Others,58,"8,14,30,778",8 Crore,"45,00,000",45 Lacs
+145,Gangarapu Thirupathi,4826,IND,0,10th Pass,45,"7,000",7 Thou,0,
+146,Gangareddy Mailaram,6622,IND,0,Illiterate,49,"21,99,350",21 Lacs,"1,24,976",1 Lacs
+147,Gangareddy Musku,6623,IND,0,Illiterate,46,"16,90,000",16 Lacs,0,
+148,Gangareddy Rikkala,4829,IND,0,5th Pass,44,"79,23,000",79 Lacs,"1,50,000",1 Lacs
+149,Gangareddy Thorthi,6624,IND,0,Illiterate,39,0,0,0,
+150,Ganta Pentanna,5813,IND,0,Post Graduate,47,"6,70,000",6 Lacs,0,
+151,Garlapati Jithendra Kumar,4858,BJP,0,12th Pass,61,"18,45,77,651",18 Crore,"2,17,81,741",2 Crore
+152,Goda Sriramulu,6862,CPI,0,8th Pass,54,"1,57,99,990",1 Crore,"72,65,216",72 Lacs
+153,Godam Nagesh,5814,TRS,0,Post Graduate,54,"1,84,77,888",1 Crore,"8,47,000",8 Lacs
+154,Godisella Nagamani,4823,IND,0,10th Pass,28,0,0,0,
+155,Gokinapalli Venkateswarlu,6900,IND,0,5th Pass,61,"39,68,500",39 Lacs,"45,000",45 Thou
+156,Gopoju Ramesh Babu,6894,Telangana Communist Party of India,0,Others,42,"20,000",20 Thou,0,
+157,Goskula Mahesh Babu,6625,IND,0,10th Pass,27,"2,60,000",2 Lacs,0,
+158,Gugulothu Ramesh,4869,IND,1,Post Graduate,32,"14,40,000",14 Lacs,"3,97,000",3 Lacs
+159,Gujjula Ramesh,6626,IND,0,8th Pass,Unknown,0,0,"11,00,000",11 Lacs
+160,Gummerla Vijay,6629,IND,0,Illiterate,58,"10,40,000",10 Lacs,0,
+161,Guradi Srinivas,6630,IND,0,10th Pass,45,"3,95,000",3 Lacs,0,
+162,Gurram Papi Reddy,4843,Ambedkar National Congress,0,12th Pass,43,"21,52,500",21 Lacs,0,
+163,Hanmandlu Puppala,6631,IND,0,Illiterate,52,"11,05,000",11 Lacs,0,
+164,Ija Venkatesh Goud,6823,Social Justice Party of India,0,Post Graduate,43,"97,99,564",97 Lacs,"28,00,000",28 Lacs
+165,Imran Ahmed Khan,6833,Ambedkar National Congress,0,12th Pass,47,"37,47,000",37 Lacs,"4,80,000",4 Lacs
+166,Ippa Lachchanna,6632,IND,0,Illiterate,53,"14,50,000",14 Lacs,0,
+167,J . N . Rao,6798,Dalita Bahujana Party,0,Graduate,64,"15,30,065",15 Lacs,0,
+168,J. Chinna Reddy,6633,IND,0,5th Pass,43,"13,50,000",13 Lacs,"1,00,000",1 Lacs
+169,Jaidi Chinna Gangaram,4652,IND,0,Illiterate,42,0,0,"2,00,000",2 Lacs
+170,Jaidupally Yadaiah,6824,IND,0,5th Pass,48,"1,000",1 Thou,0,
+171,Jakkula Naveen Yadav,6847,IND,0,Post Graduate,25,"10,04,799",10 Lacs,0,
+172,Janaiah Nandipati,6840,Telangana Sakalajanula Party,0,Post Graduate,43,"15,96,300",15 Lacs,"78,000",78 Thou
+173,Jannu Narsaiah,6876,IND,1,Others,44,"5,60,000",5 Lacs,0,
+174,Jatothu Hussain,6884,BJP,0,Graduate,37,"2,90,43,582",2 Crore,"90,00,000",90 Lacs
+175,Junaid Anam Siddiqui,6794,IND,0,12th Pass,36,"3,97,385",3 Lacs,0,
+176,K Kavitha,5073,TRS,2,Graduate Professional,41,"17,93,82,394",17 Crore,"9,07,23,181",9 Crore
+177,K Rangacharya,6810,Samajwadi Forward Bloc,0,10th Pass,49,0,0,0,
+178,K Venkatanarayana,4665,IND,0,12th Pass,31,"14,000",14 Thou,0,
+179,K. Madan Mohan Rao,4658,INC,0,Post Graduate,49,0,0,0,
+180,K. Nagaraj,6802,IND,0,8th Pass,45,"3,68,000",3 Lacs,0,
+181,K. Ram Raj,6708,IND,0,12th Pass,31,"12,30,000",12 Lacs,0,
+182,Ka Maheshwar,6806,IND,6,10th Pass,45,"6,09,000",6 Lacs,"4,20,000",4 Lacs
+183,Kalesh,7243,Bhartiya Anarakshit Party,0,Graduate,49,"10,59,100",10 Lacs,0,
+184,Kallu Narsimlu Goud,6768,IND,0,Graduate,52,"27,28,000",27 Lacs,"9,00,000",9 Lacs
+185,Kalluri. Venkateswara Rao,6885,CPI,0,10th Pass,45,"6,76,200",6 Lacs,0,
+186,Kalthi Yarraiah,7904,IND,2,12th Pass,39,"2,10,000",2 Lacs,0,
+187,Kanaka Pramod,6634,IND,0,Graduate Professional,33,"3,10,000",3 Lacs,0,
+188,Kandukala Shiva Kumar Goud,6636,IND,0,10th Pass,48,"4,40,000",4 Lacs,0,
+189,Kannam Venkanna,6871,Marxist Communist Party of India (United),0,12th Pass,42,0,0,0,
+190,Karamtothu Mangtha,6845,IND,0,5th Pass,46,"31,000",31 Thou,0,
+191,Karvanga Sharath,5785,IND,0,Others,27,"20,037",20 Thou,0,
+192,Katipally Kumar,6637,IND,0,10th Pass,30,"17,00,000",17 Lacs,"6,39,000",6 Lacs
+193,Katipelli Ramesh,6638,IND,0,Graduate,34,"5,88,000",5 Lacs,0,
+194,Katravath Venkatesh,6839,Bahujan Mukti Party,0,Graduate,30,"21,300",21 Thou,0,
+195,Katta Srinivas,6893,Yekikrutha Sankshema Rashtriya Praja Party,0,8th Pass,46,"14,35,000",14 Lacs,0,
+196,Kavitha Malothu,4645,TRS,1,Graduate,39,"1,97,31,269",1 Crore,"12,52,068",12 Lacs
+197,Kiran Vangapalli,6846,IND,0,10th Pass,33,"75,000",75 Thou,0,
+198,Komati Reddy Prashanth,6639,IND,1,Illiterate,30,"50,01,000",50 Lacs,"1,50,000",1 Lacs
+199,Komatireddy Venakat Reddy,5090,INC,14,12th Pass,55,0,0,"2,40,69,129",2 Crore
+200,Kommula Buchireddy,6640,IND,0,Others,39,"16,95,000",16 Lacs,"2,00,000",2 Lacs
+201,Konda Vishweshwar Reddy,4845,INC,1,Graduate Professional,59,"8,95,01,79,170",895 Crore,"35,81,27,700",35 Crore
+202,Kondhapuram Narsaiah,6641,IND,0,Illiterate,48,"37,799",37 Thou,0,
+203,Kongari Sanjiv,6642,IND,0,10th Pass,35,"1,87,000",1 Lacs,0,
+204,Koppula Sreenivasa Rao,6899,IND,0,12th Pass,48,"1,17,400",1 Lacs,"3,05,000",3 Lacs
+205,Korra Pandu Naik,6817,Bahujan Mukti Party,0,10th Pass,42,"10,000",10 Thou,0,
+206,Kota Shyamkumar,6276,IND,0,12th Pass,31,"75,000",75 Thou,0,
+207,Kotha Kistaiah,4669,Ambedkar National Congress,0,10th Pass,41,"10,20,000",10 Lacs,0,
+208,Kotha Prabhakar Reddy,5079,TRS,0,Graduate,53,"1,26,65,81,773",126 Crore,"26,82,66,203",26 Crore
+209,Krishna Sabbani,6221,Marxist Communist Party of India (United),4,Others,57,0,0,"9,67,827",9 Lacs
+210,Kumar Sogula,5826,BJP,0,Post Graduate,52,"1,19,33,904",1 Crore,"37,30,368",37 Lacs
+211,Kumbala Sanjeeva Reddy,6643,IND,0,10th Pass,59,"50,05,000",50 Lacs,"4,00,000",4 Lacs
+212,Kummari Giri,4844,Pyramid Party of India,0,10th Pass,37,"4,85,000",4 Lacs,0,
+213,Kumra Raju,5820,IND,0,10th Pass,29,"30,000",30 Thou,0,
+214,Kumram Vandana,5821,Nava Praja Rajyam Party,0,Illiterate,35,"13,00,000",13 Lacs,0,
+215,Kunta Narayana Reddy,6644,IND,0,5th Pass,51,"24,03,000",24 Lacs,"2,75,000",2 Lacs
+216,Kuntala Narsaiah,5825,IND,0,10th Pass,42,"7,20,540",7 Lacs,0,
+217,Kurma Divakar,6645,IND,0,10th Pass,25,"1,50,000",1 Lacs,0,
+218,L Ashok Nath,6809,IND,0,12th Pass,49,"2,49,000",2 Lacs,0,
+219,Lakavath Nageswara Rao,6896,Bahujan Mukti Party,0,Graduate,27,0,0,"1,90,000",1 Lacs
+220,Lalu Naik Ramavath,6842,Bahujana Raajyam Party (Phule Ambedkar),0,Others,54,"13,70,000",13 Lacs,"1,00,000",1 Lacs
+221,Laxman Ganna,6647,IND,0,12th Pass,37,"1,25,000",1 Lacs,0,
+222,Laxmana Chary Bhanala,6904,IND,0,5th Pass,55,"30,000",30 Thou,0,
+223,Limba Reddy Perkit,6648,IND,0,8th Pass,32,"29,42,929",29 Lacs,"8,98,000",8 Lacs
+224,Limbaiah Somidi,6649,IND,0,Graduate,40,"2,55,000",2 Lacs,0,
+225,Linga Reddy Doddikindi,6651,IND,0,10th Pass,51,"31,83,594",31 Lacs,"10,98,000",10 Lacs
+226,Linga Reddy Santha,4831,IND,0,10th Pass,36,"18,03,500",18 Lacs,"1,00,000",1 Lacs
+227,Lingapuram Bhumeshwar,6652,IND,0,Illiterate,37,"19,61,500",19 Lacs,"50,000",50 Thou
+228,Lingidi Venkateswarlu,6858,IND,0,Post Graduate,61,"1,25,33,638",1 Crore,"38,90,240",38 Lacs
+229,Lithesh Sunkari,6843,Social Justice Party of India,0,Post Graduate,30,0,0,0,
+230,Loka Subhash,4836,IND,1,Illiterate,40,"54,04,257",54 Lacs,"1,50,000",1 Lacs
+231,M . Ashok Kumar,6788,Samajwadi Forward Bloc,0,Graduate Professional,37,"3,42,000",3 Lacs,0,
+232,M . D . Nazeer Uddin Quadri,6783,Akhil Bharatiya Muslim League (Secular),0,10th Pass,43,"50,90,000",50 Lacs,0,
+233,M. Malla Reddy,6662,IND,0,5th Pass,50,"46,00,000",46 Lacs,"22,90,000",22 Lacs
+234,Macharla Prathap,6653,IND,0,10th Pass,33,"14,46,797",14 Lacs,"2,70,000",2 Lacs
+235,Madavaneni Raghunandan Rao,6764,BJP,0,Graduate Professional,54,"12,64,88,701",12 Crore,"69,00,000",69 Lacs
+236,Madhava Reddy Gari Hanmantha Reddy,6766,SHS,0,12th Pass,38,"10,45,000",10 Lacs,"3,50,000",3 Lacs
+237,Madhu Butti,6655,IND,0,Graduate Professional,37,"4,93,142",4 Lacs,"99,000",99 Thou
+238,Madhu Sapavath,6853,IND,0,Illiterate,26,"30,000",30 Thou,0,
+239,Madhusudan Alias Madhu Goud Yaskhi,5072,INC,1,Post Graduate,61,0,0,"35,09,798",35 Lacs
+240,Maggidi Katipally Rajesh,6656,IND,0,10th Pass,29,"15,68,000",15 Lacs,"1,00,000",1 Lacs
+241,Maggidi Narsaiah Mamidi,6657,IND,0,5th Pass,54,"78,75,000",78 Lacs,"16,00,000",16 Lacs
+242,Mahender Nalimela,6658,IND,0,12th Pass,25,"5,10,000",5 Lacs,"1,00,000",1 Lacs
+243,Mahender Reddy Bongunoori,6775,Janasena Party,0,10th Pass,43,"13,97,14,395",13 Crore,"4,07,43,724",4 Crore
+244,Mahendhar Kottala,6659,IND,0,10th Pass,29,"5,45,000",5 Lacs,"1,00,000",1 Lacs
+245,Mahendhar Musku,6660,IND,0,Illiterate,37,"67,41,100",67 Lacs,"1,00,000",1 Lacs
+246,Mahesh Rayidi,6661,IND,0,8th Pass,37,"21,75,000",21 Lacs,"4,00,000",4 Lacs
+247,Mallesh Jatavath,5085,SUCI(C),0,Graduate,26,0,0,0,
+248,Mallu Laxmi,4857,CPI(M),1,Graduate Professional,45,"4,98,66,261",4 Crore,"85,38,884",85 Lacs
+249,Mamidi Chinna Reddy,6663,IND,0,10th Pass,Unknown,0,0,"1,00,000",1 Lacs
+250,Mamidi Rajashekar Reddy,6664,IND,0,Graduate,35,"18,20,000",18 Lacs,"7,67,000",7 Lacs
+251,Mamidi Thirupathireddy,6665,IND,0,10th Pass,49,"65,98,000",65 Lacs,"1,50,000",1 Lacs
+252,Mandala Shekhar,6666,IND,0,Illiterate,35,"1,00,000",1 Lacs,0,
+253,Manne Srinivas Reddy,4850,TRS,0,12th Pass,60,"6,33,53,123",6 Crore,"45,69,251",45 Lacs
+254,Maram Venkat Reddy,4855,IND,0,10th Pass,48,"14,00,000",14 Lacs,"1,00,000",1 Lacs
+255,Mark Babu,6760,India Praja Bandhu Party,1,Post Graduate,33,"5,07,877",5 Lacs,"84,623",84 Thou
+256,Marri. Nehemiah,6854,IND,0,12th Pass,64,"7,70,000",7 Lacs,0,
+257,Maru Janardhan,6668,IND,0,10th Pass,37,"19,00,000",19 Lacs,"4,70,000",4 Lacs
+258,Md. Abdul Azeez Khan,4668,IND,0,Graduate Professional,57,"56,84,000",56 Lacs,"3,50,000",3 Lacs
+259,Medipalli Shekar Reddy,6669,IND,0,10th Pass,30,0,0,"1,20,000",1 Lacs
+260,Meesala Gopal Sai Baba,4840,IND,0,Graduate Professional,49,"97,74,500",97 Lacs,"39,00,000",39 Lacs
+261,Mekala Satheesh Reddy,6841,Janasena Party,0,Post Graduate,37,"34,71,000",34 Lacs,0,
+262,Mekala Venkanna,4862,IND,0,10th Pass,33,"2,65,572",2 Lacs,"2,13,000",2 Lacs
+263,Mekkonda Ramreddy,6670,IND,0,12th Pass,40,"18,20,000",18 Lacs,"6,00,000",6 Lacs
+264,Merige Santhosh Reddy,6767,Pyramid Party of India,0,10th Pass,36,"2,50,000",2 Lacs,"1,00,000",1 Lacs
+265,Mittapalli Malliah,6671,IND,0,10th Pass,56,"5,07,995",5 Lacs,"2,58,800",2 Lacs
+266,Mittapally Jeevan Reddy,6672,IND,0,10th Pass,34,"5,00,000",5 Lacs,0,
+267,Mohammed Abdul Azeem,6807,IND,0,10th Pass,44,0,0,0,
+268,Mohammed Feroz Khan,6803,INC,0,12th Pass,46,"74,70,000",74 Lacs,0,
+269,Mohammed Imtiyaz Ahmad,4607,IND,0,Post Graduate,45,0,0,0,
+270,Mohammed Nawaz,6758,Ambedkar National Congress,0,5th Pass,33,"4,53,267",4 Lacs,0,
+271,Mohan Chintala Palli,6674,IND,0,Graduate,40,"9,40,000",9 Lacs,0,
+272,Mohanareddy Eleti,6675,IND,0,10th Pass,36,"1,13,81,000",1 Crore,"11,25,000",11 Lacs
+273,Mohd Ahmed,6808,IND,0,10th Pass,34,"4,00,000",4 Lacs,0,
+274,Mohd Jameel,6676,IND,0,Post Graduate,35,"10,12,800",10 Lacs,0,
+275,Mokalla. Murali Krishna,6887,IND,4,5th Pass,54,"14,10,500",14 Lacs,"1,50,000",1 Lacs
+276,Moorigaadi Krishna,6860,IND,0,Post Graduate,50,0,0,0,
+277,Mudiraj Venkatesham,5078,IND,0,10th Pass,46,"8,06,000",8 Lacs,"74,000",74 Thou
+278,Mukkisa Ratnakar Reddy,6279,IND,0,12th Pass,42,"30,75,000",30 Lacs,"1,00,000",1 Lacs
+279,Muthenna Lakkara,6679,IND,0,10th Pass,50,0,0,0,
+280,Mutyam Arjuna Raju,6905,IND,0,Post Graduate,30,"24,50,000",24 Lacs,"90,000",90 Thou
+281,N . Shankar Goud,6785,Janasena Party,0,8th Pass,46,"3,46,43,000",3 Crore,"18,00,000",18 Lacs
+282,N Mallareddy,6684,IND,0,10th Pass,42,"5,50,000",5 Lacs,"50,000",50 Thou
+283,N. Omkar Reddy,6683,IND,0,Graduate Professional,29,"18,11,500",18 Lacs,"3,30,000",3 Lacs
+284,Nadipi Gangaram Niradi,6680,IND,0,Illiterate,32,"7,50,000",7 Lacs,0,
+285,Nadisharam Mallaiah,6681,IND,0,10th Pass,40,"9,48,500",9 Lacs,"20,000",20 Thou
+286,Nagulapalli Devendhar,6682,IND,0,Illiterate,Unknown,"1,14,17,000",1 Crore,"2,75,000",2 Lacs
+287,Nakirikanti Sanjeeva Rao,4641,IND,0,Illiterate,49,"26,84,500",26 Lacs,"7,47,000",7 Lacs
+288,Nakirikanti. Chittemma,6850,IND,0,Illiterate,42,"26,84,500",26 Lacs,"7,47,000",7 Lacs
+289,Nalamada Uttam Kumar Reddy,4854,INC,4,Graduate,55,0,0,"12,00,000",12 Lacs
+290,Nalla Nadipi Muthenna,6685,IND,0,5th Pass,51,"22,68,500",22 Lacs,"60,000",60 Thou
+291,Nalla Prem Kumar,6825,Prem Janata Dal,0,8th Pass,47,500,5 Hund,0,
+292,Nama Nageswr Rao,7210,TRS,5,12th Pass,62,"1,07,46,71,341",107 Crore,"8,07,21,594",8 Crore
+293,Nandipati Vinod Kumar,6799,IND,0,Graduate Professional,45,"30,000",30 Thou,0,
+294,Nangunoori Lata,6755,IND,0,Graduate,43,"2,56,000",2 Lacs,0,
+295,Narala Satyanarayana,6895,Janasena Party,0,Post Graduate,46,"22,01,365",22 Lacs,"5,90,000",5 Lacs
+296,Narsaiah Gunda,6688,IND,0,5th Pass,54,"5,35,279",5 Lacs,0,
+297,Narsareddy Pannala,6689,IND,0,10th Pass,41,"17,91,531",17 Lacs,"2,50,000",2 Lacs
+298,Natta Bavanna,6690,IND,0,10th Pass,42,"1,75,000",1 Lacs,0,
+299,Nemilla Linga Reddy,6691,IND,0,5th Pass,35,0,0,"2,37,000",2 Lacs
+300,Nethavath Ramdas,5823,IND,0,Literate,46,0,0,0,
+301,Nomula Gopal Reddy,4655,IND,0,Post Graduate,27,"40,000",40 Thou,0,
+302,Nomula Mohan Reddy,8173,IND,0,Illiterate,49,"79,26,500",79 Lacs,"2,00,000",2 Lacs
+303,P. Purushotham,6826,IND,0,Post Graduate,38,"2,33,000",2 Lacs,0,
+304,Padala Venkata Shyam Sunder Rao,5091,BJP,7,Post Graduate,46,"32,30,73,107",32 Crore,"4,90,80,220",4 Crore
+305,Palamakula Madhu,6827,India Praja Bandhu Party,0,10th Pass,38,"1,50,932",1 Lacs,0,
+306,Palle Prashanth,4633,Jai Swaraj Party,0,Post Graduate,28,"36,56,900",36 Lacs,"3,00,000",3 Lacs
+307,Palvancha Rama Rao,6903,IND,1,10th Pass,65,"1,32,80,000",1 Crore,0,
+308,Palvancha. Durga.,6888,IND,0,Graduate Professional,34,"11,40,000",11 Lacs,"80,000",80 Thou
+309,Paniganti Rajithavani,4603,Pyramid Party of India,0,10th Pass,46,0,0,0,
+310,Parsagani Nageswara Rao,4866,IND,1,5th Pass,48,"1,00,000",1 Lacs,0,
+311,Parvathi Bhukya,4646,Pyramid Party of India,0,Literate,43,"16,10,000",16 Lacs,0,
+312,Pasula Rammurthy,6877,IND,0,8th Pass,46,0,0,0,
+313,Pawar Krishna,5824,IND,0,Post Graduate,39,"11,40,000",11 Lacs,0,
+314,Pedda Gangadar Talari,6693,IND,0,Illiterate,59,"18,20,000",18 Lacs,"1,00,000",1 Lacs
+315,Pedda Gangaram Turpu,6694,IND,0,Illiterate,54,"3,10,000",3 Lacs,0,
+316,Penta Narsaiah,6695,IND,0,10th Pass,51,"5,70,000",5 Lacs,"1,38,000",1 Lacs
+317,Pola Prashanth Kumar,4606,IND,0,Graduate,36,"1,69,000",1 Lacs,0,
+318,Polishetty Venkateshwarlu,6851,IND,0,12th Pass,54,"2,00,000",2 Lacs,0,
+319,Ponnam Prabhakar,4632,INC,3,Post Graduate,52,0,0,0,
+320,Pothuganti Ramulu,4851,TRS,0,Graduate,66,"1,07,78,684",1 Crore,0,
+321,Pothuganti Venkatesh,6696,IND,0,12th Pass,28,"1,40,000",1 Lacs,0,
+322,Prabhudas Bandaru Thumu,5791,IND,0,10th Pass,40,"9,90,425",9 Lacs,0,
+323,Prakash Manchiryala,6697,IND,0,Graduate,67,"8,00,000",8 Lacs,0,
+324,Praveen Neeradi,6698,IND,0,Graduate Professional,30,"1,47,272",1 Lacs,0,
+325,Praveen Paidigela,4830,IND,0,10th Pass,35,"1,01,61,000",1 Crore,"11,30,000",11 Lacs
+326,Pundra Srinivas Reddy,6699,IND,0,10th Pass,40,"34,55,000",34 Lacs,"1,00,000",1 Lacs
+327,Pusthe Srikanth,6800,TRS,0,Graduate Professional,46,"3,07,00,000",3 Crore,"1,04,00,000",1 Crore
+328,R Laxman Rao Gangaputra,6781,IND,0,8th Pass,48,"16,70,000",16 Lacs,"30,000",30 Thou
+329,Ragam Sathesh Yadav,6828,AIFB,0,Post Graduate,36,0,0,"20,00,000",20 Lacs
+330,Raj Kumar Sunkari,6700,IND,0,Graduate,32,"8,62,000",8 Lacs,"65,000",65 Thou
+331,Raja Venkat Reddy Pashapu,6701,IND,0,Illiterate,32,"94,57,376",94 Lacs,"2,35,000",2 Lacs
+332,Rajareddi Rikkala,4832,IND,0,5th Pass,46,"2,06,82,000",2 Crore,"6,00,000",6 Lacs
+333,Rajareddy Gangasaram,6702,IND,0,Illiterate,45,"37,34,050",37 Lacs,0,
+334,Rajashekar Reddy Marri,5082,TRS,0,12th Pass,50,"56,79,40,114",56 Crore,"9,14,08,506",9 Crore
+335,Rajashekar Sarikela,6703,IND,0,10th Pass,31,"4,55,000",4 Lacs,0,
+336,Rajendar Pasapu,7633,IND,0,Illiterate,57,"73,07,731",73 Lacs,"3,00,000",3 Lacs
+337,Rajender Ponnala,7242,IND,0,Post Graduate,31,"10,85,000",10 Lacs,"9,00,000",9 Lacs
+338,Rajesh Erikilla,7239,IND,0,Post Graduate,31,"4,48,000",4 Lacs,"8,16,098",8 Lacs
+339,Rajeshwar Enugu,6705,IND,0,10th Pass,34,0,0,"1,80,000",1 Lacs
+340,Rajeshwar Musku,6706,IND,0,12th Pass,59,"14,57,000",14 Lacs,"1,00,000",1 Lacs
+341,Raju Somireddy,6707,IND,0,Post Graduate,29,"4,15,000",4 Lacs,"40,000",40 Thou
+342,Ramarao Patil,6757,IND,0,Graduate,48,"2,15,50,000",2 Crore,"7,50,000",7 Lacs
+343,Ramchander Rao N,4661,BJP,1,Post Graduate,59,"2,59,40,000",2 Crore,"61,00,000",61 Lacs
+344,Ramesh Rathod,4588,INC,3,12th Pass,53,"3,64,91,000",3 Crore,"1,53,00,000",1 Crore
+345,Ramesh Reddy Sama,6709,IND,0,10th Pass,30,"16,05,000",16 Lacs,0,
+346,Ramesh Sunkara,6856,IND,0,Graduate,64,"15,31,500",15 Lacs,0,
+347,Rameshbabu Shanigarapu,4827,IND,0,Graduate Professional,34,"56,500",56 Thou,0,
+348,Rapelly Srinivas,4651,IND,0,8th Pass,44,"2,48,000",2 Lacs,0,
+349,Ravi Kumar Vodela,6784,IND,0,Post Graduate,36,0,0,0,
+350,Ravindhar Bandi,6711,IND,0,8th Pass,38,"14,85,500",14 Lacs,"1,10,000",1 Lacs
+351,Ravishankar Kunta,6712,IND,0,Illiterate,32,"50,15,800",50 Lacs,"3,50,000",3 Lacs
+352,Reddy Venugopal,6277,Samajwadi Forward Bloc,0,Graduate,32,"30,500",30 Thou,0,
+353,Renuka Chowdhury,6891,INC,1,Post Graduate,64,"1,13,12,85,724",113 Crore,"11,61,91,184",11 Crore
+354,Rotte Chakradhar Sharma,6713,Samajwadi Forward Bloc,0,10th Pass,38,"2,75,500",2 Lacs,0,
+355,Royyala Srinivasulu,6857,IND,0,Graduate Professional,48,"86,50,000",86 Lacs,"18,00,000",18 Lacs
+356,S Gopal Reddy,4848,IND,0,Others,47,"57,10,000",57 Lacs,"99,000",99 Thou
+357,S. Sagar,6714,Bahujan Mukti Party,0,Graduate,36,"75,000",75 Thou,"70,000",70 Thou
+358,Sai Kiran Gone,6779,IND,0,Post Graduate,26,"2,12,089",2 Lacs,0,
+359,Sai Reddy Puttiniti,6715,IND,0,5th Pass,44,0,0,"6,47,000",6 Lacs
+360,Sama Bhaskar Reddy,6716,IND,0,10th Pass,53,"29,18,000",29 Lacs,"1,50,000",1 Lacs
+361,Sama Thirupathi,4654,IND,0,Graduate,34,"11,10,000",11 Lacs,"4,20,000",4 Lacs
+362,Sambaiah Dommati,5095,INC,0,Graduate,56,"1,22,11,566",1 Crore,"55,52,696",55 Lacs
+363,Samrat Narender Boilla,6861,RPI,0,Graduate Professional,36,"35,17,000",35 Lacs,"11,000",11 Thou
+364,Sandireddy Gopal Reddy,6717,IND,0,5th Pass,56,"21,37,000",21 Lacs,"3,00,000",3 Lacs
+365,Sanem Raju Goud,6829,IND,0,Graduate,36,"21,11,000",21 Lacs,0,
+366,Sanjay Kumar Shukla,6811,IND,0,5th Pass,39,"2,27,06,000",2 Crore,0,
+367,Sanjeeva Reddy Gaddam,6718,IND,0,Graduate Professional,62,"55,83,087",55 Lacs,0,
+368,Sankenapalli. Devadas,6219,Anti Corruption Dynamic Party,0,12th Pass,40,"1,60,000",1 Lacs,0,
+369,Santhosh Kamareddy,6719,IND,0,10th Pass,39,0,0,0,
+370,Santosh Barla,6720,IND,0,12th Pass,40,"44,30,000",44 Lacs,"2,00,000",2 Lacs
+371,Santosh Komamula,6721,IND,0,12th Pass,34,"1,65,77,000",1 Crore,"13,86,000",13 Lacs
+372,Sapavat Devaram,6867,IND,0,Graduate Professional,28,"64,986",64 Thou,0,
+373,Sayanna Bai,6722,IND,0,Illiterate,47,"9,85,000",9 Lacs,0,
+374,Shaik Muneer Pasha,4838,IND,0,12th Pass,39,"1,42,000",1 Lacs,0,
+375,Shakti Satayavathi,5088,Pyramid Party of India,0,10th Pass,55,"65,000",65 Thou,0,
+376,Shankar Yenugu,6723,IND,0,Post Graduate,35,"12,51,000",12 Lacs,"90,000",90 Thou
+377,Shankara Rao Gopagani,6901,IND,0,Post Graduate,61,"66,50,000",66 Lacs,"6,00,000",6 Lacs
+378,Shruthi Bangaru,4853,BJP,0,Post Graduate,43,"5,17,01,683",5 Crore,"8,86,328",8 Lacs
+379,Singapaka Lingam,6866,IND,0,Illiterate,44,0,0,0,
+380,Sirikonda Krishna,6218,Secular Democratic Congress,0,8th Pass,35,"25,000",25 Thou,0,
+381,Sirivolu Venkata Ramana Rao,6863,Samajwadi Forward Bloc,0,10th Pass,52,"2,90,000",2 Lacs,0,
+382,Solipuram Venugopal Reddy,6844,Ambedkar National Congress,0,10th Pass,42,"57,00,000",57 Lacs,"5,00,000",5 Lacs
+383,Soma Srinivas,6725,IND,0,10th Pass,29,"4,77,000",4 Lacs,"2,35,000",2 Lacs
+384,Sreenu Vadthya,4864,IND,0,Post Graduate,34,"19,23,826",19 Lacs,"10,00,000",10 Lacs
+385,Srikanth Chiliveru,4824,IND,3,10th Pass,36,"35,000",35 Thou,0,
+386,Srinivas Gundeti,6727,IND,0,Illiterate,31,"8,10,000",8 Lacs,"1,00,000",1 Lacs
+387,Srinivasulu Buddula,4852,IND,0,10th Pass,45,"9,25,000",9 Lacs,"32,000",32 Thou
+388,Srirama Naik Munavath,6793,IND,1,Doctorate,33,"14,000",14 Thou,0,
+389,Sriramulu Muthyala,6865,IND,0,10th Pass,59,0,0,0,
+390,Sujith Gadepalli,6728,IND,0,5th Pass,30,"48,18,000",48 Lacs,"11,00,000",11 Lacs
+391,Suman Maggidi,6729,IND,0,10th Pass,28,"13,08,000",13 Lacs,"1,65,000",1 Lacs
+392,Sunketa Ravi,6730,IND,0,Graduate,42,"93,79,776",93 Lacs,"2,98,000",2 Lacs
+393,Surakanti Raja Reddy,6731,IND,0,Illiterate,56,"60,70,000",60 Lacs,"2,70,000",2 Lacs
+394,Suresh Baddam,6732,IND,0,5th Pass,31,"3,90,000",3 Lacs,"1,99,000",1 Lacs
+395,Suresh Basa,6733,IND,0,Graduate,35,"10,72,677",10 Lacs,"50,000",50 Thou
+396,Suresh Kanakam,6874,Samajwadi Forward Bloc,0,12th Pass,46,"62,40,000",62 Lacs,0,
+397,Surukanti Chinna Anjaiah,6734,IND,0,5th Pass,38,"53,05,000",53 Lacs,"85,000",85 Thou
+398,Swami Reddy Sama,6735,IND,0,10th Pass,35,"7,55,000",7 Lacs,"2,21,000",2 Lacs
+399,T. Durga Prasad,6830,IND,0,Post Graduate,33,0,0,0,
+400,Talari Suman,6736,IND,0,Post Graduate,32,"3,50,000",3 Lacs,0,
+401,Talasani Sai Kiran,5086,TRS,6,Post Graduate,32,"30,10,11,219",30 Crore,"6,84,89,543",6 Crore
+402,Teegala Rajeshwar,6737,IND,0,10th Pass,45,"56,84,000",56 Lacs,"3,00,000",3 Lacs
+403,Thadem Raj Prakash,4591,India Praja Bandhu Party,0,Post Graduate,43,"2,15,30,000",2 Crore,"23,50,000",23 Lacs
+404,Thagulla Janardhan,6848,IND,0,Graduate,28,"2,25,000",2 Lacs,0,
+405,Thandu Upender,6849,IND,0,10th Pass,39,"10,000",10 Thou,0,
+406,Theegala Ashok Reddy,6738,IND,0,12th Pass,45,"27,50,000",27 Lacs,"5,00,000",5 Lacs
+407,Theegala Thirupathi Reddy,6739,IND,0,10th Pass,44,"59,90,000",59 Lacs,"10,50,000",10 Lacs
+408,Theetla Anil,6740,IND,0,10th Pass,27,"40,500",40 Thou,0,
+409,Thirupataiah Enduram,6776,IND,0,8th Pass,46,0,0,0,
+410,Thirupathi Gaddam,6741,IND,0,Illiterate,68,"14,40,000",14 Lacs,0,
+411,Thirupathi Reddy Pannala,4656,IND,0,12th Pass,41,"2,18,45,000",2 Crore,"2,70,000",2 Lacs
+412,Thota Srinivas,6742,IND,0,Graduate,38,"24,80,000",24 Lacs,"7,70,000",7 Lacs
+413,Thummalapally Pruthviraj,6770,IND,0,12th Pass,49,"1,04,28,157",1 Crore,"1,00,000",1 Lacs
+414,Tummala Naveen,6743,IND,0,12th Pass,30,"64,78,000",64 Lacs,"5,50,000",5 Lacs
+415,Turaga Narsareddy,6744,IND,0,Illiterate,45,"30,50,000",30 Lacs,0,
+416,Uke Kousalya,6889,IND,0,5th Pass,49,"5,96,000",5 Lacs,0,
+417,Umamaheswara Rao Cherukupalli,6892,Telangana Yuva Shakti,0,Post Graduate,29,"76,90,000",76 Lacs,"10,70,000",10 Lacs
+418,Upendar Jeripothula,5778,IND,0,Post Graduate,37,"6,50,000",6 Lacs,0,
+419,Urumalla Lakshma Reddy,6745,IND,0,10th Pass,Unknown,0,0,"1,90,000",1 Lacs
+420,V Amarnath,5784,India Praja Bandhu Party,0,10th Pass,25,"5,04,000",5 Lacs,0,
+421,V Bal Krishna,6804,IND,0,Graduate Professional,37,"2,90,000",2 Lacs,0,
+422,V Dasram,6834,Bahujan Mukti Party,4,Graduate,41,"1,55,89,000",1 Crore,"4,95,000",4 Lacs
+423,Vaditya Shriram Naik,6890,IND,0,Doctorate,43,"48,75,000",48 Lacs,0,
+424,Vanam Sudhakar,6831,Marxist Communist Party of India (United),0,Literate,36,"7,05,500",7 Lacs,0,
+425,Velma Mallareddy,6746,IND,0,10th Pass,38,"10,83,000",10 Lacs,"50,000",50 Thou
+426,Velthuru Mallaiah,6217,RPI(Khobragade),0,10th Pass,63,"2,55,000",2 Lacs,"5,70,000",5 Lacs
+427,Vemireddy Narasimha Reddy,6838,TRS,0,Post Graduate,63,"94,31,84,220",94 Crore,"20,81,78,829",20 Crore
+428,Venkat Reddy Jaidi,4837,IND,0,Illiterate,36,"59,31,000",59 Lacs,"1,47,000",1 Lacs
+429,Venkatesh Kola,4657,IND,1,Graduate Professional,27,0,0,0,
+430,Venkatesh Netha Borlakunta,5071,TRS,0,Doctorate,42,"1,65,97,300",1 Crore,0,
+431,Venkateshwar Rao Pullakandam,4602,Pyramid Party of India,0,10th Pass,57,"2,28,16,840",2 Crore,"1,61,76,799",1 Crore
+432,Vijay Aarya,6815,BSP,0,Others,42,"7,20,193",7 Lacs,0,
+433,Vinay Tankasaala,6747,IND,0,Illiterate,28,"3,40,000",3 Lacs,0,
+434,Vinod Kumar Boianapalli,4593,TRS,0,Graduate Professional,59,"12,14,87,098",12 Crore,"30,45,917",30 Lacs
+435,Vishweshwar J,6835,IND,0,Graduate Professional,40,"47,30,000",47 Lacs,0,
+436,Yedla Suresh,7204,IND,0,10th Pass,25,"1,03,000",1 Lacs,0,
+437,Yellala Rajitha,6750,IND,0,Graduate Professional,30,"19,31,000",19 Lacs,0,

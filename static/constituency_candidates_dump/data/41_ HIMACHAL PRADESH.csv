@@ -1,0 +1,46 @@
+serial_number,name,nem_candidate_id,party,criminal_cases,education,age,assets,assets_in_words,liabilities,liabilities_in_words
+0,Aashray Sharma,13020,INC,0,Others,32,"4,85,23,665",4 Crore,"1,62,86,033",1 Crore
+1,Anurag Singh Thakur,13025,BJP,3,Graduate,45,"5,67,70,463",5 Crore,"10,85,145",10 Lacs
+2,Ashish Kumar,13786,IND,0,Post Graduate,38,"50,000",50 Thou,0,
+3,Ashok Sharma,13027,IND,0,10th Pass,55,"41,61,870",41 Lacs,"12,00,000",12 Lacs
+4,Bhachan Singh Rana,13630,IND,0,12th Pass,52,"5,82,83,642",5 Crore,"1,15,01,000",1 Crore
+5,Brij Gopal,13793,IND,0,12th Pass,59,"60,91,905",60 Lacs,"16,96,565",16 Lacs
+6,Chander Bhan,13629,IND,0,10th Pass,54,"35,000",35 Thou,"50,000",50 Thou
+7,Chandermani,13021,AIFB,0,Graduate,61,"1,42,14,000",1 Crore,0,
+8,Col. Narinder Singh Pathania,13628,IND,0,Graduate Professional,67,"24,08,115",24 Lacs,0,
+9,Col. Thakur Singh,13792,IND,0,Post Graduate,66,0,0,0,
+10,Daleep Singh Kaith,13016,CPI(M),1,Post Graduate,48,"43,03,590",43 Lacs,"9,34,823",9 Lacs
+11,Desh Raj,13024,BSP,0,Graduate Professional,40,"89,58,922",89 Lacs,0,
+12,Dev Raj Bhardwaj,13921,IND,0,Graduate,66,"69,17,33,000",69 Crore,0,
+13,Dhani Ram Shandil,13029,INC,1,Doctorate,78,"3,67,82,528",3 Crore,"41,11,104",41 Lacs
+14,Dharmender Singh Thakur,13922,IND,0,Doctorate,49,"28,40,35,000",28 Crore,"33,15,000",33 Lacs
+15,Dr. Sanjiv Guleria,13631,IND,0,Graduate Professional,59,"62,37,054",62 Lacs,0,
+16,Dr. Swaroop Singh Rana,13011,Swabhiman Party,0,Post Graduate,58,"3,98,86,000",3 Crore,0,
+17,Ghanshyam Chand Thakur,13791,IND,0,Graduate Professional,63,"1,21,75,000",1 Crore,"3,91,421",3 Lacs
+18,Guman Singh,13920,IND,0,Graduate Professional,59,"1,40,00,000",1 Crore,"28,00,000",28 Lacs
+19,Kartar Chand,13787,Swabhiman Party,0,Graduate,44,0,0,"40,000",40 Thou
+20,Kehar Singh,13009,BSP,0,Doctorate,49,"7,95,00,000",7 Crore,"1,00,000",1 Lacs
+21,Khem Chand,13789,Peoples Party of India (Democratic),0,Illiterate,43,"70,30,600",70 Lacs,"6,00,000",6 Lacs
+22,Kishan Kapoor,13014,BJP,2,12th Pass,67,"8,58,41,247",8 Crore,"36,05,161",36 Lacs
+23,Krishan Gopal,13784,Satya Bahumat Party,0,8th Pass,28,"25,000",25 Thou,"35,000",35 Thou
+24,Manoj Kumar,13848,AIFB,0,10th Pass,27,"1,84,000",1 Lacs,0,
+25,Mehar Singh,13788,Rashtriya Azad Manch,3,10th Pass,53,"25,00,000",25 Lacs,"32,000",32 Thou
+26,Nisha Katoch,13013,IND,0,Graduate Professional,37,"26,33,000",26 Lacs,"18,00,000",18 Lacs
+27,Parveen Thakur,13783,IND,0,12th Pass,52,"1,10,08,000",1 Crore,"47,00,000",47 Lacs
+28,Pawan Kumar Kajal,13627,INC,0,10th Pass,45,"7,94,78,472",7 Crore,"66,42,582",66 Lacs
+29,Prem Chand Vishvakarma,13010,Navbharat Ekta Dal,1,Post Graduate,67,0,0,"51,30,000",51 Lacs
+30,Radha Krishan,13781,IND,0,Graduate,64,"49,15,135",49 Lacs,"11,20,971",11 Lacs
+31,Rajender Suryavanshi,13022,Ambedkarite Party of India,1,12th Pass,42,"16,73,222",16 Lacs,"73,222",73 Thou
+32,Ram Lal Thakur,13023,INC,0,Graduate Professional,68,"3,48,88,616",3 Crore,0,
+33,Ram Singh Shukla,13026,Bahujan Mukti Party,0,Post Graduate,66,"43,60,000",43 Lacs,0,
+34,Ram Swaroop Sharma,13018,BJP,0,10th Pass,60,"1,57,24,337",1 Crore,"7,83,963",7 Lacs
+35,Ravi,13028,IND,0,10th Pass,39,"1,18,935",1 Lacs,0,
+36,Ses Ram,13019,BSP,0,12th Pass,46,"2,55,52,000",2 Crore,"11,00,000",11 Lacs
+37,Shamsher Singh,13847,Rashtriya Azad Manch,0,10th Pass,37,"3,51,000",3 Lacs,0,
+38,Shiv Lal Thakur,13017,Bhartiya Shakti Chetna Party,0,12th Pass,64,"53,45,000",53 Lacs,"20,00,000",20 Lacs
+39,Subhash Chand,13012,Himachal Jan Kranti Party,0,10th Pass,70,0,0,0,
+40,Subhash Mohan Snehi,13790,IND,0,Doctorate,47,"2,15,61,080",2 Crore,0,
+41,Suresh Kumar Kashyap,13030,BJP,0,Post Graduate,48,"1,57,05,738",1 Crore,"78,73,806",78 Lacs
+42,Tulsi Ram Sharma,13782,AIFB,0,12th Pass,73,"83,57,500",83 Lacs,"4,00,000",4 Lacs
+43,Vikash Kumar,13785,IND,0,Post Graduate,30,"2,08,000",2 Lacs,"1,40,500",1 Lacs
+44,Vikram Singh,13032,BSP,0,Graduate,33,"54,29,000",54 Lacs,"1,40,000",1 Lacs

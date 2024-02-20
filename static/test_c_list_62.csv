@@ -1,0 +1,16 @@
+serial_number,name,nem_candidate_id,party,criminal_cases,education,age,quantity,words,assets,assets_in_words,liabilities,liabilities_in_words
+0,Ayan Mandal,4954,AITC,0,Graduate,30,"15,00,000",15 Lacs,"72,70,440",72 Lacs,"15,00,000",15 Lacs
+1,C G Saji Kumar,5456,All India Hindustan Congress Party,0,12th Pass,48,0,,"1,20,000",1 Lacs,0,
+2,C U Rasheed,5716,IND,0,12th Pass,34,"17,00,000",17 Lacs,"2,02,808",2 Lacs,"17,00,000",17 Lacs
+3,Gour Chandra Majumder,7201,IND,0,Graduate,52,0,,"60,62,000",60 Lacs,0,
+4,Henry,7203,IND,0,10th Pass,50,0,,"56,459",56 Thou,0,
+5,K Kalimuthu,7200,IND,0,8th Pass,66,0,,"58,50,000",58 Lacs,0,
+6,K Venkat Ram Babu,7202,IND,0,10th Pass,45,0,,"3,52,000",3 Lacs,0,
+7,Kuldeep Rai Sharma,4917,INC,0,Graduate Professional,52,"8,04,50,870",8 Crore,"13,22,33,012",13 Crore,"8,04,50,870",8 Crore
+8,Minati Biswas,4955,IND,0,8th Pass,51,"4,00,000",4 Lacs,"31,98,500",31 Lacs,"4,00,000",4 Lacs
+9,Paritosh Kumar Haldar,5715,IND,0,Post Graduate,61,"13,11,000",13 Lacs,0,0,0,0
+10,Prakash Minj,5458,BSP,0,Post Graduate,43,"2,40,000",2 Lacs,"12,50,000",12 Lacs,"2,40,000",2 Lacs
+11,S Sudershan Rao,5717,IND,0,Doctorate,58,"80,00,000",80 Lacs,"87,60,000",87 Lacs,"80,00,000",80 Lacs
+12,Sanjay Meshack,4694,AAP,0,12th Pass,49,"17,91,076",17 Lacs,"9,98,87,782",9 Crore,"17,91,076",17 Lacs
+13,V V Khalid,5457,IND,0,8th Pass,51,"3,50,000",3 Lacs,"15,12,000",15 Lacs,"3,50,000",3 Lacs
+14,Vishal Jolly,5714,BJP,1,Graduate Professional,46,"46,33,914",46 Lacs,"8,51,40,573",8 Crore,"46,33,914",46 Lacs

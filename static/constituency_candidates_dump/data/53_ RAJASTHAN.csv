@@ -1,0 +1,250 @@
+serial_number,name,nem_candidate_id,party,criminal_cases,education,age,assets,assets_in_words,liabilities,liabilities_in_words
+0,Abdul Asiph,10777,IND,0,8th Pass,27,"1,63,000",1 Lacs,0,
+1,Abdul Qayyum Siddiqui,10954,IND,0,Graduate,47,"14,81,364",14 Lacs,"4,73,069",4 Lacs
+2,Abhijeet Kumar,11276,INC,0,Graduate Professional,59,"13,30,45,865",13 Crore,"2,83,46,352",2 Crore
+3,Advocate Amit Kumar Gupta,11686,IND,0,Graduate Professional,35,"1,10,52,767",1 Crore,"48,74,000",48 Lacs
+4,Ajay Pal,11751,Bahujan Mukti Party,0,Post Graduate,34,"3,75,915",3 Lacs,0,
+5,Ajaypal,11769,IND,0,10th Pass,58,"40,15,500",40 Lacs,"1,50,000",1 Lacs
+6,Amar Singh Kalundha,10959,Bhartiya Tribal Party,0,Graduate,59,"1,19,76,000",1 Crore,"73,53,670",73 Lacs
+7,Amit Sharma Jangir,11171,Ambedkarite Party of India,0,12th Pass,25,"3,00,000",3 Lacs,0,
+8,Amraram,11571,CPI(M),0,Post Graduate,63,"44,44,641",44 Lacs,"7,80,500",7 Lacs
+9,Anand Kumar Sain,11172,IND,0,Post Graduate,37,0,0,0,
+10,Anil Joya Meghwal,10960,IND,0,8th Pass,45,"16,37,500",16 Lacs,"3,00,000",3 Lacs
+11,Anju Devi Dhanka,11712,IND,0,Graduate,42,"71,55,513",71 Lacs,"24,50,000",24 Lacs
+12,Ankur Sharma,11241,IND,0,Post Graduate,34,"2,02,94,000",2 Crore,0,
+13,Anoop Kumar,11687,Pragatishil Samajwadi Party (Lohia),0,10th Pass,29,"5,56,107",5 Lacs,"1,26,800",1 Lacs
+14,Arjun Ram Meghwal,11692,BJP,0,Post Graduate,65,"2,35,24,459",2 Crore,"10,60,314",10 Lacs
+15,Arjunlal Meena,9583,BJP,0,Post Graduate,54,"4,81,96,946",4 Crore,"1,56,02,872",1 Crore
+16,Arjunram,11696,IND,0,10th Pass,33,"11,000",11 Thou,0,
+17,Aslam,11281,IND,0,Literate,47,"93,973",93 Thou,"1,24,600",1 Lacs
+18,Babita Wadhwani,11291,IND,0,Post Graduate,45,"18,31,323",18 Lacs,"2,000",2 Thou
+19,Babulal,11695,IND,0,10th Pass,56,0,0,"50,000",50 Thou
+20,Badree Lal,9586,BSP,0,Graduate Professional,58,"3,81,97,000",3 Crore,"13,59,000",13 Lacs
+21,Badri Ram,9611,INC,0,Literate,69,"23,25,56,672",23 Crore,"4,90,47,253",4 Crore
+22,Bajrang Lal Meena,9625,Rashtriya Kranti Party,0,10th Pass,48,"41,15,000",41 Lacs,0,
+23,Bal Dev Prasad Saini,11562,IND,0,8th Pass,33,"8,20,000",8 Lacs,"22,000",22 Thou
+24,Balwan Poonia,11703,CPI(M),12,Graduate Professional,41,"36,68,789",36 Lacs,"14,15,622",14 Lacs
+25,Bansilal Kataria,11574,IND,0,10th Pass,59,"5,51,000",5 Lacs,0,
+26,Banwari Lal,11742,IND,0,Graduate,34,"31,07,300",31 Lacs,"7,68,000",7 Lacs
+27,Bapulal,11149,BSP,0,8th Pass,31,"3,11,000",3 Lacs,0,
+28,Bhagirath Chaudhary,9617,BJP,0,12th Pass,64,"8,51,01,774",8 Crore,"83,19,942",83 Lacs
+29,Bhagirath Singh Kharrte Bhadhadar,11772,IND,0,Graduate,51,0,0,0,
+30,Bhagwan Sahay,11575,IND,0,Literate,55,"2,00,000",2 Lacs,0,
+31,Bhaira Ram,11277,BSP,0,5th Pass,47,"11,54,500",11 Lacs,0,
+32,Bhajan Singh Gharoo,11282,IND,0,Post Graduate,62,"98,75,228",98 Lacs,"4,00,000",4 Lacs
+33,Bhanwar Lal Joshi,11727,Rashtriya Jansambhavna Party,0,Graduate,45,"9,50,000",9 Lacs,"1,50,000",1 Lacs
+34,Bhanwar Lal Kumawat,10824,IND,0,Literate,51,"46,81,563",46 Lacs,0,
+35,Bhanwer Lal Mali,9566,IND,0,Literate,55,"12,28,828",12 Lacs,0,
+36,Bhanwerlal,10710,Bahujan Mukti Party,0,Others,62,"1,00,72,103",1 Crore,0,
+37,Bharat Ram Meghwal,11231,INC,0,Graduate,63,"87,01,890",87 Lacs,"44,70,443",44 Lacs
+38,Bharti Meena,11714,IND,1,12th Pass,30,"33,71,000",33 Lacs,"6,50,000",6 Lacs
+39,Bhava Ram,9590,IND,0,Graduate Professional,33,0,0,0,
+40,Bheraram Barar Meghwal,10711,IND,0,10th Pass,48,"65,58,000",65 Lacs,0,
+41,Bheraram Jakhar,11153,IND,1,Graduate,55,"12,82,500",12 Lacs,0,
+42,Bhim Singh,10780,SHS,0,12th Pass,52,"54,84,000",54 Lacs,0,
+43,Bhim Singh,11750,IND,0,Literate,67,"1,30,90,000",1 Crore,0,
+44,Bimla Devi Meena,11541,IND,0,Graduate,61,"4,70,54,005",4 Crore,"5,59,174",5 Lacs
+45,Birdhi Lal Chhanwal,10705,Bhartiya Tribal Party,0,Post Graduate,65,"1,06,82,700",1 Crore,0,
+46,Bishanaram,11706,IND,0,Graduate,41,"1,19,310",1 Lacs,0,
+47,Chand Mohammad,10961,IND,0,5th Pass,52,"85,01,618",85 Lacs,"11,65,171",11 Lacs
+48,Chandra Prakash,9569,BJP,0,Graduate,43,"1,97,25,115",1 Crore,"1,00,000",1 Lacs
+49,Chandra Prakash,10781,Rashtriya Krantikari Samajwadi Party,0,8th Pass,50,0,0,0,
+50,Chandra Prakash Meena,11716,Nationalist Peoples Front,0,Graduate,26,"6,00,000",6 Lacs,0,
+51,Chandra Prakash Tanwar,10825,Ambedkarite Party of India,0,5th Pass,44,"3,00,000",3 Lacs,0,
+52,Chenaram,10826,BSP,0,Graduate,45,"73,74,000",73 Lacs,"8,851",8 Thou
+53,Col. Rajyavardhan Rathore,11288,BJP,0,Graduate,49,"12,78,08,070",12 Crore,0,
+54,Dararam Nayak,11710,IND,0,Graduate,40,"5,17,000",5 Lacs,0,
+55,Devaji Patel,9596,BJP,0,10th Pass,42,"8,83,32,292",8 Crore,"6,09,36,530",6 Crore
+56,Devkinandan (Kaka),9564,INC,1,Post Graduate,76,"25,15,86,733",25 Crore,"1,86,11,248",1 Crore
+57,Dharmendra,11239,IND,0,8th Pass,27,"4,75,000",4 Lacs,0,
+58,Dharmi Chand,11567,IND,0,12th Pass,44,"4,90,119",4 Lacs,0,
+59,Dinesh Singh,9593,IND,0,Post Graduate,27,0,0,0,
+60,Diya Kumari,9565,BJP,0,Others,48,"16,59,84,623",16 Crore,0,
+61,Dr. Balkrishan Panwar,11283,IND,0,Graduate Professional,60,"73,58,268",73 Lacs,0,
+62,Dr. Jyoti Mirdha,11566,INC,0,Graduate Professional,47,"65,06,50,190",65 Crore,"9,70,90,675",9 Crore
+63,Dr. Tejpal,11563,Right to Recall Party,0,Graduate Professional,31,"6,33,189",6 Lacs,"5,92,936",5 Lacs
+64,Durga Lal Regar,9618,BSP,0,Post Graduate,60,"4,17,40,458",4 Crore,"8,90,000",8 Lacs
+65,Dushyant,9585,BJP,0,Post Graduate,48,"37,04,32,373",37 Crore,"8,58,24,156",8 Crore
+66,Dwarka Prasad,11715,BSP,0,Post Graduate,36,"1,000",1 Thou,0,
+67,Gajendra Singh Shekhawat,9607,BJP,1,Post Graduate,51,"13,80,29,511",13 Crore,"5,85,73,744",5 Crore
+68,Ganesh Meena,10818,Indian Peoples Green Party,0,10th Pass,27,"2,45,500",2 Lacs,0,
+69,Ghanshyam Meghwal,11278,Ambedkarite Party of India,0,8th Pass,39,0,0,0,
+70,Ghanshyam Singh Tawar,9579,CPI,0,Graduate,51,"3,30,700",3 Lacs,0,
+71,Ghanshyam Singh Yadav,11533,IND,0,Graduate,70,"1,95,92,100",1 Crore,0,
+72,Gomati Dharampal Kataria,11280,Bharat Rakshak Party (Democratic),0,Literate,52,"1,82,12,900",1 Crore,"13,50,000",13 Lacs
+73,Gopal Dhakad,9572,Right to Recall Party,0,12th Pass,38,"53,14,571",53 Lacs,"4,65,369",4 Lacs
+74,Gopal Singh Shekhawat,9574,INC,0,Graduate Professional,68,"45,94,912",45 Lacs,0,
+75,Gulab Sehlot,9573,IND,0,12th Pass,68,"18,96,720",18 Lacs,0,
+76,Gulab Singh,11684,Poorvanchal Rashtriya Congress,0,Graduate,50,"9,21,40,000",9 Crore,0,
+77,Guru Gokulchand Rashtarwadi,11233,IND,0,12th Pass,66,0,0,0,
+78,Haneef,11155,IND,0,Literate,48,"1,01,000",1 Lacs,0,
+79,Hanuman Beniwal,11760,Rashtriya Loktantrik Party,0,Graduate Professional,47,0,0,0,
+80,Hanuman Ram,11764,Rashtriya Power Party,0,8th Pass,27,"1,45,000",1 Lacs,0,
+81,Hari Singh,11709,BSP,0,12th Pass,57,"1,81,03,000",1 Crore,"7,95,000",7 Lacs
+82,Haripal Bairwa,11732,IND,0,8th Pass,50,"70,70,000",70 Lacs,0,
+83,Harish Kumar,10783,BSP,0,Graduate,66,"1,20,80,000",1 Crore,"6,00,000",6 Lacs
+84,Harish Kumar Dhakar,10955,IND,1,Graduate,26,"62,52,517",62 Lacs,"4,23,263",4 Lacs
+85,Harji Lal Meena,10706,Ambedkarite Party of India,0,Graduate,39,"2,65,000",2 Lacs,"5,000",5 Thou
+86,Hemant Kumar Singhvi,9609,IND,0,Post Graduate,44,"1,61,22,848",1 Crore,"2,95,236",2 Lacs
+87,Hergovind,10784,IND,0,Post Graduate,31,"7,19,324",7 Lacs,0,
+88,Imran Khan,11530,BSP,0,10th Pass,31,"1,63,28,526",1 Crore,"58,44,684",58 Lacs
+89,Jagdish Chandra,10700,IND,0,Literate,52,0,0,"4,90,000",4 Lacs
+90,Jagdish Chandra Sharma,9575,BSP,0,Post Graduate,67,"1,85,70,000",1 Crore,0,
+91,Jai Prakash Regar,11156,Ambedkarite Party of India,0,Graduate Professional,39,"11,89,797",11 Lacs,0,
+92,Jaskaur Meena,11711,BJP,0,Post Graduate,71,"14,37,42,564",14 Crore,"58,25,431",58 Lacs
+93,Jeet Ram Bairwa,11756,Ambedkarite Party of India,0,Post Graduate,35,"2,70,000",2 Lacs,0,
+94,Jitendra Kumar Khatik,10827,IND,0,Post Graduate,43,"35,48,316",35 Lacs,"1,21,498",1 Lacs
+95,Jitendra Singh,11683,INC,2,Graduate,47,"13,65,42,038",13 Crore,0,
+96,Jyoti Khandelwal,11292,INC,0,Doctorate,44,"79,59,622",79 Lacs,"21,50,000",21 Lacs
+97,Kailash Chand Jagarwal,11731,Ambedkarite Party of India,0,Graduate,38,"30,00,000",30 Lacs,0,
+98,Kailash Choudhary,9604,BJP,2,Graduate,45,"24,02,250",24 Lacs,0,
+99,Kailash Karwasara,11749,IND,0,10th Pass,29,0,0,"94,720",94 Thou
+100,Kaluram,9591,Rashtriya Rashtrawadi Party,0,8th Pass,30,"3,05,000",3 Lacs,0,
+101,Kamal Bhargav,11723,IND,0,5th Pass,33,"15,63,604",15 Lacs,"2,50,200",2 Lacs
+102,Kanakmal Katara,9577,BJP,0,Graduate Professional,62,"5,87,11,904",5 Crore,"17,46,729",17 Lacs
+103,Kanhaiyalal Vaishnav,10701,SHS,2,8th Pass,39,"6,44,000",6 Lacs,0,
+104,Kantilal Roat,9578,Bhartiya Tribal Party,0,Post Graduate,43,"12,29,683",12 Lacs,0,
+105,Kapoora Ram Meena,9594,IND,0,Post Graduate,60,"4,68,49,400",4 Crore,"38,00,000",38 Lacs
+106,Keshri Lal,10785,IND,0,5th Pass,73,"42,000",42 Thou,0,
+107,Kesu Lal Meena,9580,BSP,0,10th Pass,53,"11,12,508",11 Lacs,"85,000",85 Thou
+108,Kheta Ram,10714,IND,0,12th Pass,47,"6,66,961",6 Lacs,0,
+109,Kika Mina,10707,CPI(ML) Red Star,0,8th Pass,78,0,0,0,
+110,Krishan Kumar,11753,Rashtriya Mangalam Party,0,5th Pass,44,"25,34,657",25 Lacs,"4,80,000",4 Lacs
+111,Krishna Poonia,11287,INC,0,Graduate,41,"3,59,99,524",3 Crore,"43,27,330",43 Lacs
+112,Kuldeep Singh,11730,SUCI(C),0,Post Graduate,33,"21,43,545",21 Lacs,0,
+113,Kumbharam Meena,11708,IND,0,8th Pass,43,"5,46,100",5 Lacs,"1,00,000",1 Lacs
+114,Lakharam Choudhary,10716,IND,0,8th Pass,38,"3,25,000",3 Lacs,0,
+115,Laxman Kumar,9615,Proutist Sarva Samaj,0,8th Pass,26,"1,63,050",1 Lacs,0,
+116,Laxmi Kant (Bairwa),10820,BSP,0,Graduate,30,"1,63,853",1 Lacs,0,
+117,Lukaram,10717,IND,0,Literate,60,"52,20,000",52 Lacs,"3,00,000",3 Lacs
+118,Lunarama,11543,BSP,0,Literate,53,"7,13,000",7 Lacs,"6,00,000",6 Lacs
+119,Madan Gopal,11693,INC,0,Graduate,55,0,0,"49,66,129",49 Lacs
+120,Madan Lal,11688,IND,0,10th Pass,46,"1,10,78,680",1 Crore,0,
+121,Madanalal,11758,IND,0,8th Pass,37,"13,40,000",13 Lacs,0,
+122,Mahant Akash Giri,11234,IND,0,Literate,37,"57,000",57 Thou,0,
+123,Mahant Balak Nath,11228,BJP,0,10th Pass,35,"3,52,929",3 Lacs,0,
+124,Mahesh Kumar Raniwal,10787,AARAKSHAN VIRODHI PARTY,0,8th Pass,46,"6,72,937",6 Lacs,0,
+125,Maliram Nayaka,11540,IND,0,10th Pass,70,"40,20,000",40 Lacs,0,
+126,Mangal Ram Godra,11690,Ambedkarite Party of India,0,12th Pass,68,"13,81,000",13 Lacs,0,
+127,Mangilal Meena,9567,Satya Bahumat Party,0,5th Pass,52,"2,81,40,764",2 Crore,0,
+128,Manoj Kumar Joshi,11300,IND,0,12th Pass,48,"7,52,73,662",7 Crore,"80,000",80 Thou
+129,Manoj Rajoria,11237,BJP,0,Post Graduate,49,0,0,"2,21,21,569",2 Crore
+130,Manvendra Singh,9603,INC,0,Post Graduate,55,"4,50,63,664",4 Crore,0,
+131,Mishri Kathat,10829,Indian Peoples Green Party,0,8th Pass,67,"13,00,000",13 Lacs,0,
+132,Moda Ram Meghwal,10962,IND,0,Graduate Professional,30,"1,38,668",1 Lacs,0,
+133,Mohammad Nasir,10956,IND,0,8th Pass,54,"5,01,500",5 Lacs,0,
+134,Mohan Lal,10718,IND,0,Post Graduate,25,"21,105",21 Thou,0,
+135,Mohd. Yunus,11236,IND,0,Graduate,38,"5,09,272",5 Lacs,0,
+136,Mukesh Gena,9621,IND,1,Graduate,31,"62,36,000",62 Lacs,"4,50,000",4 Lacs
+137,Mukesh Kumar,9624,SHS,4,Literate,48,"1,01,58,25,000",101 Crore,"10,00,00,000",10 Crore
+138,Mukul Chaudhary,10957,BSP,1,Post Graduate,38,"71,03,000",71 Lacs,0,
+139,Mula Ram,11154,IND,0,Graduate,34,0,0,0,
+140,Namonarayan,9622,INC,0,Post Graduate,75,"4,66,40,598",4 Crore,0,
+141,Narendra Kumar,11748,BJP,1,Graduate,58,"4,74,74,109",4 Crore,"32,78,401",32 Lacs
+142,Naresh Kumar,11721,IND,0,8th Pass,45,"72,764",72 Thou,0,
+143,Naresh Kumar Atal,10821,Ambedkarite Party of India,0,Graduate Professional,31,"3,00,000",3 Lacs,0,
+144,Neeru Ram Kapri,10830,IND,0,Graduate,49,"57,45,888",57 Lacs,"9,78,024",9 Lacs
+145,Nihal Chand,11719,BJP,0,Graduate,48,"2,10,14,362",2 Crore,"36,31,287",36 Lacs
+146,Nimbaram,10719,IND,0,8th Pass,35,"92,000",92 Thou,0,
+147,Nitesh Damor,11150,IND,0,Graduate Professional,26,"30,811",30 Thou,0,
+148,Om Birla,10788,BJP,1,Post Graduate,56,"4,83,47,737",4 Crore,0,
+149,P. P. Chaudhary,9614,BJP,0,Graduate Professional,65,0,0,"72,78,041",72 Lacs
+150,P. Trilok Tiwari (Trilok Tiwari),11297,Rashtriya Samta Vikas Party,0,10th Pass,58,"2,83,500",2 Lacs,0,
+151,Pankaj Patel,11728,IND,0,Post Graduate,29,"1,80,611",1 Lacs,0,
+152,Parbhulal Meena,10708,Bahujan Mukti Party,0,8th Pass,37,"16,10,513",16 Lacs,0,
+153,Pawan Kumar Jain,11685,IND,0,Graduate,63,"98,79,042",98 Lacs,"7,00,000",7 Lacs
+154,Pawan Kumar Sharma,10974,Right to Recall Party,0,Graduate,42,"10,89,730",10 Lacs,0,
+155,Popatlal,11152,IND,0,10th Pass,50,"1,98,500",1 Lacs,0,
+156,Prakash Chandra Meena,11157,Bhartiya Tribal Party,1,Graduate,33,"5,80,000",5 Lacs,0,
+157,Pramod Kumar,9584,INC,4,Graduate Professional,48,"1,55,74,521",1 Crore,"19,94,024",19 Lacs
+158,Pramod Kumar,9616,IND,0,8th Pass,38,"6,30,000",6 Lacs,0,
+159,Prashant Saini,11302,IND,0,Post Graduate,37,0,0,0,
+160,Praveen Khandelwal,10789,IND,0,Others,42,"1,87,09,036",1 Crore,"3,98,081",3 Lacs
+161,Prem Lata Banshiwal,10823,IND,0,Not Given,55,0,0,0,
+162,Prem Raj,11762,IND,0,12th Pass,36,"2,54,604",2 Lacs,0,
+163,Prince Kumar,9587,IND,0,12th Pass,25,500,5 Hund,0,
+164,Punamchand,11697,Hindusthan Nirman Dal,0,8th Pass,38,"8,52,000",8 Lacs,"3,18,000",3 Lacs
+165,Purushottam Lal,11532,IND,0,Graduate,37,"10,09,287",10 Lacs,"2,20,000",2 Lacs
+166,R. S. Meena Kalky,11305,Peoples Party of India (Democratic),1,Post Graduate,67,"2,59,14,431",2 Crore,0,
+167,Radha Bhandari,9568,CPI,0,Post Graduate,59,"1,86,23,571",1 Crore,0,
+168,Radhey Shyam Meena,11229,IND,0,Literate,50,"1,89,85,200",1 Crore,"90,00,000",90 Lacs
+169,Rafique Mandelia,11702,INC,3,10th Pass,58,0,0,"46,47,21,999",46 Crore
+170,Raghuvir Singh Meena,9581,INC,0,Graduate Professional,59,"3,20,75,616",3 Crore,"41,27,647",41 Lacs
+171,Rahul Kaswan,11536,BJP,0,Graduate,42,"3,67,23,865",3 Crore,"1,51,63,379",1 Crore
+172,Rajendra Kumar,11289,Ambedkarite Party of India,0,Graduate Professional,43,"26,91,000",26 Lacs,"11,00,000",11 Lacs
+173,Rajendra Prasad Singor,10790,Marxist Communist Party of India (United),1,8th Pass,59,"1,85,610",1 Lacs,0,
+174,Rakesh Choudhari (Rakesh Samdolav),10831,IND,0,Graduate,40,"15,95,000",15 Lacs,0,
+175,Ram Chandra,11765,IND,0,Others,62,"45,06,000",45 Lacs,0,
+176,Ram Charan Bohra,11299,BJP,0,12th Pass,61,"16,53,22,707",16 Crore,"2,20,00,000",2 Crore
+177,Ram Charan Joshi,11544,IND,0,Graduate,37,"16,68,000",16 Lacs,"24,000",24 Thou
+178,Ram Janki Swami,11294,IND,0,Literate,46,"1,22,26,802",1 Crore,"24,82,754",24 Lacs
+179,Ram Narain,10791,INC,0,Graduate Professional,75,0,0,"1,31,37,155",1 Crore
+180,Ram Niwas,11744,Bharat Rakshak Party (Democratic),0,Literate,48,"7,32,000",7 Lacs,0,
+181,Ram Prasad Jatav,9600,Ambedkarite Party of India,0,Post Graduate,63,"1,67,03,000",1 Crore,"8,00,000",8 Lacs
+182,Ram Singh Kasana,11743,IND,0,10th Pass,41,"70,00,000",70 Lacs,"50,00,000",50 Lacs
+183,Ramesh Kumar,11151,Bahujan Mukti Party,0,5th Pass,39,"2,95,500",2 Lacs,0,
+184,Ramkumar,11565,BSP,0,Graduate,44,"35,02,000",35 Lacs,"20,00,000",20 Lacs
+185,Ramlal Dhanaka,11724,IND,0,Literate,62,"1,27,88,134",1 Crore,0,
+186,Ramlal Mohbarsha,9612,Indian Indira Congress (R),0,Doctorate,66,"1,26,22,000",1 Crore,"4,44,000",4 Lacs
+187,Rampal Sharma,9563,INC,1,12th Pass,52,"7,49,00,711",7 Crore,"2,46,50,224",2 Crore
+188,Ramphool Meena,11175,Ambedkarite Party of India,0,10th Pass,63,"37,70,000",37 Lacs,"5,00,000",5 Lacs
+189,Ramprasad Jatav,10703,Ambedkarite Party of India,0,Post Graduate,63,0,0,"8,00,000",8 Lacs
+190,Ranjeeta Kumari,11275,BJP,0,8th Pass,39,"31,17,190",31 Lacs,0,
+191,Rastra Putra Hindu,11759,IND,0,Graduate Professional,44,"68,41,191",68 Lacs,0,
+192,Ratan,9592,INC,0,12th Pass,44,"2,33,61,271",2 Crore,"45,44,357",45 Lacs
+193,Ravindra Singh Shekhawat,11238,IND,0,Graduate,38,"1,09,000",1 Lacs,0,
+194,Ravtaram,11230,CPI,0,Literate,74,"82,82,084",82 Lacs,0,
+195,Riju Jhunjhunwala,11147,INC,0,Graduate,40,"85,39,98,231",85 Crore,"30,60,12,685",30 Crore
+196,Rinku Kumar Meena,11713,Peoples Party of India (Democratic),0,Graduate Professional,32,"1,000",1 Thou,0,
+197,Sanjay Garg,11303,Swarna Bharat Party,0,Others,54,"2,74,32,694",2 Crore,"20,00,000",20 Lacs
+198,Sanjay Kumar,11564,INC,0,Graduate Professional,31,"53,76,898",53 Lacs,0,
+199,Saroj Prajapat,11761,IND,0,Post Graduate,41,0,0,"12,00,000",12 Lacs
+200,Satish Bhardwaj,10792,IND,1,8th Pass,37,"1,64,427",1 Lacs,0,
+201,Satish Kumar,11720,IND,0,Literate,51,"5,18,600",5 Lacs,"50,000",50 Thou
+202,Satyapal Bauddh,11701,Ambedkarite Party of India,0,10th Pass,62,"20,65,170",20 Lacs,0,
+203,Savita Meena,12769,INC,0,12th Pass,54,"11,11,23,791",11 Crore,"14,32,480",14 Lacs
+204,Shambhu Ram,10963,IND,0,8th Pass,34,"8,88,736",8 Lacs,0,
+205,Shamshuddin,11158,IND,0,Not Given,73,786,7 Hund,0,
+206,Shankerlal,10709,Satya Bahumat Party,0,10th Pass,45,"13,45,000",13 Lacs,"3,50,000",3 Lacs
+207,Sharad Chand Jain,11729,IND,0,Graduate,54,"30,72,500",30 Lacs,0,
+208,Sharwan Kumar,11232,INC,0,10th Pass,64,"78,85,036",78 Lacs,0,
+209,Sharwan Kumar S/O Hukma Ram,12585,IND,0,10th Pass,47,0,0,"46,81,739",46 Lacs
+210,Sheela Shekhawat,11537,IND,0,Post Graduate,32,"20,50,620",20 Lacs,"8,74,224",8 Lacs
+211,Shiv Bhagawan,11569,Dalit Soshit Pichhara Varg Adhikar Dal,2,8th Pass,42,"54,12,447",54 Lacs,"84,960",84 Thou
+212,Shiv Narayan,11763,IND,1,10th Pass,47,"41,71,000",41 Lacs,0,
+213,Shivlal Gurjar,10975,BSP,1,5th Pass,40,"62,02,833",62 Lacs,"12,50,000",12 Lacs
+214,Shobha Ram Nirmal,10793,Proutist Sarva Samaj,0,Graduate,71,"1,06,75,304",1 Crore,0,
+215,Shobhal Singh,11545,IND,0,Graduate Professional,39,"49,30,000",49 Lacs,0,
+216,Shyopat Ram,11279,CPI(M),9,Graduate,40,"26,48,000",26 Lacs,"7,69,227",7 Lacs
+217,Sita Devi,11570,BSP,0,8th Pass,52,"9,74,458",9 Lacs,0,
+218,Sohanaram Rathi,11568,IND,0,Post Graduate,62,"88,10,588",88 Lacs,"7,00,000",7 Lacs
+219,Somesh Bhatnagar,10794,Bhartiya Kisan Party,1,Others,48,0,0,"5,38,589",5 Lacs
+220,Soniya Regar,9620,IND,0,12th Pass,31,"61,648",61 Thou,0,
+221,Subhash Chandra Baheria,9562,BJP,0,Graduate,62,"23,27,03,276",23 Crore,"18,27,380",18 Lacs
+222,Subhash Maharia,11240,INC,0,Graduate,61,"8,25,42,126",8 Crore,"14,50,462",14 Lacs
+223,Sukhbir Singh Jaunapuria,9623,BJP,0,12th Pass,61,"1,23,38,02,420",123 Crore,0,
+224,Sukhdev Meghwal,11707,IND,0,Graduate,42,"10,92,100",10 Lacs,0,
+225,Sumedhanand Saraswati,11572,BJP,0,Post Graduate,67,"28,27,638",28 Lacs,"27,19,583",27 Lacs
+226,Sunil,11689,IND,0,12th Pass,30,"35,000",35 Thou,0,
+227,Sunil,10795,IND,0,12th Pass,52,"3,76,69,669",3 Crore,"12,69,544",12 Lacs
+228,Surajmal,11535,BSP,0,Graduate Professional,56,"1,58,96,000",1 Crore,"12,65,000",12 Lacs
+229,Tarachand Bhagora,9576,INC,0,Post Graduate,65,0,0,"64,49,772",64 Lacs
+230,Tasleem,9606,IND,0,Illiterate,40,"3,03,804",3 Lacs,"65,326",65 Thou
+231,Tejveer Singh,11534,IND,0,10th Pass,26,"2,58,000",2 Lacs,0,
+232,Tilak Raj Munjal,11274,IND,0,Graduate,67,"47,18,096",47 Lacs,0,
+233,Titara Singh,11718,IND,0,Literate,74,"2,01,000",2 Lacs,0,
+234,Triloki Narayan Hatila,11698,Jan Sangharsh Virat Party,0,12th Pass,52,"21,83,800",21 Lacs,0,
+235,Umrao Salodia,11304,BSP,1,Post Graduate,62,"3,79,43,644",3 Crore,0,
+236,Vaibhav Gehlot,10958,INC,1,Graduate Professional,38,"1,86,06,242",1 Crore,0,
+237,Vijay Babu,11755,Prabuddha Republican Party,0,8th Pass,55,"2,17,000",2 Lacs,0,
+238,Vijay Shree,10721,SHS,0,12th Pass,33,"3,21,20,000",3 Crore,0,
+239,Vijendra Kumar,11573,Bhartiya Jan Satta Party,0,8th Pass,26,0,0,"1,17,000",1 Lacs
+240,Vikas Kumar,11770,IND,0,Post Graduate,26,"16,000",16 Thou,0,
+241,Vinay Kumar Varma,11296,IND,0,12th Pass,36,"69,62,339",69 Lacs,0,
+242,Vinod Sharma,11741,IND,0,Post Graduate,53,"63,77,800",63 Lacs,"1,80,000",1 Lacs
+243,Virad Singla,11293,IND,0,Graduate Professional,26,"4,40,951",4 Lacs,"29,194",29 Thou
+244,Virender Singh,11561,BSP,0,Literate,50,"10,32,02,500",10 Crore,"45,00,000",45 Lacs
+245,Vishek Vishnoi,9608,IND,0,Graduate,37,"34,86,850",34 Lacs,0,
+246,Vishram Babu,11148,Ambedkarite Party of India,0,Post Graduate,60,"2,57,92,244",2 Crore,"2,68,705",2 Lacs
+247,Yakub Khan,11736,IND,0,Literate,47,"5,15,000",5 Lacs,0,
+248,Yogesh Sharma,11295,IND,0,8th Pass,69,"1,50,000",1 Lacs,0,
