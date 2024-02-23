@@ -74,11 +74,3 @@ for filename in os.listdir('static/constituency_candidates_dump'):
     else:
         continue
 
-field_names = all[0][0].keys()
-
-field_names.append('constituency_id')
-with open('static/constituency_candidates_dump/data/all.csv', 'w', newline='') as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=field_names)
-    writer.writeheader()
-    for key in all:
-        writer.writerows(all[key])

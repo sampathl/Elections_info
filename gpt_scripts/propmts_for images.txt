@@ -1,0 +1,63 @@
+
+Creating prompts to represent different educational backgrounds in a modern Indian context is a nuanced task. We'll craft prompts for each educational level, ensuring each image conveys the character's educational background through elements in the setting or their attire, actions, and accessories. Given the number of prompts, I'll provide concise examples for each category.
+
+Doctorate Degree
+Male: "In a modern university library filled with books and digital resources, a man stands by a bookshelf, holding a thick volume on advanced research. His attire suggests a blend of academia and formality, indicative of a Doctorate holder. The backdrop is a blend of traditional and digital learning spaces, symbolizing advanced education."
+
+Female: "A woman, clearly a Doctorate holder, is giving a lecture in a state-of-the-art auditorium at a prestigious university. She's confidently explaining complex concepts, using digital tools to enhance her presentation. The setting reflects a high level of academic achievement and a modern educational environment."
+
+Graduate
+Male: "Walking through a bustling college campus, a young man carries a laptop bag and a stack of textbooks. The campus is a mix of green spaces and contemporary architecture, symbolizing a vibrant graduate life."
+
+Female: "Sitting in a modern café on a university campus, a young woman is engrossed in her laptop, surrounded by textbooks. The café's lively atmosphere and the mix of students reflect a dynamic graduate environment."
+
+Post Graduate
+Male: "In a seminar room with a panoramic view of the city, a postgraduate student discusses his thesis with peers. The room is equipped with the latest technology, indicating a high level of academic pursuit."
+
+Female: "At a collaborative workspace within a university, a postgraduate student is leading a group project. The environment is modern and innovative, with digital screens displaying complex data analyses."
+
+10th Pass
+Male: "A young boy stands outside a modern high school, his backpack slung over one shoulder, holding a certificate. The school's facade reflects a contemporary educational setting, symbolizing secondary education completion."
+
+Female: "A teenage girl, with a joyful expression, walks away from a high school, holding her 10th standard report card. The school behind her is modern, with students of various ages milling about."
+
+12th Pass
+Male: "Standing in front of a higher secondary school with a science fair banner, a young man holds a model of a solar system, indicating his completion of 12th standard with a focus on science."
+
+Female: "A young woman stands in an art studio at a higher secondary school, her artwork displayed around her, symbolizing her creative journey through her 12th standard."
+
+Graduate Professional
+Male: "In a corporate office overlooking the city, a young professional, a graduate, is seen presenting a project to colleagues. The office is modern, with technology and professionalism at its core."
+
+Female: "A female graduate professional is conducting a workshop in a sleek, modern co-working space, her expertise evident in her confident demeanor and the engaged audience."
+
+5th Pass
+Male: "A young boy, with a backpack, walks through a bustling street market, his curiosity in the surroundings reflecting his primary education level."
+
+Female: "A girl sits on the steps of a community library, engrossed in a storybook, symbolizing her primary education in a vibrant urban setting."
+
+8th Pass
+Male: "A teenager is fixing a bicycle in front of a community center, his practical skills hinting at his middle school education in a lively neighborhood."
+
+Female: "A young girl, with a sketchpad, captures the scenes of her bustling neighborhood, her artistic expression influenced by her education up to the 8th standard."
+
+Others
+Male: "A man in a workshop, surrounded by various tools and crafts, showcases skills gained from non-formal educational paths."
+
+Female: "A woman in a community garden, leading a sustainability project, demonstrates knowledge from diverse learning experiences beyond formal education."
+
+Illiterate
+Male: "In a vibrant market, a man communicates through gestures, his lack of formal education compensated by his street smarts and experience."
+
+Female: "A woman, amidst a bustling community setting, engages in traditional craft, her expertise passed down through generations, highlighting her skills despite illiteracy."
+
+Literate
+Male: "A man reads a newspaper at a chai stall, his ability to read and write evident, though his formal education background remains unspecified."
+
+Female: "A woman, browsing through books at a street stall, shows her literacy, with the diverse urban life around her suggesting a broad spectrum of knowledge."
+
+Not Given
+Male: "A man navigates through a busy urban street, his confident demeanor and interaction with the city hinting at an education that's not explicitly defined."
+
+Female: "A woman, engaging in a lively discussion at a community center, reflects a well-rounded personality, with her educational background left to the viewer's imagination."
+
