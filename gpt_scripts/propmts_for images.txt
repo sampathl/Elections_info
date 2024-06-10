@@ -7,57 +7,103 @@ Male: "In a modern university library filled with books and digital resources, a
 Female: "A woman, clearly a Doctorate holder, is giving a lecture in a state-of-the-art auditorium at a prestigious university. She's confidently explaining complex concepts, using digital tools to enhance her presentation. The setting reflects a high level of academic achievement and a modern educational environment."
 
 Graduate
-Male: "Walking through a bustling college campus, a young man carries a laptop bag and a stack of textbooks. The campus is a mix of green spaces and contemporary architecture, symbolizing a vibrant graduate life."
+Male: "Walking through a bustling college campus, a young man carries a laptop bag and a stack of textbooks. The campus is a mix of green spaces and contemporary architecture, symbolizing a vibrant graduate life. In Indina context"
 
-Female: "Sitting in a modern café on a university campus, a young woman is engrossed in her laptop, surrounded by textbooks. The café's lively atmosphere and the mix of students reflect a dynamic graduate environment."
+Female: "Sitting in a modern café on a university campus, a young woman is engrossed in her laptop, surrounded by textbooks. The café's lively atmosphere and the mix of students reflect a dynamic graduate environment.In Indina context"
 
 Post Graduate
-Male: "In a seminar room with a panoramic view of the city, a postgraduate student discusses his thesis with peers. The room is equipped with the latest technology, indicating a high level of academic pursuit."
+Male: "In a seminar room with a panoramic view of the city, a postgraduate student discusses his thesis with peers. The room is equipped with the latest technology, indicating a high level of academic pursuit.In Indina context"
 
-Female: "At a collaborative workspace within a university, a postgraduate student is leading a group project. The environment is modern and innovative, with digital screens displaying complex data analyses."
+Female: "At a collaborative workspace within a university, a postgraduate student is leading a group project. The environment is modern and innovative, with digital screens displaying complex data analyses.In Indina context"
 
 10th Pass
-Male: "A young boy stands outside a modern high school, his backpack slung over one shoulder, holding a certificate. The school's facade reflects a contemporary educational setting, symbolizing secondary education completion."
+Male: "A young boy stands outside a modern high school, his backpack slung over one shoulder, holding a certificate. The school's facade reflects a contemporary educational setting, symbolizing secondary education completion.In Indina context"
 
-Female: "A teenage girl, with a joyful expression, walks away from a high school, holding her 10th standard report card. The school behind her is modern, with students of various ages milling about."
+Female: "A teenage girl, with a joyful expression, walks away from a high school, holding her 10th standard report card. The school behind her is modern, with students of various ages milling about.In Indina context"
 
 12th Pass
-Male: "Standing in front of a higher secondary school with a science fair banner, a young man holds a model of a solar system, indicating his completion of 12th standard with a focus on science."
+Male: "Standing in front of a higher secondary school with a science fair banner, a young man holds a model of a solar system, indicating his completion of 12th standard with a focus on science.In Indina context"
 
-Female: "A young woman stands in an art studio at a higher secondary school, her artwork displayed around her, symbolizing her creative journey through her 12th standard."
+Female: "A young woman stands in an art studio at a higher secondary school, her artwork displayed around her, symbolizing her creative journey through her 12th standard.In Indina context"
 
 Graduate Professional
-Male: "In a corporate office overlooking the city, a young professional, a graduate, is seen presenting a project to colleagues. The office is modern, with technology and professionalism at its core."
+Male: "In a corporate office overlooking the city, a young professional, a graduate, is seen presenting a project to colleagues. The office is modern, with technology and professionalism at its core.In Indina context"
 
-Female: "A female graduate professional is conducting a workshop in a sleek, modern co-working space, her expertise evident in her confident demeanor and the engaged audience."
+Female: "A female graduate professional is conducting a workshop in a sleek, modern co-working space, her expertise evident in her confident demeanor and the engaged audience.In Indina context"
 
 5th Pass
-Male: "A young boy, with a backpack, walks through a bustling street market, his curiosity in the surroundings reflecting his primary education level."
+Male: "A young boy, with a backpack, walks through a bustling street market, his curiosity in the surroundings reflecting his primary education level.In Indina context"
 
-Female: "A girl sits on the steps of a community library, engrossed in a storybook, symbolizing her primary education in a vibrant urban setting."
+Female: "A girl sits on the steps of a community library, engrossed in a storybook, symbolizing her primary education in a vibrant urban setting.In Indina context"
 
 8th Pass
-Male: "A teenager is fixing a bicycle in front of a community center, his practical skills hinting at his middle school education in a lively neighborhood."
+Male: "A teenager is fixing a bicycle in front of a community center, his practical skills hinting at his middle school education in a lively neighborhood.In Indina context"
 
-Female: "A young girl, with a sketchpad, captures the scenes of her bustling neighborhood, her artistic expression influenced by her education up to the 8th standard."
+Female: "A young girl, with a sketchpad, captures the scenes of her bustling neighborhood, her artistic expression influenced by her education up to the 8th standard.In Indina context"
 
 Others
-Male: "A man in a workshop, surrounded by various tools and crafts, showcases skills gained from non-formal educational paths."
+Male: "A man in a workshop, surrounded by various tools and crafts, showcases skills gained from non-formal educational paths.In Indina context"
 
-Female: "A woman in a community garden, leading a sustainability project, demonstrates knowledge from diverse learning experiences beyond formal education."
+Female: "A woman in a community garden, leading a sustainability project, demonstrates knowledge from diverse learning experiences beyond formal education.In Indina context"
 
 Illiterate
-Male: "In a vibrant market, a man communicates through gestures, his lack of formal education compensated by his street smarts and experience."
+Male: "In a vibrant market, a man communicates through gestures, his lack of formal education compensated by his street smarts and experience.In Indina context"
 
-Female: "A woman, amidst a bustling community setting, engages in traditional craft, her expertise passed down through generations, highlighting her skills despite illiteracy."
+Female: "A woman, amidst a bustling community setting, engages in traditional craft, her expertise passed down through generations, highlighting her skills despite illiteracy.In Indina context"
 
 Literate
-Male: "A man reads a newspaper at a chai stall, his ability to read and write evident, though his formal education background remains unspecified."
+Male: "A man reads a newspaper at a chai stall, his ability to read and write evident, though his formal education background remains unspecified.In Indina context"
 
-Female: "A woman, browsing through books at a street stall, shows her literacy, with the diverse urban life around her suggesting a broad spectrum of knowledge."
+Female: "A woman, browsing through books at a street stall, shows her literacy, with the diverse urban life around her suggesting a broad spectrum of knowledge.In Indina context"
 
 Not Given
-Male: "A man navigates through a busy urban street, his confident demeanor and interaction with the city hinting at an education that's not explicitly defined."
+Male: "A man navigates through a busy urban street, his confident demeanor and interaction with the city hinting at an education that's not explicitly defined.In Indina context"
 
-Female: "A woman, engaging in a lively discussion at a community center, reflects a well-rounded personality, with her educational background left to the viewer's imagination."
+Female: "A woman, engaging in a lively discussion at a community center, reflects a well-rounded personality, with her educational background left to the viewer's imagination.In Indina context"
 
+
+
+
+
+Assets:
+
+"Imagine a sprawling estate that serves as a microcosm of diverse assets. At one end, a luxurious residential building stands tall, its architecture a blend of modernity and comfort, symbolizing secure and valuable real estate investments. Adjacent to it, a commercial building buzzes with activity, its facade adorned with logos of various successful enterprises, representing shares in companies and business ventures.
+
+Nearby, a serene agricultural land stretches out, lush and fertile, bordered by a smaller plot designated for non-agricultural purposes, perhaps a vineyard or a boutique outdoor event space, showcasing the tangible wealth tied to the earth.
+
+Tucked within this estate is a sophisticated home office, where a large, elegant desk holds an array of financial documents, bonds, debentures, and a digital display flickering with stock market trends, highlighting investments in financial instruments. A small, secure vault in the room is slightly ajar, revealing glints of gold and precious jewelry, alongside sealed envelopes containing insurance policies and important personal loan documents.
+
+Outside, a garage houses an assortment of motor vehicles, from practical family cars to high-end sports models, each representing a facet of personal wealth and lifestyle. Near the estate's entrance, a mailbox overflows with correspondence from banks, financial institutions, and non-banking financial companies, alongside notifications from NSS and postal savings, indicating a well-diversified portfolio of deposits and savings.
+
+The entire scene is woven together by pathways that represent the flow of personal wealth and investment, leading from one asset to another, illustrating the interconnected nature of financial planning and asset accumulation. In Indina context"
+
+
+
+
+Liabilities:
+
+
+
+In the heart of a vibrant Indian city, a government housing complex stands adjacent to a bustling bank, symbolizing the intersection of personal and governmental financial obligations. The bank, a fusion of traditional Indian design and modern technology, is alive with activity; its digital screens display a colorful array of loan options and interest rates, attracting a diverse crowd seeking financial assistance. Inside, individuals engage in earnest discussions with bank officers, their expressions a mix of hope and concern as they navigate the complexities of securing loans.
+
+Just a short walk away, the government housing complex, characterized by its functional architecture and communal spaces, tells another story of financial responsibility. Residents gather around a central notice board, where among various community announcements, a section is dedicated to reminders about dues for government accommodation. The notices, written in multiple languages, reflect the inclusive and diverse nature of the community.
+
+The scene captures a day in the life of an Indian city, where the pursuit of financial stability and the fulfillment of obligations to both banks and government housing departments are intertwined. The juxtaposition of the bank's dynamic environment with the more subdued, yet equally significant, atmosphere of the government housing complex offers a glimpse into the multifaceted nature of financial liabilities in India. In Indina context
+
+
+
+Criminal Cases:
+
+Men
+Prompt 1 (0 Cases): "A man stands alone in an empty courtroom, the space bathed in the calm light of early morning. The absence of files or documents on the tables suggests a clear legal slate, with no criminal cases pending. In Indina context"
+
+Prompt 2 (1 Case): "A solitary man sits at a defense table in a dimly lit courtroom, poring over a single case file. The focused light on the file highlights its significance, indicating the presence of one criminal case.In Indina context"
+
+Prompt 3 (Multiple Cases): "In a cluttered courtroom, a man stands surrounded by multiple case files strewn across the tables and floor. The chaotic arrangement of documents suggests he is entangled in several criminal cases.In Indina context"
+
+Women
+Prompt 1 (0 Cases): "A woman stands serenely in a sunlit courtroom, the clean and orderly space around her indicating no criminal cases are associated with her.In Indina context"
+
+Prompt 2 (1 Case): "A woman sits quietly at a courtroom table, her attention fixed on a single case file open in front of her. The solitary file signifies her involvement in just one criminal case.In Indina context"
+
+Prompt 3 (Multiple Cases): "A woman navigates through a courtroom filled with an array of case files and legal documents. The overwhelming presence of paperwork implies her connection to multiple criminal cases.In Indina context"

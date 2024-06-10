@@ -42,21 +42,21 @@ def describe_education(education_level):
     return education_descriptions.get(education_level, "with an unspecified level of education")
 
 def convert_to_words(amount_in_words, amount_numeric, amount_type):
-    if amount_in_words and not amount_in_words.replace(' ', '').isdigit():
+    if amount_in_words and not str(amount_in_words).replace(' ', '').isdigit():
         amount_words = amount_in_words
     else:
         amount = int(amount_numeric.replace(',', ''))
         if amount == 0:
             return f"no {amount_type}"
         amount_words = p.number_to_words(amount)
-    if 'crore' in amount_words.lower():
-        unit = 'crore'
-    elif 'lakh' in amount_words.lower() or 'lac' in amount_words.lower():
-        unit = 'lakh'
-    else:
-        unit = ''
-    if unit:
-        amount_words = p.plural(unit, amount)
+        if 'crore' in amount_words.lower():
+            unit = 'crore'
+        elif 'lakh' in amount_words.lower() or 'lac' in amount_words.lower():
+            unit = 'lakh'
+        else:
+            unit = ''
+        if unit:
+            amount_words = p.plural(unit, amount)
     if amount_type.lower() == 'assets':
         return f"assets valued at {amount_words}"
     elif amount_type.lower() == 'liabilities':
@@ -65,12 +65,14 @@ def convert_to_words(amount_in_words, amount_numeric, amount_type):
         return f"{amount_words}"
 
 def process_candidate_data(row):
+    # change this to a beter patter
     text_parts = [
         describe_party_affiliation(row['party']),
-        describe_criminal_cases(row['criminal_cases']),
         f"at the age of {row['age']}",
         describe_education(row['education']),
+        describe_criminal_cases(row['criminal_cases']),
         convert_to_words(row['assets_in_words'], row['assets'], 'assets'),
+        #check for nan in the data. 
         convert_to_words(row['liabilities_in_words'], row['liabilities'], 'liabilities')
     ]
     return f"{row['name']}, " + ", ".join(text_parts) + "."
@@ -84,6 +86,6 @@ def process_dataset(filename, output_filename):
             f.write(summary + '\n\n')
 
 # Example usage
-input_csv = 'path_to_your_file.csv'  # Update this to the path of your CSV file
+input_csv = 'static/constituency_candidates_dump/combined_csv.csv'  # Update this to the path of your CSV file
 output_txt = 'candidate_summaries.txt'
 process_dataset(input_csv, output_txt)
