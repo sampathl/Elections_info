@@ -2,7 +2,7 @@
 Scripst to automate text to video conversion of Election info
 
 
-## Update it in to a system. 
+## 0-1 not good for usage. 
 
 Input: 
 Arg parser 
