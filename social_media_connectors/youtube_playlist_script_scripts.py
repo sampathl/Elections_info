@@ -1,16 +1,22 @@
+import argparse
 import os
-import json
-from typing import List, Dict
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.oauth2.credentials import Credentials
+from typing import Dict, List, Optional, Sequence, Tuple
+
 from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from googleapiclient.http import MediaFileUpload
+
+# Use --https://support.google.com/youtube/contact/yt_api_form
 
 SCOPES = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 
+
 def get_credentials(client_secrets_file: str, token_file: str = "token.json") -> Credentials:
-    creds = None
+    """Retrieve stored OAuth credentials or start a new OAuth flow."""
+    creds: Optional[Credentials] = None
     if os.path.exists(token_file):
         creds = Credentials.from_authorized_user_file(token_file, SCOPES)
     if not creds or not creds.valid:
@@ -18,180 +24,250 @@ def get_credentials(client_secrets_file: str, token_file: str = "token.json") ->
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(client_secrets_file, SCOPES)
-            # Try different approaches to handle redirect URI issues
             try:
-                # First try with a fixed port that might work with your OAuth config
-                creds = flow.run_local_server(port=8080, access_type='offline')
-            except Exception as e:
-                print(f"Port 8080 failed: {e}")
+                creds = flow.run_local_server(port=8080, access_type="offline")
+            except Exception:
                 try:
-                    # Try with no specific port (let system choose)
-                    creds = flow.run_local_server(port=0, access_type='offline')
-                except Exception as e2:
-                    print(f"Dynamic port failed: {e2}")
-                    # Manual flow as fallback
-                    auth_url, _ = flow.authorization_url(prompt='consent')
-                    print(f'Please go to this URL: {auth_url}')
-                    code = input('Enter the authorization code: ')
+                    creds = flow.run_local_server(port=0, access_type="offline")
+                except Exception:
+                    auth_url, _ = flow.authorization_url(prompt="consent")
+                    print(f"Please go to this URL: {auth_url}")
+                    code = input("Enter the authorization code: ")
                     flow.fetch_token(code=code)
                     creds = flow.credentials
-        with open(token_file, "w") as f:
-            f.write(creds.to_json())
+        with open(token_file, "w") as token_handle:
+            token_handle.write(creds.to_json())
     return creds
 
-def parse_constituency_file(file_path: str, start_from: str = None) -> tuple[List[str], List[str]]:
-    """
-    Parse the constituency file and extract names and Wikipedia links.
-    
-    Args:
-        file_path: Path to the text file containing constituency data
-        start_from: Constituency name to start from (skip all before this)
-        
-    Returns:
-        Tuple of (titles, descriptions) lists
-    """
-    titles = []
-    descriptions = []
-    found_start = start_from is None  # If no start_from specified, start immediately
-    
+
+def build_youtube_service(client_secrets_file: str = "credentials.json",
+                          token_file: str = "token.json"):
+    """Return an authenticated YouTube Data API client."""
+    creds = get_credentials(client_secrets_file, token_file)
+    return build("youtube", "v3", credentials=creds)
+
+
+def upload_video(video_path: str,
+                 title: str,
+                 description: str = "",
+                 category_id: str = "22",
+                 privacy_status: str = "private",
+                 tags: Optional[Sequence[str]] = None,
+                 client_secrets_file: str = "credentials.json",
+                 token_file: str = "token.json") -> str:
+    """Upload a video and return the created video's ID."""
+    if not os.path.exists(video_path):
+        raise FileNotFoundError(f"Video file not found: {video_path}")
+
+    youtube = build_youtube_service(client_secrets_file, token_file)
+    media = MediaFileUpload(video_path, chunksize=-1, resumable=True)
+    body = {
+        "snippet": {
+            "title": title,
+            "description": description,
+            "categoryId": category_id,
+        },
+        "status": {
+            "privacyStatus": privacy_status,
+        },
+    }
+    if tags:
+        body["snippet"]["tags"] = list(tags)
+
+    request = youtube.videos().insert(part="snippet,status", body=body, media_body=media)
+    response = None
+    while response is None:
+        _, response = request.next_chunk()
+
+    video_id = response.get("id")
+    if not video_id:
+        raise RuntimeError("Failed to retrieve video ID from upload response")
+    return video_id
+
+
+def add_video_to_playlist(playlist_id: str,
+                          video_id: str,
+                          position: Optional[int] = None,
+                          client_secrets_file: str = "credentials.json",
+                          token_file: str = "token.json",
+                          youtube=None) -> str:
+    """Insert an existing video into a playlist and return the playlist item ID."""
+    service = youtube or build_youtube_service(client_secrets_file, token_file)
+
+    snippet = {
+        "playlistId": playlist_id,
+        "resourceId": {
+            "kind": "youtube#video",
+            "videoId": video_id,
+        },
+    }
+    if position is not None:
+        snippet["position"] = position
+
+    response = service.playlistItems().insert(part="snippet", body={"snippet": snippet}).execute()
+    playlist_item_id = response.get("id")
+    if not playlist_item_id:
+        raise RuntimeError("Failed to retrieve playlist item ID from response")
+    return playlist_item_id
+
+
+def create_playlist(title: str,
+                    description: str = "",
+                    privacy: str = "private",
+                    youtube=None,
+                    client_secrets_file: str = "credentials.json",
+                    token_file: str = "token.json") -> str:
+    """Create a playlist and return its ID."""
+    service = youtube or build_youtube_service(client_secrets_file, token_file)
+    body = {
+        "snippet": {
+            "title": title,
+            "description": description,
+        },
+        "status": {
+            "privacyStatus": privacy,
+        },
+    }
+    response = service.playlists().insert(part="snippet,status", body=body).execute()
+    playlist_id = response.get("id")
+    if not playlist_id:
+        raise RuntimeError("Failed to retrieve playlist ID from response")
+    return playlist_id
+
+
+def parse_constituency_file(file_path: str, start_from: str = None) -> Tuple[List[str], List[str]]:
+    """Parse the constituency file and extract names and Wikipedia links."""
+    titles: List[str] = []
+    descriptions: List[str] = []
+    found_start = start_from is None
+
     try:
-        with open(file_path, 'r', encoding='utf-8') as file:
-            for line in file:
+        with open(file_path, "r", encoding="utf-8") as file_handle:
+            for line in file_handle:
                 line = line.strip()
-                if line and ' - ' in line:
-                    # Split by ' - ' to separate name and link
-                    parts = line.split(' - ', 1)  # Split only on first occurrence
-                    if len(parts) == 2:
-                        constituency_name = parts[0].strip()
-                        wiki_link = parts[1].strip()
-                        
-                        # Check if we've reached the starting point
-                        if not found_start:
-                            if constituency_name.lower() == start_from.lower():
-                                print(f"Found starting point: {constituency_name}")
-                                found_start = True
-                                # Skip the starting constituency itself, start from the next one
-                                continue
-                            else:
-                                # Skip this constituency
-                                continue
-                        
-                        titles.append(f"{constituency_name} Constituency")
-                        descriptions.append(f"Information about {constituency_name} Assembly constituency in Bihar. Wikipedia: {wiki_link}")
+                if line and " - " in line:
+                    parts = line.split(" - ", 1)
+                    if len(parts) != 2:
+                        continue
+                    constituency_name = parts[0].strip()
+                    wiki_link = parts[1].strip()
+
+                    if not found_start:
+                        if constituency_name.lower() == start_from.lower():
+                            print(f"Found starting point: {constituency_name}")
+                            found_start = True
+                            continue
+                        continue
+
+                    titles.append(f"{constituency_name} Constituency")
+                    descriptions.append(
+                        f"Information about {constituency_name} Assembly constituency in Bihar. Wikipedia: {wiki_link}"
+                    )
     except FileNotFoundError:
         print(f"Error: File {file_path} not found")
-    except Exception as e:
-        print(f"Error reading file: {e}")
-    
+    except Exception as exc:  # noqa: BLE001
+        print(f"Error reading file: {exc}")
+
     if start_from and not found_start:
         print(f"Warning: Starting constituency '{start_from}' not found in file")
-    
+
     return titles, descriptions
+
 
 def create_playlists(titles: List[str],
                      client_secrets_file: str = "credentials.json",
                      token_file: str = "token.json",
                      privacy: str = "private",
                      description: str = "",
-                     descriptions: List[str] = None) -> List[Dict]:
-    """
-    Create playlists on the authorized YouTube account.
-    Returns a list of dicts with created playlist IDs and titles.
-    
-    Args:
-        titles: List of playlist titles
-        client_secrets_file: Path to OAuth client secrets file
-        token_file: Path to store credentials
-        privacy: "private", "public", or "unlisted"
-        description: Single description for all playlists (ignored if descriptions is provided)
-        descriptions: List of descriptions (one per playlist). If provided, overrides description.
-    """
-    creds = get_credentials(client_secrets_file, token_file)
-    youtube = build("youtube", "v3", credentials=creds)
-    created = []
-    
-    for i, title in enumerate(titles):
-        # Use individual description if available, otherwise use the single description
-        playlist_description = descriptions[i] if descriptions and i < len(descriptions) else description
-        
-        body = {
-            "snippet": {
-                "title": title,
-                "description": playlist_description
-            },
-            "status": {
-                "privacyStatus": privacy  # "private", "public", or "unlisted"
-            }
-        }
+                     descriptions: Optional[List[str]] = None) -> List[Dict]:
+    """Create multiple playlists and return metadata for each result."""
+    youtube = build_youtube_service(client_secrets_file, token_file)
+    created: List[Dict] = []
+
+    for index, title in enumerate(titles):
+        playlist_description = descriptions[index] if descriptions and index < len(descriptions) else description
         try:
-            resp = youtube.playlists().insert(part="snippet,status", body=body).execute()
-            created.append({"title": title, "id": resp.get("id"), "description": playlist_description})
-        except HttpError as e:
-            # continue on error and include error message
-            created.append({"title": title, "error": str(e)})
+            playlist_id = create_playlist(
+                title=title,
+                description=playlist_description,
+                privacy=privacy,
+                youtube=youtube,
+            )
+            created.append({"title": title, "id": playlist_id, "description": playlist_description})
+        except HttpError as error:
+            created.append({"title": title, "error": str(error)})
     return created
 
-if __name__ == "__main__":
-    # Path to your constituency file
-    constituency_file = "/Users/saml16/projects/Elections_info/static/Bihar/bihar_constituency_hindi.txt"
-    client_secrets = "/Users/saml16/Desktop/Keys/youtube_creator.json"
-    
-    # Check if credentials file exists
-    if not os.path.exists(client_secrets):
-        print(f"Error: Credentials file not found at {client_secrets}")
-        print("Please ensure the file exists and try again.")
-        exit(1)
-    
-    # Start from the constituency after Sahebganj (due to API limit reached)
-    start_from_constituency = 'रून्निसाइदपुर  (Runnisaidpur )'
 
-    # Parse the constituency file to get titles and descriptions, starting from specified constituency
-    #print(f"Reading constituency data starting after '{start_from_constituency}'...")
-    titles, descriptions = parse_constituency_file(constituency_file, start_from=start_from_constituency)
-    
-    print(f"Found {len(titles)} constituencies to process (starting after {start_from_constituency})")
-    
-    if not titles:
-        print("No constituency data found after the specified starting point. Please check the file path and format.")
-        exit(1)
-    
-    # Show first few examples
-    print(f"\nFirst 5 constituencies (starting after {start_from_constituency}):")
-    for i in range(min(5, len(titles))):
-        print(f"  {i+1}. {titles[i]}")
-        print(f"     Description: {descriptions[i][:100]}...")
-    
-    # Ask for confirmation before creating playlists
-    response = input(f"\nDo you want to create {len(titles)} playlists? (y/n): ")
-    if response.lower() != 'y':
-        print("Operation cancelled.")
-        exit(0)
-    
-    print("\nCreating playlists...")
-    results = create_playlists(
-        titles=titles, 
-        client_secrets_file=client_secrets,
-        descriptions=descriptions,
-        privacy="private"  # Change to "public" or "unlisted" if needed
+def main() -> None:
+    parser = argparse.ArgumentParser(description="YouTube helper script")
+    parser.add_argument("--client-secrets", default="credentials.json", help="Path to OAuth client secrets JSON")
+    parser.add_argument("--token-file", default="token.json", help="Path to stored OAuth token JSON")
+
+    subparsers = parser.add_subparsers(dest="command")
+
+    upload_parser = subparsers.add_parser("upload", help="Upload a video and return its ID")
+    upload_parser.add_argument("--file", required=True, help="Path to the video file")
+    upload_parser.add_argument("--title", required=True, help="Video title")
+    upload_parser.add_argument("--description", default="", help="Video description")
+    upload_parser.add_argument("--category-id", default="22", help="YouTube video category ID")
+    upload_parser.add_argument(
+        "--privacy-status",
+        default="private",
+        choices=["private", "public", "unlisted"],
+        help="Video privacy status",
     )
-    
-    # Print results
-    print(f"\nPlaylist creation completed!")
-    successful = [r for r in results if 'id' in r]
-    failed = [r for r in results if 'error' in r]
-    
-    print(f"Successfully created: {len(successful)} playlists")
-    print(f"Failed: {len(failed)} playlists")
-    
-    if failed:
-        print("\nFailed playlists:")
-        for result in failed:
-            print(f"  - {result['title']}: {result['error']}")
-    
-    # Save results to file with timestamp
-    import datetime
-    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    results_file = f"hindi_playlist_creation_results_after_{start_from_constituency}_{timestamp}.json"
-    with open(results_file, "w") as f:
-        json.dump(results, f, indent=2)
-    print(f"\nResults saved to {results_file}")
+    upload_parser.add_argument("--tags", nargs="*", help="Optional space separated list of tags")
+
+    add_parser = subparsers.add_parser("add-to-playlist", help="Add a video to a playlist")
+    add_parser.add_argument("--playlist-id", required=True, help="Target playlist ID")
+    add_parser.add_argument("--video-id", required=True, help="Video ID to add")
+    add_parser.add_argument("--position", type=int, help="Optional position index within the playlist")
+
+    create_parser = subparsers.add_parser("create-playlist", help="Create a playlist and return its ID")
+    create_parser.add_argument("--title", required=True, help="Playlist title")
+    create_parser.add_argument("--description", default="", help="Playlist description")
+    create_parser.add_argument(
+        "--privacy-status",
+        default="private",
+        choices=["private", "public", "unlisted"],
+        help="Playlist privacy status",
+    )
+
+    args = parser.parse_args()
+    if args.command == "upload":
+        video_id = upload_video(
+            video_path=args.file,
+            title=args.title,
+            description=args.description,
+            category_id=args.category_id,
+            privacy_status=args.privacy_status,
+            tags=args.tags,
+            client_secrets_file=args.client_secrets,
+            token_file=args.token_file,
+        )
+        print(video_id)
+    elif args.command == "add-to-playlist":
+        playlist_item_id = add_video_to_playlist(
+            playlist_id=args.playlist_id,
+            video_id=args.video_id,
+            position=args.position,
+            client_secrets_file=args.client_secrets,
+            token_file=args.token_file,
+        )
+        print(playlist_item_id)
+    elif args.command == "create-playlist":
+        playlist_id = create_playlist(
+            title=args.title,
+            description=args.description,
+            privacy=args.privacy_status,
+            client_secrets_file=args.client_secrets,
+            token_file=args.token_file,
+        )
+        print(playlist_id)
+    else:
+        parser.print_help()
+
+
+if __name__ == "__main__":
+    main()
