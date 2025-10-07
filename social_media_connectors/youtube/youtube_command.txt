@@ -1,0 +1,12 @@
+python -m social_media_connectors.youtube.cli.upload_csv \
+    social_media_connectors/youtube/video_manifest.csv  \
+    --token-file token.json \
+    --default-description "Election update" \
+    --privacy public \
+    --category-id 22 \
+    --default-tags IndianElection BiharElections Elections
+
+
+
+
+python -m social_media_connectors.youtube.cli.build_manifest /Users/saml16/projects/Elections_info/static/central_elections/lok_sabha_2024/Combined_video --playlist-id PLxDNB6KvO9IYOZVXL-yguGPypGRcz1gy9 

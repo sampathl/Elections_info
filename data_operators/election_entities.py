@@ -11,7 +11,7 @@ from typing import Dict, Iterable, Iterator, List, Optional, Sequence
 
 import inflect
 
-from name_phonetics import (
+from noun_phonetics import (
     PhoneticTranscriber,
     generate_phoneme_string,
     generate_ssml_phonetics,
@@ -174,7 +174,7 @@ class CandidateEntity:
             "5th Pass": ", with primary education<mark name=\"education\"/>",
             "8th Pass": ", has completed middle school<mark name=\"education\"/>",
             "Others": ", has other educational qualifications<mark name=\"education\"/>",
-            "Illiterate": ", is illiterate<mark name=\"age\"/>",
+            "Illiterate": ", is illiterate <mark name=\"age\"/>",
             "Literate": ",  is literate but with unspecified formal education<mark name=\"education\"/>",
             "Not Given": ", has unspecified educational background<mark name=\"education\"/>",
         }
