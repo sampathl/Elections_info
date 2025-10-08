@@ -11,10 +11,10 @@ from typing import Dict, Iterable, Iterator, List, Optional, Sequence
 
 import inflect
 
-from noun_phonetics import (
-    PhoneticTranscriber,
+from data_operators.phonetics_generator import (
     generate_phoneme_string,
     generate_ssml_phonetics,
+    generate_ssml_phonetics_native,
 )
 
 
@@ -41,7 +41,7 @@ EXPECTED_COLUMNS: Sequence[str] = (
 
 
 @dataclass
-class CandidateEntity:
+class CandidateRecord:
     constituency: str
     election_type: str
     candidate_name: str
@@ -57,34 +57,51 @@ class CandidateEntity:
     voter_info: str
     url: str
 
+
+class CandidateEntity(CandidateRecord):
+    """Candidate record augmented with phoneme and SSML helpers."""
+
     def _phoneme_for_value(
         self,
         value: str,
         *,
         joiner: str = " ",
-        transcriber: Optional[PhoneticTranscriber] = None,
+        transcriber: Optional[object] = None,
     ) -> str:
         text = value.strip() if value else ""
         if not text:
             return ""
-        return generate_phoneme_string(text, joiner=joiner, transcriber=transcriber)
+        if transcriber is not None:
+            logger.debug(
+                "Transcriber parameter ignored while generating phoneme string for '%s'",
+                text,
+            )
+        return generate_phoneme_string(text, joiner=joiner)
 
     def _ssml_for_value(
         self,
         value: str,
         *,
-        transcriber: Optional[PhoneticTranscriber] = None,
+        locale: str = "en",
+        transcriber: Optional[object] = None,
     ) -> str:
         text = value.strip() if value else ""
         if not text:
             return ""
-        return generate_ssml_phonetics(text, transcriber=transcriber)
+        if transcriber is not None:
+            logger.debug(
+                "Transcriber parameter ignored while generating SSML for '%s'",
+                text,
+            )
+        if locale.lower() == "hi":
+            return generate_ssml_phonetics_native(text)
+        return generate_ssml_phonetics(text)
 
     def phoneme_for_candidate(
         self,
         *,
         joiner: str = " ",
-        transcriber: Optional[PhoneticTranscriber] = None,
+        transcriber: Optional[object] = None,
     ) -> str:
         """Return phoneme string for `candidate_name`."""
 
@@ -96,7 +113,7 @@ class CandidateEntity:
         self,
         *,
         joiner: str = " ",
-        transcriber: Optional[PhoneticTranscriber] = None,
+        transcriber: Optional[object] = None,
     ) -> str:
         """Return phoneme string for `party`."""
 
@@ -106,7 +123,7 @@ class CandidateEntity:
         self,
         *,
         joiner: str = " ",
-        transcriber: Optional[PhoneticTranscriber] = None,
+        transcriber: Optional[object] = None,
     ) -> str:
         """Return phoneme string for `constituency`."""
 
@@ -117,7 +134,7 @@ class CandidateEntity:
     # --- SSML segment builders ---
 
     def _describe_candidate_name(
-        self, *, transcriber: Optional[PhoneticTranscriber] = None
+        self, *, transcriber: Optional[object] = None
     ) -> str:
         name_ssml = self._ssml_for_value(self.candidate_name, transcriber=transcriber)
         if not name_ssml:
@@ -127,7 +144,7 @@ class CandidateEntity:
         )
 
     def _describe_party(
-        self, *, transcriber: Optional[PhoneticTranscriber] = None
+        self, *, transcriber: Optional[object] = None
     ) -> str:
         party_text = self.party.strip()
         if not party_text:
@@ -144,7 +161,7 @@ class CandidateEntity:
         return f", {descriptor} <mark name=\"party\"/>"
 
     def _describe_constituency(
-        self, *, transcriber: Optional[PhoneticTranscriber] = None
+        self, *, transcriber: Optional[object] = None
     ) -> str:
         constituency_ssml = self._ssml_for_value(
             self.constituency, transcriber=transcriber
@@ -289,7 +306,7 @@ class CandidateEntity:
         )
 
     def ssml_segments(
-        self, *, transcriber: Optional[PhoneticTranscriber] = None
+        self, *, transcriber: Optional[object] = None
     ) -> Dict[str, str]:
         """Return SSML fragments keyed by segment name."""
 
@@ -309,7 +326,7 @@ class CandidateEntity:
     def ssml_text(
         self,
         *,
-        transcriber: Optional[PhoneticTranscriber] = None,
+        transcriber: Optional[object] = None,
         include_speak_wrapper: bool = True,
     ) -> str:
         """Return a full SSML string ready for TTS generation."""
@@ -398,6 +415,7 @@ def load_candidates_from_csv(path: Path) -> List[CandidateEntity]:
 
 
 __all__ = [
+    "CandidateRecord",
     "CandidateEntity",
     "EXPECTED_COLUMNS",
     "load_candidates_from_csv",

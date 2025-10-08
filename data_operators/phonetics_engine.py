@@ -45,22 +45,35 @@ def _load_transliteration_dependencies():
     return _import_transliteration_dependencies()
 
 
+_ISO6391_TO_ISO6393 = {
+    "bn": "ben",
+    "gu": "guj",
+    "hi": "hin",
+    "kn": "kan",
+    "ml": "mal",
+    "mr": "mar",
+    "or": "ori",
+    "pa": "pan",
+    "ta": "tam",
+    "te": "tel",
+}
+
+_ISO6393_TO_ISO6391 = {value: key for key, value in _ISO6391_TO_ISO6393.items()}
+_ISO6393_TO_ISO6391["eng"] = "en"
+
+
 def _resolve_epitran_lang(native_lang_code: str) -> str:
-    mapping = {
-        "bn": "ben",
-        "gu": "guj",
-        "hi": "hin",
-        "kn": "kan",
-        "ml": "mal",
-        "mr": "mar",
-        "or": "ori",
-        "pa": "pan",
-        "ta": "tam",
-        "te": "tel",
-    }
     if len(native_lang_code) == 3:
         return native_lang_code
-    return mapping.get(native_lang_code, native_lang_code)
+    return _ISO6391_TO_ISO6393.get(native_lang_code, native_lang_code)
+
+
+def _resolve_xlit_lang(native_lang_code: str) -> str:
+
+    code = native_lang_code.lower()
+    if len(code) == 2:
+        return code
+    return _ISO6393_TO_ISO6391.get(code, code)
 
 
 class PhoneticsProvider(Protocol):
@@ -102,14 +115,15 @@ class RomanisedPhoneticTranscriber(PhoneticsProvider):
 
         self.native_lang_code = native_lang_code
         epi_lang_code = _resolve_epitran_lang(native_lang_code)
+        self._xlit_lang_code = _resolve_xlit_lang(native_lang_code)
         self._token_regex: Pattern[str] = re.compile(token_pattern)
         self._on_fallback = on_fallback
 
         try:  # pragma: no cover - depends on optional packages at runtime
-            self._xlit_engine = XlitEngine(native_lang_code, src_script_type="roman")
+            self._xlit_engine = XlitEngine(self._xlit_lang_code, src_script_type="roman")
         except Exception as exc:
             raise TransliterationUnavailable(
-                f"Failed to initialise XlitEngine for '{native_lang_code}'"
+                f"Failed to initialise XlitEngine for '{self._xlit_lang_code}'"
             ) from exc
 
         try:  # pragma: no cover - depends on optional packages at runtime
@@ -124,7 +138,7 @@ class RomanisedPhoneticTranscriber(PhoneticsProvider):
 
     def _transcribe_core(self, token: str) -> str:
         xlit_map = self._xlit_engine.translit_word(token, topk=1)
-        native_options = xlit_map.get(self.native_lang_code)
+        native_options = xlit_map.get(self._xlit_lang_code)
         native_word = native_options[0] if native_options else token
         return self._epi.transliterate(native_word)
 
@@ -224,7 +238,7 @@ def get_transcriber(
     on_fallback: Optional[PhonemeFallback] = None,
 ) -> RomanisedPhoneticTranscriber:
     """Return a cached transcriber for the requested locale configuration."""
-
+    
     return _GLOBAL_REGISTRY.get(
         lang,
         script,
@@ -270,3 +284,67 @@ __all__ = [
     "generate_phoneme_string",
     "get_transcriber",
 ]
+
+
+def main() -> int:
+    """Simple CLI to preview IPA and SSML phonetics for supplied text."""
+
+    import argparse
+    import sys
+
+    parser = argparse.ArgumentParser(
+        description="Generate IPA and SSML phonetics using the cached transliteration engine.",
+    )
+    parser.add_argument(
+        "text",
+        nargs="+",
+        help="Name or phrase to transcribe.",
+    )
+    parser.add_argument(
+        "--lang",
+        default="en",
+        help="Native language code for transliteration (default: en, uses Hindi phonetics).",
+    )
+    parser.add_argument(
+        "--script",
+        default="Deva",
+        help="Native script code (default: Devanagari).",
+    )
+    parser.add_argument(
+        "--wrap",
+        action="store_true",
+        help="Wrap SSML output in <speak> tags.",
+    )
+    args = parser.parse_args()
+
+    lang_input = args.lang.strip()
+    lang = _resolve_xlit_lang(lang_input)
+
+    script = args.script
+    if lang == "en":
+        lang = "hi"
+        script = "Deva"
+
+    text_input = " ".join(args.text)
+
+    try:
+        ipa = generate_phoneme_string(text_input, lang=lang, script=script)
+        ssml = generate_ssml_phonetics(
+            text_input,
+            lang=lang,
+            script=script,
+            wrap_with_speak=args.wrap,
+        )
+    except TransliterationUnavailable as exc:  # pragma: no cover - optional deps
+        print(f"Transliteration unavailable: {exc}", file=sys.stderr)
+        return 1
+
+    print(f"Input: {text_input}")
+    print(f"Language: {lang} (script: {script})")
+    print(f"IPA: {ipa}")
+    print(f"SSML: {ssml}")
+    return 0
+
+
+if __name__ == "__main__":  # pragma: no cover - CLI helper
+    main()
