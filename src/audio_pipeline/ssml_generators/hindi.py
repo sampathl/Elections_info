@@ -4,18 +4,15 @@ from __future__ import annotations
 
 from typing import Optional
 
-from ..money import MoneyAmount
-from .base import (
+from src.audio_pipeline.localizers.money import MoneyAmount
+from src.audio_pipeline.ssml_generators.base import (
     LocaleFormatter,
     _DEVANAGARI_DIGITS,
     _FormatterBase,
     _format_decimal_indian,
 )
 
-try:  # pragma: no cover
-    from ...election_entities import CandidateRecord
-except ImportError:  # pragma: no cover
-    from election_entities import CandidateRecord  # type: ignore
+from src.audio_pipeline.localizers.candidate_record import CandidateRecord
 
 __all__ = ["HindiNarrationFormatter"]
 

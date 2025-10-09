@@ -11,7 +11,7 @@ from typing import Dict, Iterable, Iterator, List, Optional, Sequence
 
 import inflect
 
-from data_operators.phonetics_generator import (
+from src.audio_pipeline.phonetics.phonetics_generator import (
     generate_phoneme_string,
     generate_ssml_phonetics,
     generate_ssml_phonetics_native,

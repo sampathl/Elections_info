@@ -5,12 +5,9 @@ from __future__ import annotations
 from decimal import Decimal
 from typing import Optional, Protocol
 
-from ..money import MoneyAmount
+from src.audio_pipeline.localizers.money import MoneyAmount
+from src.audio_pipeline.localizers.candidate_record import CandidateRecord
 
-try:  # pragma: no cover - support package-relative and standalone execution
-    from ...election_entities import CandidateRecord
-except ImportError:  # pragma: no cover
-    from election_entities import CandidateRecord  # type: ignore
 
 __all__ = [
     "LocaleFormatter",

@@ -14,13 +14,10 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-try:
-    from data_operators.election_entities import CandidateRecord
-    from data_operators.localized_narration import CandidateNarratorFactory
-except ModuleNotFoundError as exc:  # pragma: no cover - optional dependency missing
-    MISSING_DEPENDENCY = exc
-else:
-    MISSING_DEPENDENCY = None
+
+from src.audio_pipeline.localizers.candidate_record import CandidateRecord
+from src.audio_pipeline.ssml_generators.factory import CandidateNarratorFactory
+MISSING_DEPENDENCY = None
 
 
 def _sample_entity() -> CandidateRecord:

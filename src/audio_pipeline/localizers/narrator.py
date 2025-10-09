@@ -6,18 +6,16 @@ import logging
 import re
 from typing import Dict, Optional, Protocol
 
-from .formatters import LocaleFormatter
-from .money import MoneyParser
-from ..phonetics_generator import (
+from src.audio_pipeline.ssml_generators.base import LocaleFormatter
+from src.audio_pipeline.localizers.money import MoneyParser
+from src.audio_pipeline.phonetics.phonetics_generator import (
     generate_phoneme_string,
     generate_ssml_phonetics,
     generate_ssml_phonetics_native,
 )
 
-try:  # pragma: no cover - support running inside and outside the package
-    from ..election_entities import CandidateRecord
-except ImportError:  # pragma: no cover
-    from election_entities import CandidateRecord  # type: ignore
+from src.audio_pipeline.localizers.candidate_record import CandidateRecord
+
 
 logger = logging.getLogger(__name__)
 

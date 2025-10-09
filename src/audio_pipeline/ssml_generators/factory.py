@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from typing import Dict, Optional, Type
 
-from .formatters import EnglishNarrationFormatter, HindiNarrationFormatter, LocaleFormatter
-from .money import MoneyParser
-from .narrator import LocalizedNarrator
+from src.audio_pipeline.ssml_generators.english import EnglishNarrationFormatter
+from src.audio_pipeline.ssml_generators.hindi import HindiNarrationFormatter 
+from src.audio_pipeline.ssml_generators.base import LocaleFormatter
+from src.audio_pipeline.localizers.money import MoneyParser
+from src.audio_pipeline.localizers.narrator import LocalizedNarrator
 
 __all__ = ["CandidateNarratorFactory"]
 

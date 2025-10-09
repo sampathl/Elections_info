@@ -5,12 +5,8 @@ from __future__ import annotations
 import argparse
 import json
 
-from .factory import CandidateNarratorFactory
-
-try:  # pragma: no cover - support package-relative and standalone execution
-    from ..election_entities import CandidateRecord
-except ImportError:  # pragma: no cover
-    from election_entities import CandidateRecord  # type: ignore
+from src.audio_pipeline.ssml_generators.factory import CandidateNarratorFactory
+from src.audio_pipeline.localizers.candidate_record import CandidateRecord
 
 __all__ = ["main"]
 
