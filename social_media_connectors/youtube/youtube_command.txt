@@ -6,7 +6,14 @@ python -m social_media_connectors.youtube.cli.upload_csv \
     --category-id 22 \
     --default-tags IndianElection BiharElections Elections
 
-
-
-
 python -m social_media_connectors.youtube.cli.build_manifest /Users/saml16/projects/Elections_info/static/central_elections/lok_sabha_2024/Combined_video --playlist-id PLxDNB6KvO9IYOZVXL-yguGPypGRcz1gy9 
+
+
+
+
+<speak> Candidate name: <phoneme alphabet="ipa" ph="mənod͡ʒ">Manoj</phoneme> <phoneme alphabet="ipa" ph="mənzil">Manzil</phoneme><mark name="name"/>, is a member of the <phoneme alphabet="ipa" ph="siːpiːaːiː">CPI</phoneme> <phoneme alphabet="ipa" ph="məl">ML</phoneme> <phoneme alphabet="ipa" ph="L">L</phoneme> party<mark name="party"/>, aged 36<mark name="age"/>, holds a graduate degree (B.A. from H.D. Jain College, Ara in 2015)<mark name="education"/>, has 30 criminal cases on record<mark name="criminal_cases"/>, assets valued at 3 lakh<mark name="assets"/> and liabilities amounting to 10 thousand<mark name="liabilities"/></speak>
+<speak> उम्मीदवार का नाम: <phoneme alphabet="ipa" ph="mənod͡ʒ">मनोज</phoneme> <phoneme alphabet="ipa" ph="mənzil">मंज़िल</phoneme><mark name="name"/>, <break time='200ms'/> <phoneme alphabet="ipa" ph="siːpiːaːiː">सीपीआई</phoneme> <phoneme alphabet="ipa" ph="məl">मल</phoneme> <phoneme alphabet="ipa" ph="L">L</phoneme> पार्टी से संबद्ध हैं<mark name="party"/>, उम्र ३६ वर्ष<mark name="age"/>, स्नातक शिक्षा प्राप्त है (B.A. from H.D. Jain College, Ara in 2015)<mark name="education"/>, <break time='200ms'/> ३० आपराधिक मामले दर्ज हैं<mark name="criminal_cases"/>, घोषित संपत्ति ३ लाख की है<mark name="assets"/> और घोषित ऋण १० हज़ार का है<mark name="liabilities"/></speak>
+
+
+
+Hindi SSML: <speak> उम्मीदवार का नाम: <phoneme alphabet="ipa" ph="mənod͡ʒ">मनोज</phoneme> <phoneme alphabet="ipa" ph="mənzil">मंज़िल</phoneme><mark name="name"/>, <break time='200ms'/> <phoneme alphabet="ipa" ph="siːpiːaːiː">सीपीआई</phoneme> <phoneme alphabet="ipa" ph="məl">मल</phoneme> <phoneme alphabet="ipa" ph="L">L</phoneme> पार्टी से संबद्ध हैं<mark name="party"/>, <phoneme alphabet="ipa" ph="aɡijaːon">अगियाओं</phoneme> <phoneme alphabet="ipa" ph="essiː">एससी</phoneme> सीट के लिए चुनाव लड़ रहे हैं<mark name="constituency"/>, उम्र ३६ वर्ष<mark name="age"/>, स्नातक शिक्षा प्राप्त है (B.A. from H.D. Jain College, Ara in 2015)<mark name="education"/>, <break time='200ms'/> ३० आपराधिक मामले दर्ज हैं<mark name="criminal_cases"/>, घोषित संपत्ति ३ लाख की है<mark name="assets"/> और घोषित ऋण १० हज़ार का है<mark name="liabilities"/></speak>

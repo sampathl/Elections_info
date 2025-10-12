@@ -146,17 +146,16 @@ class LocalizedNarrator(CandidateNarrator):
         ordered_keys = [
             "name",
             "party",
-            "constituency",
             "age",
             "education",
-            "criminal_cases",
         ]
         body = "".join(segments.get(key, "") for key in ordered_keys)
 
         financial = self._formatter.combine_financial_segments(
             segments.get("assets", ""), segments.get("liabilities", "")
         )
-        body += financial
+        body += financial 
+        body += segments.get("criminal_cases", "")
 
         if include_speak_wrapper:
             return f"<speak>{body}</speak>"
