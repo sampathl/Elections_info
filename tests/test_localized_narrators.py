@@ -15,7 +15,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 
-from src.audio_pipeline.localizers.candidate_record import CandidateRecord
+from src.entities.candidate_record import CandidateRecord
 from src.audio_pipeline.ssml_generators.factory import CandidateNarratorFactory
 MISSING_DEPENDENCY = None
 

@@ -6,8 +6,7 @@ from typing import Optional
 
 from src.audio_pipeline.localizers.money import MoneyAmount
 from src.audio_pipeline.ssml_generators.base import LocaleFormatter, _FormatterBase, _format_decimal_english
-
-from src.audio_pipeline.localizers.candidate_record import CandidateRecord
+from src.entities.candidate_record import CandidateRecord
 
 __all__ = ["EnglishNarrationFormatter"]
 

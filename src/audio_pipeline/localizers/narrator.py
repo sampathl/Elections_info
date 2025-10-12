@@ -7,14 +7,12 @@ import re
 from typing import Dict, Optional, Protocol
 
 from src.audio_pipeline.ssml_generators.base import LocaleFormatter
-from src.audio_pipeline.localizers.money import MoneyParser
 from src.audio_pipeline.phonetics.phonetics_generator import (
     generate_phoneme_string,
     generate_ssml_phonetics,
     generate_ssml_phonetics_native,
 )
-
-from src.audio_pipeline.localizers.candidate_record import CandidateRecord
+from src.entities.candidate_record import CandidateRecord
 
 
 logger = logging.getLogger(__name__)
@@ -42,10 +40,8 @@ class LocalizedNarrator(CandidateNarrator):
         self,
         *,
         formatter: LocaleFormatter,
-        money_parser: MoneyParser,
     ) -> None:
         self._formatter = formatter
-        self._money_parser = money_parser
         self._locale = getattr(formatter, "locale", "en")
 
     def _ssml_value(self, text: str) -> str:
@@ -93,10 +89,10 @@ class LocalizedNarrator(CandidateNarrator):
         return numeric_only or "unknown"
 
     def ssml_segments(self, entity: CandidateRecord) -> Dict[str, str]:
-        assets_amount = self._money_parser.parse(
+        assets_amount = self._formatter.parse_money_amount(
             entity.assets_description, entity.total_assets
         )
-        liabilities_amount = self._money_parser.parse(
+        liabilities_amount = self._formatter.parse_money_amount(
             entity.liabilities_description, entity.total_liabilities
         )
 

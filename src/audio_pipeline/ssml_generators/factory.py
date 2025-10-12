@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional, Type
+from typing import Dict, Type
 
 from src.audio_pipeline.ssml_generators.english import EnglishNarrationFormatter
-from src.audio_pipeline.ssml_generators.hindi import HindiNarrationFormatter 
+from src.audio_pipeline.ssml_generators.hindi import HindiNarrationFormatter
 from src.audio_pipeline.ssml_generators.base import LocaleFormatter
-from src.audio_pipeline.localizers.money import MoneyParser
 from src.audio_pipeline.localizers.narrator import LocalizedNarrator
 
 __all__ = ["CandidateNarratorFactory"]
@@ -21,12 +20,8 @@ class CandidateNarratorFactory:
         "hi": HindiNarrationFormatter,
     }
 
-    def __init__(
-        self,
-        *,
-        money_parser: Optional[MoneyParser] = None,
-    ) -> None:
-        self._money_parser = money_parser or MoneyParser()
+    def __init__(self) -> None:
+        pass
 
     def create(self, locale: str) -> LocalizedNarrator:
         formatter_cls = self._FORMATTERS.get(locale)
@@ -34,7 +29,4 @@ class CandidateNarratorFactory:
             raise ValueError(f"Unsupported locale '{locale}'")
 
         formatter = formatter_cls()
-        return LocalizedNarrator(
-            formatter=formatter,
-            money_parser=self._money_parser,
-        )
+        return LocalizedNarrator(formatter=formatter)

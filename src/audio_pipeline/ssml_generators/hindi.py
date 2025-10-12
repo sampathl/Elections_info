@@ -11,8 +11,8 @@ from src.audio_pipeline.ssml_generators.base import (
     _FormatterBase,
     _format_decimal_indian,
 )
+from src.entities.candidate_record import CandidateRecord
 
-from src.audio_pipeline.localizers.candidate_record import CandidateRecord
 
 __all__ = ["HindiNarrationFormatter"]
 

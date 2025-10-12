@@ -16,7 +16,6 @@ from data_operators.localized_narration import (
     LocaleFormatter,
     LocalizedNarrator,
     MoneyAmount,
-    MoneyParser,
 )
 
 __all__ = [
@@ -27,7 +26,6 @@ __all__ = [
     "LocaleFormatter",
     "LocalizedNarrator",
     "MoneyAmount",
-    "MoneyParser",
 ]
 
 
@@ -39,4 +37,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":  # pragma: no cover - manual invocation
     raise SystemExit(main())
-
