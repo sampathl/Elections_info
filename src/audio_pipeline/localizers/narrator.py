@@ -21,7 +21,9 @@ __all__ = ["CandidateNarrator", "LocalizedNarrator"]
 
 
 class CandidateNarrator(Protocol):
-    def ssml_segments(self, entity: CandidateRecord) -> Dict[str, str]:
+    def ssml_segments(
+        self, entity: CandidateRecord, *, wrap_with_speak: bool = True
+    ) -> Dict[str, str]:
         ...
 
     def ssml_text(
@@ -88,7 +90,9 @@ class LocalizedNarrator(CandidateNarrator):
         numeric_only = re.sub(r"[^0-9]", "", stripped)
         return numeric_only or "unknown"
 
-    def ssml_segments(self, entity: CandidateRecord) -> Dict[str, str]:
+    def ssml_segments(
+        self, entity: CandidateRecord, *, wrap_with_speak: bool = True
+    ) -> Dict[str, str]:
         assets_amount = self._formatter.parse_money_amount(
             entity.assets_description, entity.total_assets
         )
@@ -120,7 +124,7 @@ class LocalizedNarrator(CandidateNarrator):
         assets_segment = self._formatter.assets_segment(assets_amount)
         liabilities_segment = self._formatter.liabilities_segment(liabilities_amount)
 
-        segments = {
+        segments: Dict[str, str] = {
             "name": name_segment,
             "party": party_segment,
             "constituency": constituency_segment,
@@ -130,6 +134,9 @@ class LocalizedNarrator(CandidateNarrator):
             "assets": assets_segment,
             "liabilities": liabilities_segment,
         }
+        if wrap_with_speak:
+            for key, value in list(segments.items()):
+                segments[key] = self._wrap_with_speak(value)
         return segments
 
     def ssml_text(
@@ -138,7 +145,7 @@ class LocalizedNarrator(CandidateNarrator):
         *,
         include_speak_wrapper: bool = True,
     ) -> str:
-        segments = self.ssml_segments(entity)
+        segments = self.ssml_segments(entity, wrap_with_speak=False)
         ordered_keys = [
             "name",
             "party",
@@ -156,3 +163,12 @@ class LocalizedNarrator(CandidateNarrator):
         if include_speak_wrapper:
             return f"<speak>{body}</speak>"
         return body
+
+    @staticmethod
+    def _wrap_with_speak(fragment: str) -> str:
+        if not fragment:
+            return ""
+        stripped = fragment.lstrip()
+        if stripped.startswith("<speak"):
+            return fragment
+        return f"<speak>{fragment}</speak>"

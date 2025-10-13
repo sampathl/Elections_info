@@ -2,10 +2,8 @@
 
 from __future__ import annotations
 
-import re
-from decimal import Decimal, InvalidOperation
-from functools import lru_cache
-from typing import Dict, Optional, Protocol
+from decimal import Decimal
+from typing import Optional, Protocol
 
 from src.audio_pipeline.localizers.money import MoneyAmount
 from src.entities.candidate_record import CandidateRecord
@@ -65,119 +63,11 @@ class _FormatterBase:
     mark_criminal = "criminal_cases"
     mark_assets = "assets"
     mark_liabilities = "liabilities"
-    _NUMERIC_PATTERN = re.compile(r"[-+]?[0-9]+(?:[.,][0-9]+)?")
-    _BASE_UNIT_MULTIPLIERS: Dict[str, Decimal] = {
-        "crore": Decimal("10000000"),
-        "lakh": Decimal("100000"),
-        "thousand": Decimal("1000"),
-        "million": Decimal("1000000"),
-    }
-    _HINGLISH_UNIT_ALIASES: Dict[str, set[str]] = {
-        "crore": {"crore", "crores", "cr", "cr.", "karod", "karor", "cro"},
-        "lakh": {"lakh", "lakhs", "lac", "lacs", "lack"},
-        "thousand": {"thousand", "thousands", "k", "hazaar", "hazar"},
-        "million": {"million", "millions", "mn"},
-    }
-    _DEVANAGARI_ALIASES: Dict[str, set[str]] = {
-        "crore": {"\u0915\u0930\u094b\u0921", "\u0915\u0930\u094b\u095c"},
-        "lakh": {"\u0932\u093e\u0916", "\u0932\u093e\u0916\u094b"},
-        "thousand": {"\u0939\u091c\u093e\u0930", "\u0939\u091c\u093e\u0930\u094b"},
-        "million": {"\u092e\u093f\u0932\u093f\u092f\u0928"},
-    }
-    _CURRENCY_TOKENS = ("rs.", "rs", "inr", "₹")
 
     def _with_mark(self, text: str, mark: str) -> str:
         if not text:
             return ""
         return f'{text}<mark name="{mark}"/>'
-
-    def parse_money_amount(
-        self, primary: str, fallback: str = ""
-    ) -> Optional[MoneyAmount]:
-        return self.__class__._parse_money_amount(primary, fallback)
-
-    @classmethod
-    def _parse_money_amount(
-        cls, primary: str, fallback: str = ""
-    ) -> Optional[MoneyAmount]:
-        for candidate in (primary, fallback):
-            amount = cls._parse_single_amount(candidate)
-            if amount is not None:
-                return amount
-        return None
-
-    @classmethod
-    def _parse_single_amount(cls, value: str) -> Optional[MoneyAmount]:
-        if not value:
-            return None
-
-        cleaned = value.strip()
-        if not cleaned or cleaned.lower() == "nan":
-            return None
-
-        normalised = cleaned.lower()
-        for token in cls._CURRENCY_TOKENS:
-            normalised = normalised.replace(token, "")
-
-        numeric_match = cls._NUMERIC_PATTERN.search(normalised.replace(",", ""))
-        if not numeric_match:
-            return None
-
-        number_token = numeric_match.group(0)
-        try:
-            magnitude = Decimal(number_token)
-        except InvalidOperation:
-            return None
-
-        remaining = cls._NUMERIC_PATTERN.sub("", normalised)
-        unit_key = cls._extract_unit_key(remaining)
-        multiplier = cls._unit_multiplier(unit_key)
-        rupees = (magnitude * multiplier).quantize(Decimal("1"))
-
-        return MoneyAmount(
-            rupees=rupees,
-            magnitude=magnitude,
-            unit_key=unit_key,
-            raw_text=cleaned,
-        )
-
-    @classmethod
-    def _extract_unit_key(cls, text: str) -> Optional[str]:
-        for token in text.split():
-            token_clean = token.strip().strip(".,")
-            if not token_clean:
-                continue
-            canonical = cls._normalise_unit_key(token_clean)
-            if canonical is not None:
-                return canonical
-        return None
-
-    @classmethod
-    def _unit_multiplier(cls, unit_key: Optional[str]) -> Decimal:
-        if unit_key is None:
-            return Decimal("1")
-        return cls._BASE_UNIT_MULTIPLIERS.get(unit_key, Decimal("1"))
-
-    @classmethod
-    @lru_cache(maxsize=None)
-    def _unit_alias_lookup(cls) -> Dict[str, str]:
-        lookup: Dict[str, str] = {}
-        for canonical in cls._BASE_UNIT_MULTIPLIERS:
-            lookup[canonical.lower()] = canonical
-
-        for canonical, aliases in cls._HINGLISH_UNIT_ALIASES.items():
-            for alias in aliases:
-                lookup.setdefault(alias.lower(), canonical)
-
-        for canonical, aliases in cls._DEVANAGARI_ALIASES.items():
-            for alias in aliases:
-                lookup.setdefault(alias.lower(), canonical)
-
-        return lookup
-
-    @classmethod
-    def _normalise_unit_key(cls, raw: str) -> Optional[str]:
-        return cls._unit_alias_lookup().get(raw.lower())
 
 
 def _format_decimal_english(value: Decimal) -> str:

@@ -15,9 +15,25 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 
-from src.entities.candidate_record import CandidateRecord
-from src.audio_pipeline.ssml_generators.factory import CandidateNarratorFactory
-MISSING_DEPENDENCY = None
+try:
+    from src.entities.candidate_record import CandidateRecord
+    from src.audio_pipeline.ssml_generators.factory import CandidateNarratorFactory
+except ModuleNotFoundError as exc:  # e.g. optional deps like `inflect` missing
+    CandidateRecord = None  # type: ignore[assignment]
+    CandidateNarratorFactory = None  # type: ignore[assignment]
+    MISSING_DEPENDENCY = str(exc)
+else:
+    MISSING_DEPENDENCY = None
+
+try:
+    import pytest
+except ModuleNotFoundError:  # pragma: no cover - running as script
+    pytest = None  # type: ignore[assignment]
+else:
+    if MISSING_DEPENDENCY is not None:
+        pytestmark = pytest.mark.skip(
+            reason=f"Skipping narrator smoke tests (missing dependency: {MISSING_DEPENDENCY})"
+        )
 
 
 def _sample_entity() -> CandidateRecord:
@@ -45,8 +61,10 @@ def test_english_narrator() -> None:
     entity = _sample_entity()
 
     segments = narrator.ssml_segments(entity)
-    assert segments["name"], "Name segment should not be empty"
-
+    assert segments["name"].lstrip().startswith(
+        "<speak>"
+    ), "Name segment should be wrapped with <speak>"
+    print("English SSML:", segments)
     ssml = narrator.ssml_text(entity)
     assert ssml.startswith("<speak>") and "</speak>" in ssml
     print("English SSML:", ssml)
@@ -58,7 +76,10 @@ def test_hindi_narrator() -> None:
     entity = _sample_entity()
 
     segments = narrator.ssml_segments(entity)
-    assert segments["name"], "Name segment should not be empty"
+    assert segments["name"].lstrip().startswith(
+        "<speak>"
+    ), "Name segment should be wrapped with <speak>"
+    print("Hindi SSML:", segments)
 
     ssml = narrator.ssml_text(entity)
     assert ssml.startswith("<speak>") and "</speak>" in ssml

@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Optional
 
 from src.audio_pipeline.localizers.money import MoneyAmount
+from src.audio_pipeline.shared.money_parser import parse_money_amount as _parse_money_text
 from src.audio_pipeline.ssml_generators.base import (
     LocaleFormatter,
     _DEVANAGARI_DIGITS,
@@ -19,6 +20,23 @@ __all__ = ["HindiNarrationFormatter"]
 
 class HindiNarrationFormatter(_FormatterBase, LocaleFormatter):
     locale = "hi"
+    _CURRENCY_TOKENS = ("rs.", "rs", "inr", "₹")
+    _UNIT_ALIASES = {
+        "crore": ("crore", "crores", "cr", "cr.", "karod", "karor"),
+        "lakh": ("lakh", "lakhs", "lac", "lacs"),
+        "thousand": ("thousand", "thousands", "k"),
+        "million": ("million", "millions", "mn"),
+    }
+
+    def parse_money_amount(
+        self, primary: str, fallback: str = ""
+    ) -> Optional[MoneyAmount]:
+        return _parse_money_text(
+            primary,
+            fallback,
+            aliases=self._UNIT_ALIASES,
+            currency_tokens=self._CURRENCY_TOKENS,
+        )
 
     def name_segment(self, name_ssml: str, entity: CandidateRecord) -> str:
         return self._with_mark(f" उम्मीदवार का नाम: {name_ssml}", self.mark_name)

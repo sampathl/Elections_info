@@ -5,7 +5,12 @@ from __future__ import annotations
 from typing import Optional
 
 from src.audio_pipeline.localizers.money import MoneyAmount
-from src.audio_pipeline.ssml_generators.base import LocaleFormatter, _FormatterBase, _format_decimal_english
+from src.audio_pipeline.shared.money_parser import parse_money_amount as _parse_money_text
+from src.audio_pipeline.ssml_generators.base import (
+    LocaleFormatter,
+    _FormatterBase,
+    _format_decimal_english,
+)
 from src.entities.candidate_record import CandidateRecord
 
 __all__ = ["EnglishNarrationFormatter"]
@@ -13,6 +18,23 @@ __all__ = ["EnglishNarrationFormatter"]
 
 class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
     locale = "en"
+    _CURRENCY_TOKENS = ("rs.", "rs", "inr", "₹")
+    _UNIT_ALIASES = {
+        "crore": ("crore", "crores", "cr", "cr.", "karod", "karor", "cro"),
+        "lakh": ("lakh", "lakhs", "lac", "lacs", "lack"),
+        "thousand": ("thousand", "thousands", "k"),
+        "million": ("million", "millions", "mn"),
+    }
+
+    def parse_money_amount(
+        self, primary: str, fallback: str = ""
+    ) -> Optional[MoneyAmount]:
+        return _parse_money_text(
+            primary,
+            fallback,
+            aliases=self._UNIT_ALIASES,
+            currency_tokens=self._CURRENCY_TOKENS,
+        )
 
     def name_segment(self, name_ssml: str, entity: CandidateRecord) -> str:
         return self._with_mark(f" Candidate name: {name_ssml}", self.mark_name)
@@ -121,4 +143,3 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
             return ""
         joined = " and ".join(fragments)
         return f", {joined}"
-
