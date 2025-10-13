@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
-from typing import Iterable, Sequence
+from typing import Iterable, List, Sequence
 
 from src.audio_pipeline.narration_assets import CandidateNarrationAssets, SegmentAsset
 from src.audio_pipeline.ssml_generators.factory import CandidateNarratorFactory
 from src.entities.candidate_record import CandidateRecord
+from src.entities.loaders import iter_candidate_records
 
 
 class NarrationPipeline:
@@ -48,11 +50,12 @@ class NarrationPipeline:
         segments = narrator.ssml_segments(assets.record)
 
         for key, fragment in segments.items():
-            plain = fragment.replace("<speak>", "").replace("</speak>", "")
+            plain = self._strip_markup(fragment)
             assets.update_segment(key, text=plain)
-        assets.full_text = narrator.ssml_text(
+        full_plain = narrator.ssml_text(
             assets.record, include_speak_wrapper=False
         )
+        assets.full_text = self._strip_markup(full_plain)
 
     def synthesize_audio(self, assets: CandidateNarrationAssets) -> None:
         """Generate per-segment audio files."""
@@ -80,3 +83,46 @@ class NarrationPipeline:
         if order is None:
             return assets.segments.values()
         return (assets.ensure_segment(key) for key in order)
+
+    def iter_assets_from_csv(
+        self,
+        csv_path: Path,
+        *,
+        wrap_with_speak: bool = True,
+    ) -> Iterable[CandidateNarrationAssets]:
+        """Yield populated assets for each record in the CSV."""
+
+        for record in iter_candidate_records(csv_path):
+            assets = self.build_assets(record)
+            self.populate_ssml(
+                assets,
+                wrap_with_speak=wrap_with_speak,
+                store_full_ssml=True,
+            )
+            self.populate_text(assets)
+            yield assets
+
+    def combine_text_report(
+        self,
+        assets_list: Iterable[CandidateNarrationAssets],
+    ) -> str:
+        """Return combined SSML/text output suitable for a single file."""
+
+        lines: list[str] = []
+        for idx, assets in enumerate(assets_list, start=1):
+            header = f"## {idx:03d} - {assets.record.candidate_name} ({assets.record.constituency})"
+            lines.append(header)
+            lines.append("# SSML")
+            lines.append(assets.full_ssml or "(no SSML)")
+            lines.append("# Text")
+            lines.append(assets.full_text or "(no text)")
+            lines.append("")
+        return "\n".join(lines).strip()
+
+    @staticmethod
+    def _strip_markup(text: str) -> str:
+        if not text:
+            return ""
+        cleaned = re.sub(r"<mark[^>]*?>", "", text)
+        cleaned = cleaned.replace("<speak>", "").replace("</speak>", "")
+        return cleaned.strip()
