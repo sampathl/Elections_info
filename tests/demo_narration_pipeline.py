@@ -49,6 +49,24 @@ def main() -> None:
     for segment in pipeline.segment_sequence(assets):
         print(f"- {segment.key}: {segment.ssml}")
 
+    hindi_pipeline = NarrationPipeline(locale="hi")
+    hindi_assets = hindi_pipeline.build_assets(record)
+    hindi_pipeline.populate_ssml(
+        hindi_assets,
+        wrap_with_speak=True,
+        store_full_ssml=True,
+    )
+    hindi_pipeline.populate_text(hindi_assets)
+
+    
+    print("\nHindi segment plain text:")
+    for segment in hindi_pipeline.segment_sequence(hindi_assets):
+        print(f"- {segment.key}: {segment.text}")
+    print("\nHindi full SSML text:")
+    print(hindi_assets.full_ssml)
+    print("\nHindi full plain text:")
+    print(hindi_assets.full_text)
+
 
 if __name__ == "__main__":
     main()

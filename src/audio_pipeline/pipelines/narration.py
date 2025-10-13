@@ -25,6 +25,7 @@ class NarrationPipeline:
         self,
         assets: CandidateNarrationAssets,
         wrap_with_speak: bool = True,
+        store_full_ssml: bool = False,
     ) -> None:
         """Populate SSML fragments on the provided assets."""
         narrator = CandidateNarratorFactory().create(self.locale)
@@ -36,11 +37,22 @@ class NarrationPipeline:
             else:
                 wrapped = fragment
             assets.update_segment(key, ssml=wrapped)
+            if store_full_ssml:
+                assets.full_ssml = narrator.ssml_text(
+                    assets.record, include_speak_wrapper=wrap_with_speak
+                )
 
     def populate_text(self, assets: CandidateNarrationAssets) -> None:
         """Populate human-readable text for each segment."""
-        # To be implemented: derive plain narration text from SSML or formatters.
-        raise NotImplementedError
+        narrator = CandidateNarratorFactory().create(self.locale)
+        segments = narrator.ssml_segments(assets.record)
+
+        for key, fragment in segments.items():
+            plain = fragment.replace("<speak>", "").replace("</speak>", "")
+            assets.update_segment(key, text=plain)
+        assets.full_text = narrator.ssml_text(
+            assets.record, include_speak_wrapper=False
+        )
 
     def synthesize_audio(self, assets: CandidateNarrationAssets) -> None:
         """Generate per-segment audio files."""

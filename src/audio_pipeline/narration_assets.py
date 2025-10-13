@@ -33,6 +33,8 @@ class CandidateNarrationAssets:
 
     record: CandidateRecord
     segments: MutableMapping[str, SegmentAsset] = field(default_factory=dict)
+    full_ssml: Optional[str] = None
+    full_text: Optional[str] = None
     stitched_audio_path: Optional[Path] = None
     stitched_video_path: Optional[Path] = None
 
