@@ -6,23 +6,36 @@ from pathlib import Path
 from typing import Iterable, Sequence
 
 from src.audio_pipeline.narration_assets import CandidateNarrationAssets, SegmentAsset
+from src.audio_pipeline.ssml_generators.factory import CandidateNarratorFactory
 from src.entities.candidate_record import CandidateRecord
 
 
 class NarrationPipeline:
     """High-level pipeline orchestrator for narration artefacts."""
 
-    def __init__(self, segment_order: Sequence[str] | None = None) -> None:
+    def __init__(self, *, locale: str, segment_order: Sequence[str] | None = None) -> None:
+        self.locale = locale
         self._segment_order = segment_order
 
     def build_assets(self, record: CandidateRecord) -> CandidateNarrationAssets:
         """Return an empty asset set for the record."""
         return CandidateNarrationAssets(record=record)
 
-    def populate_ssml(self, assets: CandidateNarrationAssets) -> None:
+    def populate_ssml(
+        self,
+        assets: CandidateNarrationAssets,
+        wrap_with_speak: bool = True,
+    ) -> None:
         """Populate SSML fragments on the provided assets."""
-        # To be implemented: call into narrator factory and store results.
-        raise NotImplementedError
+        narrator = CandidateNarratorFactory().create(self.locale)
+        segments = narrator.ssml_segments(assets.record)
+
+        for key, fragment in segments.items():
+            if wrap_with_speak and fragment and not fragment.lstrip().startswith("<speak"):
+                wrapped = f"<speak>{fragment}</speak>"
+            else:
+                wrapped = fragment
+            assets.update_segment(key, ssml=wrapped)
 
     def populate_text(self, assets: CandidateNarrationAssets) -> None:
         """Populate human-readable text for each segment."""
