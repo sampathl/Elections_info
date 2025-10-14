@@ -15,6 +15,7 @@ from src.audio_pipeline.tts_clients.google_tts_client import (
 )
 from src.entities.candidate_record import CandidateRecord
 from src.entities.loaders import iter_candidate_records
+from src.video_pipeline.text_generators import VideoTextFactory
 
 # TODO: Replace with configurable audio output directory.
 AUDIO_OUTPUT_DIRECTORY = Path("tests/audio")
@@ -64,6 +65,14 @@ class NarrationPipeline:
             assets.record, include_speak_wrapper=False
         )
         assets.full_text = self._strip_markup(full_plain)
+
+    def populate_video_text(self, assets: CandidateNarrationAssets) -> None:
+        """Populate overlay text used for per-segment video captions."""
+        formatter = VideoTextFactory().create(self.locale)
+        overlays = formatter.segment_texts(assets.record)
+
+        for key, overlay in overlays.items():
+            assets.update_segment(key, overlay_text=overlay)
 
     def synthesize_audio(self, assets: CandidateNarrationAssets) -> None:
         """Generate per-segment audio files."""

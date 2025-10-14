@@ -44,10 +44,20 @@ def main() -> None:
     record = _sample_record()
     assets = pipeline.build_assets(record)
     pipeline.populate_ssml(assets, wrap_with_speak=True)
+    pipeline.populate_video_text(assets)
 
     print(f"Narration SSML segments for locale '{locale}':")
     for segment in pipeline.segment_sequence(assets):
         print(f"- {segment.key}: {segment.ssml}")
+
+    print("\nEnglish video overlay text:")
+    for segment in pipeline.segment_sequence(assets):
+        overlay = segment.overlay_text
+        if overlay is None:
+            print(f"- {segment.key}: (no overlay text)")
+        else:
+            joined = " | ".join(overlay.lines())
+            print(f"- {segment.key}: {joined}")
 
     try:
         pipeline.synthesize_audio(assets)
@@ -69,11 +79,21 @@ def main() -> None:
         store_full_ssml=True,
     )
     hindi_pipeline.populate_text(hindi_assets)
+    hindi_pipeline.populate_video_text(hindi_assets)
 
     
     print("\nHindi segment plain text:")
     for segment in hindi_pipeline.segment_sequence(hindi_assets):
         print(f"- {segment.key}: {segment.text}")
+    print("\nHindi video overlay text:")
+    for segment in hindi_pipeline.segment_sequence(hindi_assets):
+        overlay = segment.overlay_text
+        if overlay is None:
+            print(f"- {segment.key}: (no overlay text)")
+        else:
+            joined = " | ".join(overlay.lines())
+            print(f"- {segment.key}: {joined}")
+
     print("\nHindi full SSML text:")
     print(hindi_assets.full_ssml)
     print("\nHindi full plain text:")

@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence
 
 from src.entities.candidate_record import CandidateRecord
+from src.video_pipeline.text_generators import VideoSegmentText
 
 
 @dataclass
@@ -18,6 +19,8 @@ class SegmentAsset:
     text: Optional[str] = None
     audio_path: Optional[Path] = None
     video_path: Optional[Path] = None
+    overlay_text: Optional[VideoSegmentText] = None
+    overlay_style: Optional[str] = None  # Placeholder for future caption layout presets.
 
     def is_complete(self) -> bool:
         """Return True when all artefact slots for the segment are populated."""
@@ -52,6 +55,8 @@ class CandidateNarrationAssets:
         text: Optional[str] = None,
         audio_path: Optional[Path] = None,
         video_path: Optional[Path] = None,
+        overlay_text: Optional[VideoSegmentText] = None,
+        overlay_style: Optional[str] = None,
     ) -> None:
         """Store artefacts for the specified segment."""
         segment = self.ensure_segment(key)
@@ -63,6 +68,10 @@ class CandidateNarrationAssets:
             segment.audio_path = audio_path
         if video_path is not None:
             segment.video_path = video_path
+        if overlay_text is not None:
+            segment.overlay_text = overlay_text
+        if overlay_style is not None:
+            segment.overlay_style = overlay_style
 
     def ordered_segments(self, order: Optional[Sequence[str]] = None) -> List[SegmentAsset]:
         """Return segment assets in the provided order or dictionary order."""
