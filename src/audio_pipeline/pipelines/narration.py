@@ -6,10 +6,18 @@ import re
 from pathlib import Path
 from typing import Iterable, List, Sequence
 
-from src.audio_pipeline.narration_assets import CandidateNarrationAssets, SegmentAsset
+from src.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
 from src.audio_pipeline.ssml_generators.factory import CandidateNarratorFactory
+from src.audio_pipeline.tts_clients.google_tts_client import (
+    DEFAULT_CHIRP3_MODEL,
+    select_chirp3_voice,
+    synthesize_audio_with_chirp3,
+)
 from src.entities.candidate_record import CandidateRecord
 from src.entities.loaders import iter_candidate_records
+
+# TODO: Replace with configurable audio output directory.
+AUDIO_OUTPUT_DIRECTORY = Path("tests/audio")
 
 
 class NarrationPipeline:
@@ -59,8 +67,30 @@ class NarrationPipeline:
 
     def synthesize_audio(self, assets: CandidateNarrationAssets) -> None:
         """Generate per-segment audio files."""
-        # To be implemented: call TTS client and store paths in `SegmentAsset`.
-        raise NotImplementedError
+        AUDIO_OUTPUT_DIRECTORY.mkdir(parents=True, exist_ok=True)
+        voice_selection = select_chirp3_voice(self.locale, model=DEFAULT_CHIRP3_MODEL)
+
+        for segment in self.segment_sequence(assets):
+            ssml = segment.ssml
+            if not ssml:
+                continue
+
+            ssml = ssml.strip()
+            if not ssml:
+                continue
+
+            if not ssml.lstrip().startswith("<speak"):
+                ssml = f"<speak>{ssml}</speak>"
+
+            file_stem = self._segment_audio_stem(assets.record.candidate_name, segment.key)
+            output_path = AUDIO_OUTPUT_DIRECTORY / f"{file_stem}.mp3"
+            synthesize_audio_with_chirp3(
+                ssml,
+                str(output_path),
+                voice_selection,
+                self.locale,
+            )
+            assets.update_segment(segment.key, audio_path=output_path)
 
     def render_video(self, assets: CandidateNarrationAssets) -> None:
         """Generate per-segment video clips."""
@@ -126,3 +156,9 @@ class NarrationPipeline:
         cleaned = re.sub(r"<mark[^>]*?>", "", text)
         cleaned = cleaned.replace("<speak>", "").replace("</speak>", "")
         return cleaned.strip()
+
+    @staticmethod
+    def _segment_audio_stem(candidate_name: str, segment_key: str) -> str:
+        base = f"{candidate_name}_{segment_key}"
+        sanitized = re.sub(r"[^A-Za-z0-9_-]+", "_", base).strip("_")
+        return sanitized or "segment"

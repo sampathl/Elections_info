@@ -39,17 +39,61 @@ DEFAULT_CHIRP3_VOICES: List[str] = [
     "Fenrir",     # Male, Excitable
 ]
 
+DEFAULT_CHIRP3_MODEL: str = "Chirp3-HD"
+
 # Create a cycler object for random but cycling voice selection
 # This holds the state and ensures voices are used one after the other before repeating.
 voice_cycler = cycle(random.sample(DEFAULT_CHIRP3_VOICES, len(DEFAULT_CHIRP3_VOICES)))
+
+
+def select_chirp3_voice(
+    language_code_2letter: str,
+    *,
+    model: str = DEFAULT_CHIRP3_MODEL,
+    voice_options: Optional[List[str]] = None,
+) -> str:
+    """
+    Return a full Chirp 3 voice name for the provided language and model.
+
+    Args:
+        language_code_2letter: Two-letter language code (e.g., 'en', 'hi').
+        model: Chirp model segment inserted into the voice name (e.g., 'Chirp3-HD').
+        voice_options: Optional ordered list of base voice names. When provided,
+            the internal cycler is reset to cycle through the supplied list.
+
+    Returns:
+        Fully qualified voice name understood by Google TTS, for example
+        'en-IN-Chirp3-HD-Aoede'.
+    """
+    global voice_cycler
+
+    lang_code_bcp47 = LANGUAGE_MAP.get(language_code_2letter.lower())
+    if not lang_code_bcp47:
+        raise ValueError(
+            f"Unsupported language code: {language_code_2letter}. "
+            f"Supported codes are: {', '.join(LANGUAGE_MAP.keys())}"
+        )
+
+    options = voice_options or DEFAULT_CHIRP3_VOICES
+    if not options:
+        raise ValueError("voice_options must contain at least one voice name.")
+
+    if voice_options is not None:
+        voice_cycler = cycle(random.sample(options, len(options)))
+
+    base_voice_name = next(voice_cycler)
+    return f"{lang_code_bcp47}-{model}-{base_voice_name}"
+
 
 # --- Client Function ---
 
 def synthesize_audio_with_chirp3(
     text_or_ssml: str,
-    language_code_2letter: str,
     output_filepath: str,
-    voice_options: Optional[List[str]] = None,
+    model: str,
+    language_code_2letter: str,
+    *,
+    voice_name: Optional[str] = None,
     audio_encoding: texttospeech.AudioEncoding = texttospeech.AudioEncoding.MP3,
 ) -> Tuple[Dict[str, Any], str]:
     """
@@ -58,22 +102,21 @@ def synthesize_audio_with_chirp3(
 
     Args:
         text_or_ssml: The text or SSML to synthesize.
-        language_code_2letter: A two-letter language code (e.g., 'hi', 'en').
         output_filepath: The path to save the generated audio file (e.g., 'output.mp3').
-        voice_options: Optional list of Chirp 3 HD voice names (e.g., ['Aoede', 'Charon']).
-                       If provided, it updates the cycling mechanism.
+        model: Voice model identifier used for synthesis.
+        language_code_2letter: A two-letter language code (e.g., 'hi', 'en').
+        voice_name: Optional explicit voice name. Required when ``model`` does not reference
+            a Chirp 3 variant.
         audio_encoding: The desired audio encoding (e.g., MP3).
 
     Returns:
         A tuple containing:
         - The API response as a dictionary (excluding the audio_content).
-        - The full voice name used for the request.
+        - The resolved voice name used for the request.
     
     Raises:
         ValueError: If the language code is not supported or configuration is missing.
     """
-    global voice_cycler
-    
     # 1. Map 2-letter code to BCP-47 Google TTS code (e.g., 'hi' -> 'hi-IN')
     lang_code_bcp47 = LANGUAGE_MAP.get(language_code_2letter.lower())
     if not lang_code_bcp47:
@@ -82,18 +125,6 @@ def synthesize_audio_with_chirp3(
             f"Supported codes are: {', '.join(LANGUAGE_MAP.keys())}"
         )
 
-    # 2. Update and cycle the voice selection
-    if voice_options:
-        # Create a new cycler based on the provided, randomized list
-        voice_cycler = cycle(random.sample(voice_options, len(voice_options)))
-    
-    # Get the next voice name from the cycler
-    base_voice_name = next(voice_cycler)
-    
-    # Construct the full Chirp 3 HD voice name
-    # The convention is generally: {language_code}-Chirp3-HD-{base_voice_name}
-    full_voice_name = f"{lang_code_bcp47}-Chirp3-HD-{base_voice_name}"
-    
     # 3. Initialize the client
     client = texttospeech.TextToSpeechClient()
 
@@ -105,10 +136,18 @@ def synthesize_audio_with_chirp3(
         synthesis_input = texttospeech.SynthesisInput(text=text_or_ssml)
 
     # 5. Build the voice request
-    voice = texttospeech.VoiceSelectionParams(
-        language_code=lang_code_bcp47,
-        name=full_voice_name,
-    )
+    voice_params: Dict[str, Any] = {"language_code": lang_code_bcp47}
+    if "Chirp3" in model:
+        voice_params["name"] = model
+    else:
+        if not voice_name:
+            raise ValueError(
+                "voice_name must be provided when using non-Chirp3 models."
+            )
+        voice_params["name"] = voice_name
+        voice_params["model_name"] = model
+
+    voice = texttospeech.VoiceSelectionParams(**voice_params)
 
     # 6. Select the type of audio file to be returned
     audio_config = texttospeech.AudioConfig(
@@ -123,7 +162,8 @@ def synthesize_audio_with_chirp3(
     )
 
     # 7. Perform the text-to-speech request
-    print(f"Synthesizing audio using voice: {full_voice_name}...")
+    resolved_voice_name = voice_params["name"]
+    print(f"Synthesizing audio using voice: {resolved_voice_name}...")
     response = client.synthesize_speech( req )
     print("Synthesis complete.")
 
@@ -164,7 +204,7 @@ def synthesize_audio_with_chirp3(
     if 'audio_content' in response_dict:
         del response_dict['audio_content']
         print(response_dict)
-    return response_dict, full_voice_name
+    return response_dict, resolved_voice_name
 
 # --- Command Line Example Block ---
 
@@ -197,23 +237,32 @@ if __name__ == "__main__":
     OUTPUT_FILE_EN = "english_output.mp3"
     
     try:
-        response_en, voice_en = synthesize_audio_with_chirp3(
-            text_or_ssml=TEXT_EN,
+        voice_en = select_chirp3_voice(
             language_code_2letter="en",
-            output_filepath=OUTPUT_FILE_EN,
-            voice_options=custom_voice_set # Use the custom voice list
+            model=DEFAULT_CHIRP3_MODEL,
+            voice_options=custom_voice_set,
         )
-        print(f"\n✅ SUCCESS: English Audio saved to {OUTPUT_FILE_EN} using voice {voice_en}.")
+        response_en, confirmed_voice_en = synthesize_audio_with_chirp3(
+            text_or_ssml=TEXT_EN,
+            output_filepath=OUTPUT_FILE_EN,
+            model=voice_en,
+            language_code_2letter="en",
+        )
+        print(f"\n✅ SUCCESS: English Audio saved to {OUTPUT_FILE_EN} using voice {confirmed_voice_en}.")
         print("\nAPI Response (excluding audio content):\n", response_en)
         
         # Subsequent call to demonstrate the voice cycling
         print("\n--- Running a second English request to demonstrate voice cycling ---")
         OUTPUT_FILE_EN_2 = "english_output_2.mp3"
+        next_voice_en = select_chirp3_voice(
+            language_code_2letter="en",
+            model=DEFAULT_CHIRP3_MODEL,
+        )
         response_en_2, voice_en_2 = synthesize_audio_with_chirp3(
             text_or_ssml=TEXT_EN,
-            language_code_2letter="en",
             output_filepath=OUTPUT_FILE_EN_2,
-            # DO NOT pass voice_options again, it will continue cycling from the list used above
+            model=next_voice_en,
+            language_code_2letter="en",
         )
         print(f"\n✅ SUCCESS: Second English Audio saved to {OUTPUT_FILE_EN_2} using the next voice: {voice_en_2}.")
         
@@ -227,11 +276,15 @@ if __name__ == "__main__":
     OUTPUT_FILE_HI = "hindi_output.mp3"
     
     try:
+        voice_hi = select_chirp3_voice(
+            language_code_2letter="hi",
+            model=DEFAULT_CHIRP3_MODEL,
+        )
         response_hi, voice_hi = synthesize_audio_with_chirp3(
             text_or_ssml=TEXT_HI_SSML,
-            language_code_2letter="hi",
             output_filepath=OUTPUT_FILE_HI,
-            # Note: Voice cycling continues from where the previous call left off
+            model=voice_hi,
+            language_code_2letter="hi",
         )
         print(f"\n✅ SUCCESS: Hindi Audio saved to {OUTPUT_FILE_HI} using voice {voice_hi}.")
         print("\nAPI Response (excluding audio content):\n", response_hi)

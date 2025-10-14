@@ -49,6 +49,18 @@ def main() -> None:
     for segment in pipeline.segment_sequence(assets):
         print(f"- {segment.key}: {segment.ssml}")
 
+    try:
+        pipeline.synthesize_audio(assets)
+    except Exception as exc:  # pragma: no cover - demo script trace
+        print(f"Skipping audio synthesis demo: {exc}")
+    else:
+        print("\nGenerated audio files:")
+        for segment in pipeline.segment_sequence(assets):
+            if segment.audio_path:
+                print(f"- {segment.key}: {segment.audio_path}")
+            else:
+                print(f"- {segment.key}: (no audio path)")
+
     hindi_pipeline = NarrationPipeline(locale="hi")
     hindi_assets = hindi_pipeline.build_assets(record)
     hindi_pipeline.populate_ssml(
