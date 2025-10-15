@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Dict, Iterable, Optional
 
 from src.audio_pipeline.localizers.money import MoneyAmount
 from src.audio_pipeline.shared.money_parser import parse_money_amount as _parse_money_text
@@ -50,22 +50,17 @@ class EnglishVideoTextFormatter(VideoTextFormatter):
         return segments
 
     def _name_segment(self, record: CandidateRecord) -> VideoSegmentText:
-        primary = record.candidate_name.strip() or "Unknown Candidate"
-        secondary = record.election_type.strip() or None
-        return VideoSegmentText(primary=primary, secondary=secondary)
+        return VideoSegmentText(text=record.candidate_name.strip() or "Unknown Candidate")
 
     def _party_segment(self, record: CandidateRecord) -> VideoSegmentText:
         party = record.party.strip()
         if not party:
             primary = "Independent"
-            secondary = "No party affiliation"
         elif party.lower() == "independent":
             primary = "Independent"
-            secondary = "No party affiliation"
         else:
             primary = party
-            secondary = "Political party"
-        return VideoSegmentText(primary=primary, secondary=secondary)
+        return VideoSegmentText(text=primary)
 
     def _constituency_segment(self, record: CandidateRecord) -> VideoSegmentText:
         constituency = record.constituency.strip() or "Seat unspecified"
@@ -73,52 +68,52 @@ class EnglishVideoTextFormatter(VideoTextFormatter):
         secondary = "Constituency"
         voter_info = record.voter_info.strip()
         callouts = (voter_info,) if voter_info else ()
-        return VideoSegmentText(primary=primary, secondary=secondary, callouts=callouts)
+        return VideoSegmentText(text=primary)
 
     def _age_segment(self, record: CandidateRecord) -> VideoSegmentText:
         age_value = record.age.strip()
         if age_value:
-            primary = f"Age: {age_value}"
+            primary = f"{age_value}"
         else:
-            primary = "Age: Unknown"
-        return VideoSegmentText(primary=primary)
+            primary = "Unknown"
+        return VideoSegmentText(text=primary)
 
     def _education_segment(self, record: CandidateRecord) -> VideoSegmentText:
         level = record.education.strip()
         details = record.education_details.strip()
         primary = level or "Education not reported"
         secondary = details or None
-        return VideoSegmentText(primary=primary, secondary=secondary)
+        return VideoSegmentText(text=primary)
 
     def _criminal_segment(self, record: CandidateRecord) -> VideoSegmentText:
         criminal_cases = record.criminal_cases.strip()
         if not criminal_cases:
             headline = "Criminal cases: Unknown"
         elif criminal_cases == "0":
-            headline = "Criminal cases: None"
+            headline = " None"
         elif criminal_cases == "1":
-            headline = "Criminal cases: One"
+            headline = " One"
         else:
-            headline = f"Criminal cases: {criminal_cases}"
-        return VideoSegmentText(primary=headline)
+            headline = f"{criminal_cases}"
+        return VideoSegmentText(text=headline)
 
     def _assets_segment(self, amount: Optional[MoneyAmount]) -> VideoSegmentText:
         if amount is None:
-            primary = "Assets: Not declared"
+            primary = " Not declared"
         elif amount.rupees == 0:
-            primary = "Assets: None"
+            primary = " None"
         else:
-            primary = f"Assets: {self._numeric_phrase(amount)}"
-        return VideoSegmentText(primary=primary)
+            primary = f" {self._numeric_phrase(amount)}"
+        return VideoSegmentText(text=primary)
 
     def _liabilities_segment(self, amount: Optional[MoneyAmount]) -> VideoSegmentText:
         if amount is None:
-            primary = "Liabilities: Not declared"
+            primary = " Not declared"
         elif amount.rupees == 0:
-            primary = "Liabilities: None"
+            primary = " None"
         else:
-            primary = f"Liabilities: {self._numeric_phrase(amount)}"
-        return VideoSegmentText(primary=primary)
+            primary = f" {self._numeric_phrase(amount)}"
+        return VideoSegmentText(text=primary)
 
     def _parse_money_amount(
         self, primary: str, fallback: str = ""
@@ -138,3 +133,17 @@ class EnglishVideoTextFormatter(VideoTextFormatter):
             numeric = _format_decimal_english(amount.rupees)
             unit_text = "rupees"
         return f"{numeric} {unit_text}"
+
+    def _compose_text(
+        self,
+        primary: str,
+        secondary: str | None = None,
+        callouts: Iterable[str] = (),
+    ) -> str:
+        lines = [primary]
+        if secondary:
+            lines.append(secondary)
+        for callout in callouts:
+            if callout:
+                lines.append(callout)
+        return "\n".join(lines)

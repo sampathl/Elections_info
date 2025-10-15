@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Optional
+from typing import Dict, Iterable, Optional
 
 from src.audio_pipeline.localizers.money import MoneyAmount
 from src.audio_pipeline.shared.money_parser import parse_money_amount as _parse_money_text
@@ -73,22 +73,17 @@ class HindiVideoTextFormatter(VideoTextFormatter):
     def _name_segment(self, record: CandidateRecord) -> VideoSegmentText:
         primary_source = record.candidate_name.strip()
         primary = self._transliterate(primary_source) if primary_source else "अज्ञात उम्मीदवार"
-        election_type = record.election_type.strip()
-        secondary = self._transliterate(election_type) if election_type else None
-        return VideoSegmentText(primary=primary, secondary=secondary)
+        return VideoSegmentText(text=primary)
 
     def _party_segment(self, record: CandidateRecord) -> VideoSegmentText:
         party = record.party.strip()
         if not party:
             primary = "स्वतंत्र उम्मीदवार"
-            secondary = "कोई दल संबंध नहीं"
         elif party.lower() == "independent":
             primary = "स्वतंत्र उम्मीदवार"
-            secondary = "कोई दल संबंध नहीं"
         else:
             primary = self._transliterate(party)
-            secondary = "राजनीतिक दल"
-        return VideoSegmentText(primary=primary, secondary=secondary)
+        return VideoSegmentText(text=primary)
 
     def _constituency_segment(self, record: CandidateRecord) -> VideoSegmentText:
         constituency_source = record.constituency.strip()
@@ -96,20 +91,16 @@ class HindiVideoTextFormatter(VideoTextFormatter):
             primary = self._transliterate(constituency_source)
         else:
             primary = "अज्ञात निर्वाचन क्षेत्र"
-        secondary = "निर्वाचन क्षेत्र"
-        voter_info = record.voter_info.strip()
-        callout = self._transliterate(voter_info) if voter_info else None
-        callouts = (callout,) if callout else ()
-        return VideoSegmentText(primary=primary, secondary=secondary, callouts=callouts)
+        return VideoSegmentText(text=primary)
 
     def _age_segment(self, record: CandidateRecord) -> VideoSegmentText:
         age_value = record.age.strip()
         if age_value:
             translated = age_value.translate(_DEVANAGARI_DIGITS)
-            primary = f"आयु: {translated}"
+            primary = f"{translated}"
         else:
-            primary = "आयु: उपलब्ध नहीं"
-        return VideoSegmentText(primary=primary)
+            primary = " उपलब्ध नहीं"
+        return VideoSegmentText(text=primary)
 
     def _education_segment(self, record: CandidateRecord) -> VideoSegmentText:
         level_key = record.education.strip()
@@ -117,39 +108,37 @@ class HindiVideoTextFormatter(VideoTextFormatter):
             level = self._EDUCATION_DESCRIPTIONS.get(level_key, level_key)
         else:
             level = "शिक्षा उपलब्ध नहीं"
-        details = record.education_details.strip()
-        secondary = self._transliterate(details) if details else None
-        return VideoSegmentText(primary=level, secondary=secondary)
+        return VideoSegmentText(text=level)
 
     def _criminal_segment(self, record: CandidateRecord) -> VideoSegmentText:
         criminal_cases = record.criminal_cases.strip()
         if not criminal_cases:
-            primary = "आपराधिक मामले: अज्ञात"
+            primary = " अज्ञात"
         elif criminal_cases == "0":
-            primary = "आपराधिक मामले: नहीं"
+            primary = " नहीं"
         elif criminal_cases == "1":
-            primary = "आपराधिक मामले: १"
+            primary = " १"
         else:
-            primary = f"आपराधिक मामले: {criminal_cases.translate(_DEVANAGARI_DIGITS)}"
-        return VideoSegmentText(primary=primary)
+            primary = f" {criminal_cases.translate(_DEVANAGARI_DIGITS)}"
+        return VideoSegmentText(text=primary)
 
     def _assets_segment(self, amount: Optional[MoneyAmount]) -> VideoSegmentText:
         if amount is None:
-            primary = "संपत्ति: उपलब्ध नहीं"
+            primary = " उपलब्ध नहीं"
         elif amount.rupees == 0:
-            primary = "संपत्ति: नहीं"
+            primary = " नहीं"
         else:
-            primary = f"संपत्ति: {self._numeric_phrase(amount)}"
-        return VideoSegmentText(primary=primary)
+            primary = f"{self._numeric_phrase(amount)}"
+        return VideoSegmentText(text=primary)
 
     def _liabilities_segment(self, amount: Optional[MoneyAmount]) -> VideoSegmentText:
         if amount is None:
-            primary = "ऋण: उपलब्ध नहीं"
+            primary = "उपलब्ध नहीं"
         elif amount.rupees == 0:
-            primary = "ऋण: नहीं"
+            primary = " नहीं"
         else:
-            primary = f"ऋण: {self._numeric_phrase(amount)}"
-        return VideoSegmentText(primary=primary)
+            primary = f" {self._numeric_phrase(amount)}"
+        return VideoSegmentText(text=primary)
 
     def _parse_money_amount(
         self, primary: str, fallback: str = ""
@@ -186,3 +175,17 @@ class HindiVideoTextFormatter(VideoTextFormatter):
             return generate_native_transliteration(text)
         except Exception:
             return text
+
+    def _compose_text(
+        self,
+        primary: str,
+        secondary: str | None = None,
+        callouts: Iterable[str] = (),
+    ) -> str:
+        lines = [primary]
+        if secondary:
+            lines.append(secondary)
+        for callout in callouts:
+            if callout:
+                lines.append(callout)
+        return "\n".join(lines)

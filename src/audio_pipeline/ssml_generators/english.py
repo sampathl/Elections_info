@@ -37,18 +37,18 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
         )
 
     def name_segment(self, name_ssml: str, entity: CandidateRecord) -> str:
-        return self._with_mark(f" Candidate name: {name_ssml}", self.mark_name)
+        return self._with_mark(f" Candidate name: {name_ssml},", self.mark_name)
 
     def party_segment(self, party_text: str, party_ssml: str) -> str:
         if not party_text:
             return ""
         lower = party_text.lower()
         if lower == "independent":
-            descriptor = "is an independent candidate"
+            descriptor = "is an independent candidate."
         elif "party" in lower:
-            descriptor = f"is a member of the {party_ssml}"
+            descriptor = f"is a member of the {party_ssml}."
         else:
-            descriptor = f"is a member of the {party_ssml} party"
+            descriptor = f"is a member of the {party_ssml} party."
         return self._with_mark(f", {descriptor}", self.mark_party)
 
     def constituency_segment(self, constituency_ssml: str) -> str:
@@ -64,7 +64,7 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
     def age_segment(self, age_text: str) -> str:
         if not age_text:
             return ""
-        return self._with_mark(f", aged {age_text}", self.mark_age)
+        return self._with_mark(f"aged {age_text}.", self.mark_age)
 
     def education_segment(self, education_level: str, details: str) -> str:
         descriptions = {
@@ -86,7 +86,7 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
             "has {education} education".format(education=education_level or "unspecified"),
         )
         suffix = f" ({details})" if details else ""
-        return self._with_mark(f", {base}{suffix}", self.mark_education)
+        return self._with_mark(f" {base}, {suffix}.", self.mark_education)
 
     def criminal_segment(self, criminal_text: str) -> str:
         if criminal_text == "unknown":
@@ -97,7 +97,7 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
             phrase = "has one criminal case on record"
         else:
             phrase = f"has {criminal_text} criminal cases on record"
-        return self._with_mark(f", {phrase}", self.mark_criminal)
+        return self._with_mark(f" {phrase}.", self.mark_criminal)
 
     def _numeric_phrase(self, amount: MoneyAmount) -> str:
         if amount.unit_key == "crore":
@@ -121,20 +121,20 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
 
     def assets_segment(self, amount: Optional[MoneyAmount]) -> str:
         if amount is None:
-            phrase = "assets with unspecified value"
+            phrase = " assets with unspecified value."
         elif amount.rupees == 0:
-            phrase = "no assets declared"
+            phrase = " no assets declared."
         else:
-            phrase = f"assets valued at {self._numeric_phrase(amount)}"
+            phrase = f" assets valued at {self._numeric_phrase(amount)}."
         return self._with_mark(phrase, self.mark_assets)
 
     def liabilities_segment(self, amount: Optional[MoneyAmount]) -> str:
         if amount is None:
-            phrase = "liabilities with unspecified value"
+            phrase = ",liabilities with unspecified value."
         elif amount.rupees == 0:
-            phrase = "no liabilities declared"
+            phrase = ", no liabilities declared."
         else:
-            phrase = f"liabilities amounting to {self._numeric_phrase(amount)}"
+            phrase = f", liabilities amounting to {self._numeric_phrase(amount)}."
         return self._with_mark(phrase, self.mark_liabilities)
 
     def combine_financial_segments(self, assets: str, liabilities: str) -> str:

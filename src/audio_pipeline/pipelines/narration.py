@@ -15,6 +15,8 @@ from src.audio_pipeline.tts_clients.google_tts_client import (
 )
 from src.entities.candidate_record import CandidateRecord
 from src.entities.loaders import iter_candidate_records
+from src.video_pipeline.layouts import EnglishVideoLayoutStrategy, HindiVideoLayoutStrategy
+from src.video_pipeline.segment_renderer import SegmentVideoRenderer
 from src.video_pipeline.text_generators import VideoTextFactory
 
 # TODO: Replace with configurable audio output directory.
@@ -103,8 +105,19 @@ class NarrationPipeline:
 
     def render_video(self, assets: CandidateNarrationAssets) -> None:
         """Generate per-segment video clips."""
-        # To be implemented: pair audio with visuals and store clip paths.
-        raise NotImplementedError
+        if self.locale == "en":
+            strategy = EnglishVideoLayoutStrategy()
+        elif self.locale == "hi":
+            strategy = HindiVideoLayoutStrategy()
+        else:
+            raise NotImplementedError(
+                f"Video rendering not yet implemented for locale '{self.locale}'"
+            )
+
+        renderer = SegmentVideoRenderer(layout_strategy=strategy)
+
+        segments = list(self.segment_sequence(assets))
+        renderer.render_segments(assets, segments)
 
     def stitch_audio(self, assets: CandidateNarrationAssets, output_path: Path) -> None:
         """Combine per-segment audio into a single timeline."""

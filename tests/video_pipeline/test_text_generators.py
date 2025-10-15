@@ -41,29 +41,22 @@ def test_english_formatter_segments_expected_text() -> None:
     formatter = EnglishVideoTextFormatter()
     segments = formatter.segment_texts(_sample_record())
 
-    assert segments["name"].primary == "Manoj Manzil"
-    assert segments["name"].secondary == "General Election"
+    assert segments["name"].text == "Manoj Manzil\nGeneral Election"
 
-    assert segments["party"].primary == "CPI(ML)(L)"
-    assert segments["party"].secondary == "Political party"
+    assert segments["party"].text == "CPI(ML)(L)\nPolitical party"
 
-    assert segments["constituency"].callouts == (
-        "196-Tarari constituency, Serial 619, Part 140",
+    assert segments["constituency"].text == (
+        "AGIAON (SC)\nConstituency\n196-Tarari constituency, Serial 619, Part 140"
     )
 
-    assert segments["assets"].primary == "Assets: 3 lakh"
-    assert segments["liabilities"].primary == "Liabilities: 10 thousand"
-    assert segments["criminal_cases"].primary == "Criminal cases: 2"
+    assert segments["assets"].text == "Assets: 3 lakh"
+    assert segments["liabilities"].text == "Liabilities: 10 thousand"
+    assert segments["criminal_cases"].text == "Criminal cases: 2"
 
 
-def test_segment_text_lines_compose_all_fields() -> None:
-    segment = VideoSegmentText(
-        primary="Headline",
-        secondary="Detail",
-        callouts=("Extra",),
-    )
-
-    assert segment.lines() == ("Headline", "Detail", "Extra")
+def test_video_segment_text_preserves_text() -> None:
+    segment = VideoSegmentText(text="Headline\nDetail\nExtra")
+    assert segment.text == "Headline\nDetail\nExtra"
 
 
 def test_pipeline_populate_video_text_updates_assets() -> None:
@@ -74,7 +67,7 @@ def test_pipeline_populate_video_text_updates_assets() -> None:
 
     name_segment = assets.segments["name"]
     assert name_segment.overlay_text is not None
-    assert name_segment.overlay_text.primary == "Manoj Manzil"
+    assert name_segment.overlay_text.text.startswith("Manoj Manzil")
 
 
 @pytest.fixture
@@ -100,19 +93,18 @@ def test_hindi_formatter_segments_expected_text(stub_transliteration) -> None:
     formatter = HindiVideoTextFormatter()
     segments = formatter.segment_texts(_sample_record())
 
-    assert segments["age"].primary == "आयु: ३६"
-    assert segments["party"].secondary == "राजनीतिक दल"
-    assert segments["party"].primary == "देवनागरी:CPI(ML)(L)"
-    assert segments["constituency"].primary == "देवनागरी:AGIAON (SC)"
-    assert segments["constituency"].callouts == (
-        "देवनागरी:196-Tarari constituency, Serial 619, Part 140",
+    assert segments["age"].text == "आयु: ३६"
+    assert segments["party"].text == "देवनागरी:CPI(ML)(L)\nराजनीतिक दल"
+    assert segments["constituency"].text == (
+        "देवनागरी:AGIAON (SC)\nनिर्वाचन क्षेत्र\nदेवनागरी:196-Tarari constituency, Serial 619, Part 140"
     )
-    assert segments["name"].primary == "देवनागरी:Manoj Manzil"
-    assert segments["name"].secondary == "देवनागरी:General Election"
-    assert segments["education"].secondary == "देवनागरी:B.A. from H.D. Jain College, Ara in 2015"
-    assert segments["assets"].primary == "संपत्ति: ३ लाख"
-    assert segments["liabilities"].primary == "ऋण: १० हज़ार"
-    assert segments["criminal_cases"].primary == "आपराधिक मामले: २"
+    assert segments["name"].text == "देवनागरी:Manoj Manzil\nदेवनागरी:General Election"
+    assert segments["education"].text == (
+        "स्नातक शिक्षा प्राप्त है\nदेवनागरी:B.A. from H.D. Jain College, Ara in 2015"
+    )
+    assert segments["assets"].text == "संपत्ति: ३ लाख"
+    assert segments["liabilities"].text == "ऋण: १० हज़ार"
+    assert segments["criminal_cases"].text == "आपराधिक मामले: २"
 
 
 def test_pipeline_populate_video_text_hindi_updates_assets(stub_transliteration) -> None:
@@ -123,7 +115,7 @@ def test_pipeline_populate_video_text_hindi_updates_assets(stub_transliteration)
 
     assets_segment = assets.segments["assets"]
     assert assets_segment.overlay_text is not None
-    assert assets_segment.overlay_text.primary == "संपत्ति: ३ लाख"
+    assert assets_segment.overlay_text.text == "संपत्ति: ३ लाख"
     name_segment = assets.segments["name"]
     assert name_segment.overlay_text is not None
-    assert name_segment.overlay_text.primary == "देवनागरी:Manoj Manzil"
+    assert name_segment.overlay_text.text.startswith("देवनागरी:Manoj Manzil")

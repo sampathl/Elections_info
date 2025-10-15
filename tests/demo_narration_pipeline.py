@@ -56,7 +56,8 @@ def main() -> None:
         if overlay is None:
             print(f"- {segment.key}: (no overlay text)")
         else:
-            joined = " | ".join(overlay.lines())
+            lines = [line for line in overlay.text.splitlines() if line.strip()]
+            joined = " | ".join(lines) if lines else overlay.text
             print(f"- {segment.key}: {joined}")
 
     try:
@@ -70,6 +71,17 @@ def main() -> None:
                 print(f"- {segment.key}: {segment.audio_path}")
             else:
                 print(f"- {segment.key}: (no audio path)")
+        for segment in pipeline.segment_sequence(assets):
+            old_path = segment.audio_path
+            if old_path is None:
+                continue
+            new_path = old_path.with_name(f"{old_path.stem}_en{old_path.suffix}")
+            try:
+                old_path.rename(new_path)
+            except OSError as exc:
+                print(f"Failed to rename English audio '{old_path}' -> '{new_path}': {exc}")
+            else:
+                segment.audio_path = new_path
 
     hindi_pipeline = NarrationPipeline(locale="hi")
     hindi_assets = hindi_pipeline.build_assets(record)
@@ -81,18 +93,66 @@ def main() -> None:
     hindi_pipeline.populate_text(hindi_assets)
     hindi_pipeline.populate_video_text(hindi_assets)
 
-    
+    try:
+        hindi_pipeline.synthesize_audio(hindi_assets)
+    except Exception as exc:  # pragma: no cover - demo script trace
+        print(f"Skipping Hindi audio synthesis demo: {exc}")
+    else:
+        print("\nGenerated Hindi audio files:")
+        for segment in hindi_pipeline.segment_sequence(hindi_assets):
+            if segment.audio_path:
+                print(f"- {segment.key}: {segment.audio_path}")
+            else:
+                print(f"- {segment.key}: (no audio path)")
+        for segment in hindi_pipeline.segment_sequence(hindi_assets):
+            old_path = segment.audio_path
+            if old_path is None:
+                continue
+            new_path = old_path.with_name(f"{old_path.stem}_hi{old_path.suffix}")
+            try:
+                old_path.rename(new_path)
+            except OSError as exc:
+                print(f"Failed to rename Hindi audio '{old_path}' -> '{new_path}': {exc}")
+            else:
+                segment.audio_path = new_path
+
     print("\nHindi segment plain text:")
     for segment in hindi_pipeline.segment_sequence(hindi_assets):
         print(f"- {segment.key}: {segment.text}")
+
     print("\nHindi video overlay text:")
     for segment in hindi_pipeline.segment_sequence(hindi_assets):
         overlay = segment.overlay_text
         if overlay is None:
             print(f"- {segment.key}: (no overlay text)")
         else:
-            joined = " | ".join(overlay.lines())
+            lines = [line for line in overlay.text.splitlines() if line.strip()]
+            joined = " | ".join(lines) if lines else overlay.text
             print(f"- {segment.key}: {joined}")
+
+    try:
+        pipeline.render_video(assets)
+    except Exception as exc:  # pragma: no cover - demo script trace
+        print(f"\nSkipping video render demo: {exc}")
+    else:
+        print("\nGenerated video files:")
+        for segment in pipeline.segment_sequence(assets):
+            if segment.video_path:
+                print(f"- {segment.key}: {segment.video_path}")
+            else:
+                print(f"- {segment.key}: (no video path)")
+
+    try:
+        hindi_pipeline.render_video(hindi_assets)
+    except Exception as exc:  # pragma: no cover - demo script trace
+        print(f"\nSkipping Hindi video render demo: {exc}")
+    else:
+        print("\nGenerated Hindi video files:")
+        for segment in hindi_pipeline.segment_sequence(hindi_assets):
+            if segment.video_path:
+                print(f"- {segment.key}: {segment.video_path}")
+            else:
+                print(f"- {segment.key}: (no video path)")
 
     print("\nHindi full SSML text:")
     print(hindi_assets.full_ssml)

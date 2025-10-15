@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence
 
 from src.entities.candidate_record import CandidateRecord
-from src.video_pipeline.text_generators import VideoSegmentText
+from src.video_pipeline.text_generators.base import VideoSegmentText
 
 
 @dataclass

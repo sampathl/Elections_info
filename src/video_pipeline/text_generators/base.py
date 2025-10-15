@@ -2,28 +2,17 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from typing import Dict, Protocol, Sequence, Tuple
+from dataclasses import dataclass
+from typing import Dict, Protocol
 
 from src.entities.candidate_record import CandidateRecord
 
 
 @dataclass(frozen=True)
 class VideoSegmentText:
-    """Container for text elements rendered on top of a video segment."""
+    """Container holding overlay text content for a video segment."""
 
-    primary: str
-    secondary: str | None = None
-    callouts: Tuple[str, ...] = field(default_factory=tuple)
-    duration_hint: float | None = None
-
-    def lines(self) -> Sequence[str]:
-        """Return the ordered text lines suitable for on-screen display."""
-        items = [self.primary]
-        if self.secondary:
-            items.append(self.secondary)
-        items.extend(self.callouts)
-        return tuple(filter(None, items))
+    text: str
 
 
 class VideoTextFormatter(Protocol):
