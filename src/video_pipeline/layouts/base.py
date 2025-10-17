@@ -17,7 +17,7 @@ class TextLayerSpec:
     anchor: Tuple[float, float] = (0.5, 0.78)
     max_width_ratio: float = 0.8
     font: str | None = None
-    font_size: int = 60
+    font_size: int = 100
     color: str = "#FFFFFF"
     align: str = "center"
     line_spacing: int | None = None

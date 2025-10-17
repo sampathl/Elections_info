@@ -141,6 +141,10 @@ def main() -> None:
                 print(f"- {segment.key}: {segment.video_path}")
             else:
                 print(f"- {segment.key}: (no video path)")
+        if assets.stitched_video_path:
+            print(f"Stitched video: {assets.stitched_video_path}")
+        else:
+            print("No stitched video generated.")
 
     try:
         hindi_pipeline.render_video(hindi_assets)
@@ -153,6 +157,10 @@ def main() -> None:
                 print(f"- {segment.key}: {segment.video_path}")
             else:
                 print(f"- {segment.key}: (no video path)")
+        if hindi_assets.stitched_video_path:
+            print(f"Stitched Hindi video: {hindi_assets.stitched_video_path}")
+        else:
+            print("No stitched Hindi video generated.")
 
     print("\nHindi full SSML text:")
     print(hindi_assets.full_ssml)

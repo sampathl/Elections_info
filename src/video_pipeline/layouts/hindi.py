@@ -103,7 +103,7 @@ class HindiVideoLayoutStrategy(VideoLayoutStrategy):
                 text=overlay.text,
                 anchor=(0.5, 0.5),
                 font=self._primary_font,
-                font_size=100,
+                font_size=120,
                 max_width_ratio=0.9,
                 box_color=None,
                 box_opacity=0.0,

@@ -15,7 +15,12 @@ from src.audio_pipeline.tts_clients.google_tts_client import (
 )
 from src.entities.candidate_record import CandidateRecord
 from src.entities.loaders import iter_candidate_records
-from src.video_pipeline.layouts import EnglishVideoLayoutStrategy, HindiVideoLayoutStrategy
+from src.video_pipeline.combiner import stitch_videos
+from src.video_pipeline.layouts import (
+    EnglishVideoLayoutStrategy,
+    HindiVideoLayoutStrategy,
+    VideoLayoutStrategy,
+)
 from src.video_pipeline.segment_renderer import SegmentVideoRenderer
 from src.video_pipeline.text_generators import VideoTextFactory
 
@@ -119,6 +124,17 @@ class NarrationPipeline:
         segments = list(self.segment_sequence(assets))
         renderer.render_segments(assets, segments)
 
+        video_paths = [segment.video_path for segment in segments if segment.video_path]
+        if not video_paths:
+            assets.stitched_video_path = None
+            return
+
+        stitched_output_path = self._default_stitched_video_path(assets, strategy)
+        stitched_output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        stitch_videos(video_paths, stitched_output_path, fps=strategy.preferred_fps())
+        assets.stitched_video_path = stitched_output_path
+
     def stitch_audio(self, assets: CandidateNarrationAssets, output_path: Path) -> None:
         """Combine per-segment audio into a single timeline."""
         # To be implemented: combine audio clips and update `stitched_audio_path`.
@@ -184,3 +200,20 @@ class NarrationPipeline:
         base = f"{candidate_name}_{segment_key}"
         sanitized = re.sub(r"[^A-Za-z0-9_-]+", "_", base).strip("_")
         return sanitized or "segment"
+
+    def _default_stitched_video_path(
+        self,
+        assets: CandidateNarrationAssets,
+        strategy: VideoLayoutStrategy,
+    ) -> Path:
+        candidate_fragment = self._sanitize_filename_fragment(assets.record.candidate_name)
+        filename = f"{candidate_fragment}_{self.locale}_stitched.mp4"
+        return strategy.output_directory / filename
+
+    def _sanitize_filename_fragment(self, value: str) -> str:
+        if self.locale == "hi":
+            cleaned = "".join(ch if ch.isalnum() else "_" for ch in value)
+        else:
+            cleaned = re.sub(r"[^A-Za-z0-9_-]+", "_", value)
+        cleaned = cleaned.strip("_")
+        return cleaned or "segment"
