@@ -8,14 +8,11 @@ from typing import Dict, Sequence, Tuple
 from src.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
 
 from .base import TextLayerSpec, VideoLayoutStrategy
+from ..utils import sanitize_filename_fragment
 
 __all__ = ["HindiVideoLayoutStrategy"]
 
 DEVANAGARI_FONT_PATH = "/System/Library/Fonts/Supplemental/ITFDevanagari.ttc"
-
-def _sanitize_filename_fragment(value: str) -> str:
-    cleaned = "".join(ch if ch.isalnum() else "_" for ch in value).strip("_")
-    return cleaned or "segment"
 
 
 class HindiVideoLayoutStrategy(VideoLayoutStrategy):
@@ -116,10 +113,12 @@ class HindiVideoLayoutStrategy(VideoLayoutStrategy):
         assets: CandidateNarrationAssets,
         segment: SegmentAsset,
     ) -> str:
-        candidate_fragment = _sanitize_filename_fragment(
-            assets.record.candidate_name
+        candidate_fragment = sanitize_filename_fragment(
+            assets.record.candidate_name, allow_unicode=True
         )
-        segment_fragment = _sanitize_filename_fragment(segment.key)
+        segment_fragment = sanitize_filename_fragment(
+            segment.key, allow_unicode=True
+        )
         return f"{candidate_fragment}_{segment_fragment}_hi.mp4"
 
     def _resolve_background_filename(self, segment: SegmentAsset) -> str:

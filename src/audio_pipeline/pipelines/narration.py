@@ -21,6 +21,7 @@ from src.video_pipeline.layouts import (
     HindiVideoLayoutStrategy,
     VideoLayoutStrategy,
 )
+from src.video_pipeline.utils import sanitize_filename_fragment
 from src.video_pipeline.segment_renderer import SegmentVideoRenderer
 from src.video_pipeline.text_generators import VideoTextFactory
 
@@ -206,14 +207,9 @@ class NarrationPipeline:
         assets: CandidateNarrationAssets,
         strategy: VideoLayoutStrategy,
     ) -> Path:
-        candidate_fragment = self._sanitize_filename_fragment(assets.record.candidate_name)
+        candidate_fragment = sanitize_filename_fragment(
+            assets.record.candidate_name,
+            allow_unicode=(self.locale == "hi"),
+        )
         filename = f"{candidate_fragment}_{self.locale}_stitched.mp4"
         return strategy.output_directory / filename
-
-    def _sanitize_filename_fragment(self, value: str) -> str:
-        if self.locale == "hi":
-            cleaned = "".join(ch if ch.isalnum() else "_" for ch in value)
-        else:
-            cleaned = re.sub(r"[^A-Za-z0-9_-]+", "_", value)
-        cleaned = cleaned.strip("_")
-        return cleaned or "segment"

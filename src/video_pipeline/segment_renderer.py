@@ -33,6 +33,7 @@ from src.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
 
 from .layouts.base import TextLayerSpec, VideoLayoutStrategy
 from .tests.size_helper import load_font, wrap_text_no_breaks
+from .utils import write_videofile
 
 
 @dataclass(frozen=True)
@@ -139,7 +140,7 @@ class SegmentVideoRenderer:
             audio_clip = self._with_duration(audio_clip, duration)
             composite = self._with_audio(composite, audio_clip)
 
-            self._write_videofile(composite, output_path)
+            write_videofile(composite, output_path, fps=self._fps)
         finally:
             if composite is not None:
                 composite.close()
@@ -173,7 +174,11 @@ class SegmentVideoRenderer:
         text_w, text_h = text_clip.size
 
         # Convert the desired top padding into a ratio of the video height so positioning stays relative.
-        padding_ratio = (spec.padding / height) if spec.padding else (20 / height)
+        if spec.padding is None:
+            padding_ratio = 20 / height
+        else:
+            padding_value = max(0, spec.padding)
+            padding_ratio = padding_value / height
 
         position_x = max(0, min(width - text_w, anchor_x * width - text_w / 2))
         position_y = anchor_y * height - text_h / 2 + padding_ratio * height
@@ -310,21 +315,3 @@ class SegmentVideoRenderer:
         if not lines:
             return text
         return "\n\n".join(lines)
-
-    def _write_videofile(self, clip, output_path: Path) -> None:
-        try:
-            clip.write_videofile(
-                str(output_path),
-                fps=self._fps,
-                codec="libx264",
-                audio_codec="aac",
-            )
-        except TypeError:
-            clip.write_videofile(
-                str(output_path),
-                fps=self._fps,
-                codec="libx264",
-                audio_codec="aac",
-                temp_audiofile=str(output_path.with_suffix(".temp-audio.m4a")),
-                remove_temp=True,
-            )

@@ -2,20 +2,15 @@
 
 from __future__ import annotations
 
-import re
 from pathlib import Path
 from typing import Dict, Sequence, Tuple
 
 from src.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
 
 from .base import TextLayerSpec, VideoLayoutStrategy
+from ..utils import sanitize_filename_fragment
 
 __all__ = ["EnglishVideoLayoutStrategy"]
-
-
-def _sanitize_filename_fragment(value: str) -> str:
-    cleaned = re.sub(r"[^A-Za-z0-9_-]+", "_", value).strip("_")
-    return cleaned or "segment"
 
 
 class EnglishVideoLayoutStrategy(VideoLayoutStrategy):
@@ -112,10 +107,8 @@ class EnglishVideoLayoutStrategy(VideoLayoutStrategy):
         assets: CandidateNarrationAssets,
         segment: SegmentAsset,
     ) -> str:
-        candidate_fragment = _sanitize_filename_fragment(
-            assets.record.candidate_name
-        )
-        segment_fragment = _sanitize_filename_fragment(segment.key)
+        candidate_fragment = sanitize_filename_fragment(assets.record.candidate_name)
+        segment_fragment = sanitize_filename_fragment(segment.key)
         return f"{candidate_fragment}_{segment_fragment}.mp4"
 
     def _resolve_background_filename(self, segment: SegmentAsset) -> str:
