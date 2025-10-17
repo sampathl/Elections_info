@@ -178,7 +178,6 @@ class SegmentVideoRenderer:
         position_x = max(0, min(width - text_w, anchor_x * width - text_w / 2))
         position_y = anchor_y * height - text_h / 2 + padding_ratio * height
         position_y = max(0, min(height - text_h, position_y))
-        print (position_x,position_x)
         text_clip = self._with_position(text_clip, (position_x, position_y))
         return text_clip
 

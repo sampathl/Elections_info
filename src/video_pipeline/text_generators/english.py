@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Optional
+from typing import Dict, Optional
 
 from src.audio_pipeline.localizers.money import MoneyAmount
 from src.audio_pipeline.shared.money_parser import parse_money_amount as _parse_money_text
@@ -64,11 +64,7 @@ class EnglishVideoTextFormatter(VideoTextFormatter):
 
     def _constituency_segment(self, record: CandidateRecord) -> VideoSegmentText:
         constituency = record.constituency.strip() or "Seat unspecified"
-        primary = constituency
-        secondary = "Constituency"
-        voter_info = record.voter_info.strip()
-        callouts = (voter_info,) if voter_info else ()
-        return VideoSegmentText(text=primary)
+        return VideoSegmentText(text=constituency)
 
     def _age_segment(self, record: CandidateRecord) -> VideoSegmentText:
         age_value = record.age.strip()
@@ -133,17 +129,3 @@ class EnglishVideoTextFormatter(VideoTextFormatter):
             numeric = _format_decimal_english(amount.rupees)
             unit_text = "rupees"
         return f"{numeric} {unit_text}"
-
-    def _compose_text(
-        self,
-        primary: str,
-        secondary: str | None = None,
-        callouts: Iterable[str] = (),
-    ) -> str:
-        lines = [primary]
-        if secondary:
-            lines.append(secondary)
-        for callout in callouts:
-            if callout:
-                lines.append(callout)
-        return "\n".join(lines)

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Optional
+from typing import Dict, Optional
 
 from src.audio_pipeline.localizers.money import MoneyAmount
 from src.audio_pipeline.shared.money_parser import parse_money_amount as _parse_money_text
@@ -175,17 +175,3 @@ class HindiVideoTextFormatter(VideoTextFormatter):
             return generate_native_transliteration(text)
         except Exception:
             return text
-
-    def _compose_text(
-        self,
-        primary: str,
-        secondary: str | None = None,
-        callouts: Iterable[str] = (),
-    ) -> str:
-        lines = [primary]
-        if secondary:
-            lines.append(secondary)
-        for callout in callouts:
-            if callout:
-                lines.append(callout)
-        return "\n".join(lines)
