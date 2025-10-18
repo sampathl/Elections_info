@@ -8,6 +8,7 @@ from typing import Dict, Sequence, Tuple
 from src.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
 
 from .base import ImageLayerSpec, TextLayerSpec, VideoLayoutStrategy
+from ..paths import VIDEO_LOCALE_PATHS
 from ..utils import sanitize_filename_fragment
 
 __all__ = ["EnglishVideoLayoutStrategy"]
@@ -45,21 +46,20 @@ class EnglishVideoLayoutStrategy(VideoLayoutStrategy):
         primary_font: str | None = None,
         party_symbol_path: Path | None = None,
     ) -> None:
+        config = VIDEO_LOCALE_PATHS[self.locale]
+
         self._background_directory = (
-            background_directory or Path("tests/video_pipeline/blue")
+            background_directory or config.background_directory
         ).resolve()
         self._output_directory = (
-            output_directory
-            or self._background_directory.parent / "output"
+            output_directory or config.output_directory
         ).resolve()
         self._output_directory.mkdir(parents=True, exist_ok=True)
         self._primary_font = primary_font
-        self._party_symbol_path = (
-            party_symbol_path
-            or Path(
-                "static/Bihar/party_symbols/Bahujan_Samaj_Party.png"
-            )
-        ).resolve()
+        if party_symbol_path is not None:
+            self._party_symbol_path = party_symbol_path.resolve()
+        else:
+            self._party_symbol_path = config.party_symbol_path
 
     @property
     def background_directory(self) -> Path:
@@ -116,7 +116,7 @@ class EnglishVideoLayoutStrategy(VideoLayoutStrategy):
     ) -> Sequence[ImageLayerSpec]:
         if segment.key != "party":
             return []
-        if not self._party_symbol_path.exists():
+        if self._party_symbol_path is None or not self._party_symbol_path.exists():
             return []
         return [
             ImageLayerSpec(

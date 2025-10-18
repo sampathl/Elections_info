@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import re
-from pathlib import Path
 from typing import Iterable, List, Sequence
 
 from src.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
@@ -21,12 +20,10 @@ from src.video_pipeline.layouts import (
     HindiVideoLayoutStrategy,
     VideoLayoutStrategy,
 )
+from src.video_pipeline.paths import AUDIO_OUTPUT_DIRECTORY
 from src.video_pipeline.utils import sanitize_filename_fragment
 from src.video_pipeline.segment_renderer import SegmentVideoRenderer
 from src.video_pipeline.text_generators import VideoTextFactory
-
-# TODO: Replace with configurable audio output directory.
-AUDIO_OUTPUT_DIRECTORY = Path("tests/audio")
 
 
 class NarrationPipeline:

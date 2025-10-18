@@ -6,6 +6,7 @@ import random
 from pathlib import Path
 from typing import Sequence
 
+from .paths import TEXTURE_DIRECTORY
 from .utils import write_videofile
 
 try:  # Keep compatibility with either MoviePy namespace style.
@@ -23,8 +24,6 @@ except Exception:  # pragma: no cover - fallback for legacy MoviePy installs.
         concatenate_videoclips,
     )
 
-
-TEXTURE_DIRECTORY = Path(__file__).resolve().parents[2] / "static" / "background" / "textures"
 TEXTURE_OPACITY = 0.12
 _TEXTURE_SUFFIXES = {".jpg", ".jpeg", ".png"}
 
