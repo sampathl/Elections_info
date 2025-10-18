@@ -12,6 +12,7 @@ try:  # Prefer the newer MoviePy API when available.
 
     AudioFileClip = mp.AudioFileClip  # type: ignore[attr-defined]
     CompositeVideoClip = mp.CompositeVideoClip  # type: ignore[attr-defined]
+    ImageClip = mp.ImageClip  # type: ignore[attr-defined]
     TextClip = mp.TextClip  # type: ignore[attr-defined]
     VideoFileClip = mp.VideoFileClip  # type: ignore[attr-defined]
     if hasattr(mp, "vfx"):  # type: ignore[attr-defined]
@@ -23,6 +24,7 @@ except Exception:  # pragma: no cover - fallback to legacy API
     from moviepy.editor import (  # type: ignore
         AudioFileClip,
         CompositeVideoClip,
+        ImageClip,
         concatenate_videoclips,
         TextClip,
         VideoFileClip,
@@ -31,7 +33,7 @@ except Exception:  # pragma: no cover - fallback to legacy API
 
 from src.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
 
-from .layouts.base import TextLayerSpec, VideoLayoutStrategy
+from .layouts.base import ImageLayerSpec, TextLayerSpec, VideoLayoutStrategy
 from .tests.size_helper import load_font, wrap_text_no_breaks
 from .utils import write_videofile
 
@@ -79,6 +81,8 @@ class SegmentVideoRenderer:
         if not any(layer.text.strip() for layer in text_layers):
             return None
 
+        image_layers = self._layout.image_layers_for_segment(assets, segment)
+
         duration = self._determine_duration(segment)
         output_path = self._layout.output_directory / self._layout.output_filename_for_segment(
             assets, segment
@@ -88,6 +92,7 @@ class SegmentVideoRenderer:
         self._compose_clip(
             background_path=background_path,
             text_layers=text_layers,
+            image_layers=image_layers,
             audio_path=segment.audio_path,
             duration=duration,
             output_path=output_path,
@@ -106,6 +111,7 @@ class SegmentVideoRenderer:
         *,
         background_path: Path,
         text_layers: Sequence[TextLayerSpec],
+        image_layers: Sequence[ImageLayerSpec],
         audio_path: Path,
         duration: float,
         output_path: Path,
@@ -128,6 +134,10 @@ class SegmentVideoRenderer:
 
             for layer in text_layers:
                 clip = self._create_text_clip(layer, duration)
+                overlay_clips.append(clip)
+
+            for layer in image_layers:
+                clip = self._create_image_clip(layer, duration)
                 overlay_clips.append(clip)
 
             composite = CompositeVideoClip(
@@ -246,6 +256,52 @@ class SegmentVideoRenderer:
             if font_path:
                 fallback_kwargs["font"] = font_path
             return TextClip(**fallback_kwargs)
+
+    def _create_image_clip(
+        self,
+        spec: ImageLayerSpec,
+        duration: float,
+    ):
+        try:
+            image_clip = ImageClip(str(spec.path))
+        except Exception as exc:
+            raise RuntimeError(f"Failed to load image overlay '{spec.path}': {exc}") from exc
+
+        width, height = self._resolution
+        max_width = max(1, int(width * spec.max_width_ratio))
+        max_height = max(1, int(height * spec.max_height_ratio))
+
+        clip_w, clip_h = image_clip.size
+        if clip_w == 0 or clip_h == 0:
+            raise RuntimeError(f"Image overlay '{spec.path}' has invalid dimensions.")
+
+        scale_factor = min(
+            1.0,
+            max_width / clip_w,
+            max_height / clip_h,
+        )
+
+        if scale_factor < 1.0:
+            target_size = (
+                max(1, int(clip_w * scale_factor)),
+                max(1, int(clip_h * scale_factor)),
+            )
+            image_clip = self._resize(image_clip, target_size)
+
+        image_clip = self._with_duration(image_clip, duration)
+
+        anchor_x, anchor_y = spec.anchor
+        img_w, img_h = image_clip.size
+        padding_x, padding_y = spec.padding
+
+        position_x = anchor_x * width - img_w / 2 + padding_x
+        position_y = anchor_y * height - img_h / 2 + padding_y
+
+        position_x = max(0, min(width - img_w, position_x))
+        position_y = max(0, min(height - img_h, position_y))
+
+        image_clip = self._with_position(image_clip, (position_x, position_y))
+        return image_clip
 
     @staticmethod
     def _resolve_font(font: str | None) -> str | None:

@@ -28,6 +28,17 @@ class TextLayerSpec:
     shadow_offset: Tuple[int, int] = (3, 3)
 
 
+@dataclass(frozen=True)
+class ImageLayerSpec:
+    """Describe an image overlay to render on top of a video clip."""
+
+    path: Path
+    anchor: Tuple[float, float] = (0.5, 0.85)
+    max_width_ratio: float = 0.5
+    max_height_ratio: float = 0.33
+    padding: Tuple[int, int] = (0, 0)
+
+
 class VideoLayoutStrategy(Protocol):
     """Protocol for locale-specific video layout strategies."""
 
@@ -54,6 +65,13 @@ class VideoLayoutStrategy(Protocol):
         segment: SegmentAsset,
     ) -> Sequence[TextLayerSpec]:
         """Return the ordered text layers that should be rendered."""
+
+    def image_layers_for_segment(
+        self,
+        assets: CandidateNarrationAssets,
+        segment: SegmentAsset,
+    ) -> Sequence[ImageLayerSpec]:
+        """Return the ordered image layers that should be rendered."""
 
     def output_filename_for_segment(
         self,

@@ -7,7 +7,7 @@ from typing import Dict, Sequence, Tuple
 
 from src.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
 
-from .base import TextLayerSpec, VideoLayoutStrategy
+from .base import ImageLayerSpec, TextLayerSpec, VideoLayoutStrategy
 from ..utils import sanitize_filename_fragment
 
 __all__ = ["HindiVideoLayoutStrategy"]
@@ -50,6 +50,7 @@ class HindiVideoLayoutStrategy(VideoLayoutStrategy):
         background_directory: Path | None = None,
         output_directory: Path | None = None,
         primary_font: str | None = None,
+        party_symbol_path: Path | None = None,
     ) -> None:
         self._background_directory = (
             background_directory or Path("tests/video_pipeline/brown")
@@ -59,6 +60,12 @@ class HindiVideoLayoutStrategy(VideoLayoutStrategy):
         ).resolve()
         self._output_directory.mkdir(parents=True, exist_ok=True)
         self._primary_font = primary_font or DEVANAGARI_FONT_PATH
+        self._party_symbol_path = (
+            party_symbol_path
+            or Path(
+                "static/Bihar/party_symbols/Communist_Party_of_India_(Marxist-Leninist)_Liberation.png"
+            )
+        ).resolve()
 
     @property
     def background_directory(self) -> Path:
@@ -105,6 +112,25 @@ class HindiVideoLayoutStrategy(VideoLayoutStrategy):
                 box_color=None,
                 box_opacity=0.0,
                 color="#FFFFFF",
+            )
+        ]
+
+    def image_layers_for_segment(
+        self,
+        assets: CandidateNarrationAssets,
+        segment: SegmentAsset,
+    ) -> Sequence[ImageLayerSpec]:
+        if segment.key != "party":
+            return []
+        if not self._party_symbol_path.exists():
+            return []
+        return [
+            ImageLayerSpec(
+                path=self._party_symbol_path,
+                anchor=(0.5, 0.82),
+                max_width_ratio=0.33,
+                max_height_ratio=0.22,
+                padding=(0, -40),
             )
         ]
 
