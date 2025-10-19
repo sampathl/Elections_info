@@ -70,6 +70,10 @@ def candidate_base_directory(record: CandidateRecord) -> Path:
 TEXTURE_DIRECTORY = (PROJECT_ROOT / "static" / "background" / "textures").resolve()
 DISCLAIMER_IMAGE = (PROJECT_ROOT / "static" / "background" / "disclaimer.png").resolve()
 CREDITS_IMAGE = (PROJECT_ROOT / "static" / "background" / "credits.png").resolve()
+BACKGROUND_MUSIC_DIRECTORY = (
+    PROJECT_ROOT / "static" / "Bihar" / "background_music"
+).resolve()
+_MUSIC_SUFFIXES = (".mp3", ".m4a", ".wav")
 
 
 def _available_background_sets() -> Sequence[Path]:
@@ -88,3 +92,22 @@ def choose_background_directory(locale: str, *, seed: Optional[str] = None) -> P
         return rng.choice(candidates).resolve()
     return locale_assets(locale).background_directory
 
+
+def choose_background_music(seed: Optional[str] = None) -> Optional[Path]:
+    """Return a background music file if available."""
+    if not BACKGROUND_MUSIC_DIRECTORY.exists():
+        return None
+
+    candidates = sorted(
+        path
+        for path in BACKGROUND_MUSIC_DIRECTORY.iterdir()
+        if path.is_file() and path.suffix.lower() in _MUSIC_SUFFIXES
+    )
+    if not candidates:
+        return None
+
+    if seed is None:
+        return candidates[0]
+
+    rng = random.Random(seed)
+    return rng.choice(candidates)

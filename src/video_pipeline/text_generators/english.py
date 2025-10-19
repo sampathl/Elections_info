@@ -35,7 +35,6 @@ class EnglishVideoTextFormatter(VideoTextFormatter):
         segments["constituency"] = self._constituency_segment(record)
         segments["age"] = self._age_segment(record)
         segments["education"] = self._education_segment(record)
-        segments["criminal_cases"] = self._criminal_segment(record)
 
         assets_amount = self._parse_money_amount(
             record.assets_description, record.total_assets
@@ -46,6 +45,8 @@ class EnglishVideoTextFormatter(VideoTextFormatter):
             record.liabilities_description, record.total_liabilities
         )
         segments["liabilities"] = self._liabilities_segment(liabilities_amount)
+        segments["criminal_cases"] = self._criminal_segment(record)
+
 
         return segments
 
@@ -88,7 +89,7 @@ class EnglishVideoTextFormatter(VideoTextFormatter):
         elif criminal_cases == "0":
             headline = " None"
         elif criminal_cases == "1":
-            headline = " One"
+            headline = "One"
         else:
             headline = f"{criminal_cases}"
         return VideoSegmentText(text=headline)
@@ -108,7 +109,7 @@ class EnglishVideoTextFormatter(VideoTextFormatter):
         elif amount.rupees == 0:
             primary = "0"
         else:
-            primary = self._numeric_value(amount)
+            primary = "-"+self._numeric_value(amount)
         return VideoSegmentText(text=primary)
 
     def _parse_money_amount(

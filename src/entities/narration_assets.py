@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence
+from typing import ClassVar, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence
 
 from src.entities.candidate_record import CandidateRecord
 from src.video_pipeline.text_generators.base import VideoSegmentText
@@ -33,6 +33,17 @@ class SegmentAsset:
 @dataclass
 class CandidateNarrationAssets:
     """Aggregate per-segment artefacts for a single candidate narration."""
+
+    DEFAULT_SEGMENT_ORDER: ClassVar[Sequence[str]] = (
+        "name",
+        "party",
+        "constituency",
+        "age",
+        "education",
+        "assets",
+        "liabilities",
+        "criminal_cases",
+    )
 
     record: CandidateRecord
     output_base_dir: Optional[Path] = None
@@ -79,10 +90,23 @@ class CandidateNarrationAssets:
             segment.overlay_style = overlay_style
 
     def ordered_segments(self, order: Optional[Sequence[str]] = None) -> List[SegmentAsset]:
-        """Return segment assets in the provided order or dictionary order."""
+        """Return segment assets in the provided order or sensible default."""
+        result: List[SegmentAsset] = []
+        seen: set[str] = set()
+
         if order is None:
-            return list(self.segments.values())
-        return [self.ensure_segment(key) for key in order]
+            order = self.DEFAULT_SEGMENT_ORDER
+
+        for key in order:
+            if key in self.segments:
+                result.append(self.segments[key])
+                seen.add(key)
+
+        for key, segment in self.segments.items():
+            if key not in seen:
+                result.append(segment)
+
+        return result
 
     def iter_completed_segments(self) -> Iterable[SegmentAsset]:
         """Yield segments where every artefact slot has been filled."""

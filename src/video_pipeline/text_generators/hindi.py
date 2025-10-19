@@ -56,7 +56,6 @@ class HindiVideoTextFormatter(VideoTextFormatter):
         segments["constituency"] = self._constituency_segment(record)
         segments["age"] = self._age_segment(record)
         segments["education"] = self._education_segment(record)
-        segments["criminal_cases"] = self._criminal_segment(record)
 
         assets_amount = self._parse_money_amount(
             record.assets_description, record.total_assets
@@ -67,6 +66,8 @@ class HindiVideoTextFormatter(VideoTextFormatter):
             record.liabilities_description, record.total_liabilities
         )
         segments["liabilities"] = self._liabilities_segment(liabilities_amount)
+        segments["criminal_cases"] = self._criminal_segment(record)
+
 
         return segments
 
@@ -137,7 +138,7 @@ class HindiVideoTextFormatter(VideoTextFormatter):
         elif amount.rupees == 0:
             primary = "०"
         else:
-            primary = self._numeric_value(amount)
+            primary = "-"+self._numeric_value(amount)
         return VideoSegmentText(text=primary)
 
     def _parse_money_amount(

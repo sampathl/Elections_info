@@ -168,8 +168,8 @@ class NarrationPipeline:
         """Yield segments in the configured order."""
         order = self._segment_order
         if order is None:
-            return assets.segments.values()
-        return (assets.ensure_segment(key) for key in order)
+            return assets.ordered_segments()
+        return [assets.ensure_segment(key) for key in order]
 
     def iter_assets_from_csv(
         self,

@@ -6,13 +6,20 @@ import random
 from pathlib import Path
 from typing import Sequence
 
-from .paths import CREDITS_IMAGE, DISCLAIMER_IMAGE, TEXTURE_DIRECTORY
-from .utils import write_videofile
-
 import moviepy as mp  # type: ignore
 
+from .paths import (
+    CREDITS_IMAGE,
+    DISCLAIMER_IMAGE,
+    TEXTURE_DIRECTORY,
+    choose_background_music,
+)
+from .utils import write_videofile
+
 CompositeVideoClip = mp.CompositeVideoClip  # type: ignore[attr-defined]
+CompositeAudioClip = mp.CompositeAudioClip  # type: ignore[attr-defined]
 ImageClip = mp.ImageClip  # type: ignore[attr-defined]
+AudioFileClip = mp.AudioFileClip  # type: ignore[attr-defined]
 VideoFileClip = mp.VideoFileClip  # type: ignore[attr-defined]
 concatenate_videoclips = mp.concatenate_videoclips  # type: ignore[attr-defined]
 
@@ -37,6 +44,7 @@ def stitch_videos(
         raise FileNotFoundError(f"Cannot stitch videos; missing segment files: {missing_list}")
 
     clips = []
+    audio_resources: list = []
     final_clip = None
     texture_clip = None
     composite_clip = None
@@ -68,16 +76,17 @@ def stitch_videos(
             composite_clip = CompositeVideoClip([final_clip, texture_clip], size=final_clip.size)
             clip_to_write = composite_clip
 
+        try: 
+            clip_to_write = _apply_background_music(clip_to_write)
+        except Exception as e:
+            print("unable to add bgm, skipping it")
+            print(e)
+
         write_videofile(clip_to_write, output_path, fps=fps)
-    finally:
-        if composite_clip is not None:
-            composite_clip.close()
-        if texture_clip is not None:
-            texture_clip.close()
-        if final_clip is not None and composite_clip is None:
-            final_clip.close()
-        for clip in clips:
-            clip.close()
+    except Exception as e:
+        print(e)
+        raise e
+        
 
     return output_path
 
@@ -106,6 +115,21 @@ def _build_texture_overlay(final_clip):
     clip = _set_duration(clip, duration)
     clip = _set_opacity(clip, TEXTURE_OPACITY)
     return clip
+
+
+def _apply_background_music(clip):
+
+    music_path = choose_background_music()
+    print(music_path)
+    bgm= AudioFileClip(music_path).with_volume_scaled(0.1).subclipped(0, clip.duration)
+    final = clip.with_audio(
+        bgm if clip.audio is None else   CompositeAudioClip( [clip.audio,bgm])
+        )
+    try:
+        print(bgm.duration)
+    except Exception:
+        print(Exception)
+    return final
 
 
 def _resize_clip(clip, size):
