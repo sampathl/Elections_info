@@ -95,20 +95,20 @@ class EnglishVideoTextFormatter(VideoTextFormatter):
 
     def _assets_segment(self, amount: Optional[MoneyAmount]) -> VideoSegmentText:
         if amount is None:
-            primary = " Not declared"
+            primary = "Not declared"
         elif amount.rupees == 0:
-            primary = " None"
+            primary = "0"
         else:
-            primary = f" {self._numeric_phrase(amount)}"
+            primary = self._numeric_value(amount)
         return VideoSegmentText(text=primary)
 
     def _liabilities_segment(self, amount: Optional[MoneyAmount]) -> VideoSegmentText:
         if amount is None:
-            primary = " Not declared"
+            primary = "Not declared"
         elif amount.rupees == 0:
-            primary = " None"
+            primary = "0"
         else:
-            primary = f" {self._numeric_phrase(amount)}"
+            primary = self._numeric_value(amount)
         return VideoSegmentText(text=primary)
 
     def _parse_money_amount(
@@ -121,11 +121,5 @@ class EnglishVideoTextFormatter(VideoTextFormatter):
             currency_tokens=self._CURRENCY_TOKENS,
         )
 
-    def _numeric_phrase(self, amount: MoneyAmount) -> str:
-        if amount.unit_key in {"crore", "lakh", "thousand", "million"} and amount.magnitude:
-            numeric = _format_decimal_english(amount.magnitude)
-            unit_text = amount.unit_key
-        else:
-            numeric = _format_decimal_english(amount.rupees)
-            unit_text = "rupees"
-        return f"{numeric} {unit_text}"
+    def _numeric_value(self, amount: MoneyAmount) -> str:
+        return _format_decimal_english(amount.rupees)

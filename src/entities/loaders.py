@@ -10,6 +10,8 @@ from src.entities.candidate_record import CandidateRecord
 
 
 EXPECTED_COLUMNS = (
+    "Constituency_ID",
+    "Candidate_ID",
     "Constituency",
     "Election_Type",
     "Candidate_name",
@@ -47,6 +49,8 @@ def load_candidate_records(path: Path) -> List[CandidateRecord]:
 
 def _row_to_record(row: Dict[str, object]) -> CandidateRecord:
     return CandidateRecord(
+        constituency_id=_normalise_value(row, "Constituency_ID"),
+        candidate_id=_normalise_value(row, "Candidate_ID"),
         constituency=_normalise_value(row, "Constituency"),
         election_type=_normalise_value(row, "Election_Type"),
         candidate_name=_normalise_value(row, "Candidate_name"),

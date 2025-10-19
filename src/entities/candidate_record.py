@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 
 
 @dataclass
 class CandidateRecord:
+    constituency_id: str
+    candidate_id: str
     constituency: str
     election_type: str
     candidate_name: str
@@ -21,3 +23,14 @@ class CandidateRecord:
     liabilities_description: str
     voter_info: str
     url: str
+
+    def __post_init__(self) -> None:
+        for field in fields(self):
+            value = getattr(self, field.name)
+            if value is None:
+                sanitized = ""
+            elif isinstance(value, str):
+                sanitized = value.strip()
+            else:
+                sanitized = str(value).strip()
+            object.__setattr__(self, field.name, sanitized)

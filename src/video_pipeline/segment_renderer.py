@@ -123,10 +123,19 @@ class SegmentVideoRenderer:
 
         try:
             base_clip = VideoFileClip(str(background_path))
-            if base_clip.duration is None or base_clip.duration < duration - 0.05:
+            clip_duration = getattr(base_clip, "duration", None) or 0.0
+            margin = 0.3
+
+            if clip_duration + margin < duration:
                 base_clip = self._loop_clip(base_clip, duration)
             else:
-                base_clip = self._subclip(base_clip, 0, duration)
+                trimmed_duration = min(duration, max(0, clip_duration))
+                if trimmed_duration <= 0:
+                    raise RuntimeError(
+                        f"Background clip '{background_path}' has non-positive duration."
+                    )
+                adjusted_end = min(trimmed_duration, clip_duration)
+                base_clip = self._subclip(base_clip, 0, adjusted_end)
 
             if tuple(base_clip.size) != tuple(self._resolution):
                 base_clip = self._resize(base_clip, self._resolution)

@@ -8,7 +8,7 @@ from typing import Dict, Sequence, Tuple
 from src.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
 
 from .base import ImageLayerSpec, TextLayerSpec, VideoLayoutStrategy
-from ..paths import VIDEO_LOCALE_PATHS
+from ..paths import locale_assets
 from ..utils import sanitize_filename_fragment
 
 __all__ = ["HindiVideoLayoutStrategy"]
@@ -22,27 +22,27 @@ class HindiVideoLayoutStrategy(VideoLayoutStrategy):
     locale = "hi"
 
     _SEGMENT_BACKGROUNDS: Dict[str, str] = {
-        "name": "info_hindi.mp4",
-        "party": "party_hindi.mp4",
-        "constituency": "board_hindi.mp4",
-        "age": "info_hindi.mp4",
-        "education": "degree_hindi.mp4",
-        "criminal_cases": "cases_hindi.mp4",
-        "assets": "assets_hindi.mp4",
-        "liabilities": "assets_hindi.mp4",
+        "name": "info.mp4",
+        "party": "party.mp4",
+        "constituency": "board.mp4",
+        "age": "info.mp4",
+        "education": "degree.mp4",
+        "criminal_cases": "cases.mp4",
+        "assets": "assets.mp4",
+        "liabilities": "assets.mp4",
     }
 
     _EDUCATION_BACKGROUNDS: Tuple[Tuple[str, str], ...] = (
-        ("डॉक्टरेट", "doctorate_hindi.mp4"),
-        ("doctorate", "doctorate_hindi.mp4"),
-        ("स्नातकोत्तर", "degree_hindi.mp4"),
-        ("post graduate", "degree_hindi.mp4"),
-        ("स्नातक", "degree_hindi.mp4"),
-        ("graduate", "degree_hindi.mp4"),
-        ("व्यावसायिक", "degree_hindi.mp4"),
-        ("professional", "degree_hindi.mp4"),
-        ("साक्षर", "literate_hindi.mp4"),
-        ("literate", "literate_hindi.mp4"),
+        ("डॉक्टरेट", "doctorate.mp4"),
+        ("doctorate", "doctorate.mp4"),
+        ("स्नातकोत्तर", "degree.mp4"),
+        ("post graduate", "degree.mp4"),
+        ("स्नातक", "degree.mp4"),
+        ("graduate", "degree.mp4"),
+        ("व्यावसायिक", "degree.mp4"),
+        ("professional", "degree.mp4"),
+        ("साक्षर", "literate.mp4"),
+        ("literate", "literate.mp4"),
     )
 
     def __init__(
@@ -53,20 +53,24 @@ class HindiVideoLayoutStrategy(VideoLayoutStrategy):
         primary_font: str | None = None,
         party_symbol_path: Path | None = None,
     ) -> None:
-        config = VIDEO_LOCALE_PATHS[self.locale]
+        config = locale_assets(self.locale)
 
-        self._background_directory = (
-            background_directory or config.background_directory
-        ).resolve()
-        self._output_directory = (
-            output_directory or config.output_directory
-        ).resolve()
+        background_dir = (background_directory or config.background_directory).resolve()
+        self._background_directory = background_dir
+
+        if output_directory is None:
+            default_output = (background_dir.parent / "output").resolve()
+        else:
+            default_output = output_directory.resolve()
+        self._output_directory = default_output
         self._output_directory.mkdir(parents=True, exist_ok=True)
         self._primary_font = primary_font or DEVANAGARI_FONT_PATH
         if party_symbol_path is not None:
             self._party_symbol_path = party_symbol_path.resolve()
         else:
             self._party_symbol_path = config.party_symbol_path
+        background_label = self._background_directory.name.lower()
+        self._text_color = "#000000" if "white" in background_label else "#FFFFFF"
 
     @property
     def background_directory(self) -> Path:
@@ -112,7 +116,7 @@ class HindiVideoLayoutStrategy(VideoLayoutStrategy):
                 max_width_ratio=0.9,
                 box_color=None,
                 box_opacity=0.0,
-                color="#FFFFFF",
+                color=self._text_color,
             )
         ]
 
@@ -155,4 +159,4 @@ class HindiVideoLayoutStrategy(VideoLayoutStrategy):
             for token, filename in self._EDUCATION_BACKGROUNDS:
                 if token in primary:
                     return filename
-        return self._SEGMENT_BACKGROUNDS.get(segment.key, "info_hindi.mp4")
+        return self._SEGMENT_BACKGROUNDS.get(segment.key, "info.mp4")

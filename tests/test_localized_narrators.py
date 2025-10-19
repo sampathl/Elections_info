@@ -38,6 +38,8 @@ else:
 
 def _sample_entity() -> CandidateRecord:
     return CandidateRecord(
+        constituency_id="243",
+        candidate_id="001",
         constituency="AGIAON (SC)",
         election_type="General",
         candidate_name="Manoj Manzil",

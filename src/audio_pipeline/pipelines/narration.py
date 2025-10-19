@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from pathlib import Path
 from typing import Iterable, List, Sequence
 
 from src.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
@@ -20,7 +21,7 @@ from src.video_pipeline.layouts import (
     HindiVideoLayoutStrategy,
     VideoLayoutStrategy,
 )
-from src.video_pipeline.paths import AUDIO_OUTPUT_DIRECTORY
+from src.video_pipeline.paths import candidate_base_directory, choose_background_directory
 from src.video_pipeline.utils import sanitize_filename_fragment
 from src.video_pipeline.segment_renderer import SegmentVideoRenderer
 from src.video_pipeline.text_generators import VideoTextFactory
@@ -35,7 +36,12 @@ class NarrationPipeline:
 
     def build_assets(self, record: CandidateRecord) -> CandidateNarrationAssets:
         """Return an empty asset set for the record."""
-        return CandidateNarrationAssets(record=record)
+        assets = CandidateNarrationAssets(record=record)
+        base_dir = candidate_base_directory(record)
+        assets.configure_output_paths(base_dir, self.locale)
+        seed = f"{record.constituency_id}:{record.candidate_id}"
+        assets.background_directory = choose_background_directory(self.locale, seed=seed)
+        return assets
 
     def populate_ssml(
         self,
@@ -81,7 +87,10 @@ class NarrationPipeline:
 
     def synthesize_audio(self, assets: CandidateNarrationAssets) -> None:
         """Generate per-segment audio files."""
-        AUDIO_OUTPUT_DIRECTORY.mkdir(parents=True, exist_ok=True)
+        audio_directory = assets.audio_segments_dir
+        if audio_directory is None:
+            raise ValueError("Audio segments directory has not been configured on assets.")
+        audio_directory.mkdir(parents=True, exist_ok=True)
         voice_selection = select_chirp3_voice(self.locale, model=DEFAULT_CHIRP3_MODEL)
 
         for segment in self.segment_sequence(assets):
@@ -97,7 +106,7 @@ class NarrationPipeline:
                 ssml = f"<speak>{ssml}</speak>"
 
             file_stem = self._segment_audio_stem(assets.record.candidate_name, segment.key)
-            output_path = AUDIO_OUTPUT_DIRECTORY / f"{file_stem}.mp3"
+            output_path = audio_directory / f"{file_stem}_{self.locale}.mp3"
             synthesize_audio_with_chirp3(
                 ssml,
                 str(output_path),
@@ -108,10 +117,22 @@ class NarrationPipeline:
 
     def render_video(self, assets: CandidateNarrationAssets) -> None:
         """Generate per-segment video clips."""
+        video_directory = assets.video_segments_dir
+        if video_directory is None:
+            raise ValueError("Video segments directory has not been configured on assets.")
+
+        background_directory = assets.background_directory
+
         if self.locale == "en":
-            strategy = EnglishVideoLayoutStrategy()
+            strategy = EnglishVideoLayoutStrategy(
+                background_directory=background_directory,
+                output_directory=video_directory,
+            )
         elif self.locale == "hi":
-            strategy = HindiVideoLayoutStrategy()
+            strategy = HindiVideoLayoutStrategy(
+                background_directory=background_directory,
+                output_directory=video_directory,
+            )
         else:
             raise NotImplementedError(
                 f"Video rendering not yet implemented for locale '{self.locale}'"
@@ -209,4 +230,6 @@ class NarrationPipeline:
             allow_unicode=(self.locale == "hi"),
         )
         filename = f"{candidate_fragment}_{self.locale}_stitched.mp4"
-        return strategy.output_directory / filename
+        base_directory = assets.locale_directory or strategy.output_directory
+        base_directory.mkdir(parents=True, exist_ok=True)
+        return base_directory / filename

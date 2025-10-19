@@ -124,20 +124,20 @@ class HindiVideoTextFormatter(VideoTextFormatter):
 
     def _assets_segment(self, amount: Optional[MoneyAmount]) -> VideoSegmentText:
         if amount is None:
-            primary = " उपलब्ध नहीं"
+            primary = "उपलब्ध नहीं"
         elif amount.rupees == 0:
-            primary = " नहीं"
+            primary = "०"
         else:
-            primary = f"{self._numeric_phrase(amount)}"
+            primary = self._numeric_value(amount)
         return VideoSegmentText(text=primary)
 
     def _liabilities_segment(self, amount: Optional[MoneyAmount]) -> VideoSegmentText:
         if amount is None:
             primary = "उपलब्ध नहीं"
         elif amount.rupees == 0:
-            primary = " नहीं"
+            primary = "०"
         else:
-            primary = f" {self._numeric_phrase(amount)}"
+            primary = self._numeric_value(amount)
         return VideoSegmentText(text=primary)
 
     def _parse_money_amount(
@@ -150,23 +150,9 @@ class HindiVideoTextFormatter(VideoTextFormatter):
             currency_tokens=self._CURRENCY_TOKENS,
         )
 
-    def _numeric_phrase(self, amount: MoneyAmount) -> str:
-        if amount.unit_key == "crore" and amount.magnitude is not None:
-            numeric = _format_decimal_indian(amount.magnitude)
-            unit = "करोड़"
-        elif amount.unit_key == "lakh" and amount.magnitude is not None:
-            numeric = _format_decimal_indian(amount.magnitude)
-            unit = "लाख"
-        elif amount.unit_key == "thousand" and amount.magnitude is not None:
-            numeric = _format_decimal_indian(amount.magnitude)
-            unit = "हज़ार"
-        elif amount.unit_key == "million" and amount.magnitude is not None:
-            numeric = _format_decimal_indian(amount.magnitude)
-            unit = "मिलियन"
-        else:
-            numeric = _format_decimal_indian(amount.rupees)
-            unit = "रुपये"
-        return f"{numeric.translate(_DEVANAGARI_DIGITS)} {unit}"
+    def _numeric_value(self, amount: MoneyAmount) -> str:
+        numeric = _format_decimal_indian(amount.rupees)
+        return numeric.translate(_DEVANAGARI_DIGITS)
 
     def _transliterate(self, text: str) -> str:
         if not text:

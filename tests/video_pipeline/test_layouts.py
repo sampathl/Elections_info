@@ -14,6 +14,8 @@ from src.video_pipeline.text_generators import VideoSegmentText
 @pytest.fixture
 def sample_assets() -> CandidateNarrationAssets:
     record = CandidateRecord(
+        constituency_id="243",
+        candidate_id="001",
         constituency="Sample Constituency",
         election_type="General Election",
         candidate_name="Sample Candidate",
@@ -106,7 +108,7 @@ def test_english_layout_output_filename(tmp_path: Path, sample_assets: Candidate
     )
 
     filename = strategy.output_filename_for_segment(sample_assets, segment)
-    assert filename.endswith("_party.mp4")
+    assert filename.endswith("_party_en.mp4")
     assert "Sample_Candidate" in filename
 
 
@@ -122,14 +124,14 @@ def test_hindi_layout_background_resolution(tmp_path: Path, sample_assets: Candi
     )
 
     background = strategy.background_for_segment(sample_assets, education_segment)
-    assert background.name == "doctorate_hindi.mp4"
+    assert background.name == "doctorate.mp4"
 
     default_segment = SegmentAsset(
         key="criminal_cases",
         overlay_text=VideoSegmentText(text="कोई आपराधिक मामला नहीं"),
     )
     default_background = strategy.background_for_segment(sample_assets, default_segment)
-    assert default_background.name == "cases_hindi.mp4"
+    assert default_background.name == "cases.mp4"
 
 
 def test_hindi_layout_text_layers(tmp_path: Path, sample_assets: CandidateNarrationAssets) -> None:

@@ -35,6 +35,11 @@ class CandidateNarrationAssets:
     """Aggregate per-segment artefacts for a single candidate narration."""
 
     record: CandidateRecord
+    output_base_dir: Optional[Path] = None
+    background_directory: Optional[Path] = None
+    locale_directory: Optional[Path] = None
+    audio_segments_dir: Optional[Path] = None
+    video_segments_dir: Optional[Path] = None
     segments: MutableMapping[str, SegmentAsset] = field(default_factory=dict)
     full_ssml: Optional[str] = None
     full_text: Optional[str] = None
@@ -93,3 +98,20 @@ class CandidateNarrationAssets:
         """Clear stitched output locations."""
         self.stitched_audio_path = None
         self.stitched_video_path = None
+
+    def configure_output_paths(self, base_dir: Path, locale: str) -> None:
+        """Set the per-candidate output directories."""
+        base_dir = base_dir.resolve()
+        base_dir.mkdir(parents=True, exist_ok=True)
+        locale_dir = base_dir / locale
+        audio_dir = locale_dir / "audio_segments"
+        video_dir = locale_dir / "video_segments"
+
+        locale_dir.mkdir(parents=True, exist_ok=True)
+        audio_dir.mkdir(parents=True, exist_ok=True)
+        video_dir.mkdir(parents=True, exist_ok=True)
+
+        self.output_base_dir = base_dir
+        self.locale_directory = locale_dir
+        self.audio_segments_dir = audio_dir
+        self.video_segments_dir = video_dir

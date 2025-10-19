@@ -12,6 +12,8 @@ from src.video_pipeline.text_generators import hindi as hindi_module
 
 def _sample_record() -> CandidateRecord:
     return CandidateRecord(
+        constituency_id="243",
+        candidate_id="001",
         constituency="AGIAON (SC)",
         election_type="General Election",
         candidate_name="Manoj Manzil",
@@ -49,8 +51,8 @@ def test_english_formatter_segments_expected_text() -> None:
         "AGIAON (SC)\nConstituency\n196-Tarari constituency, Serial 619, Part 140"
     )
 
-    assert segments["assets"].text == "Assets: 3 lakh"
-    assert segments["liabilities"].text == "Liabilities: 10 thousand"
+    assert segments["assets"].text == "316,500"
+    assert segments["liabilities"].text == "10,000"
     assert segments["criminal_cases"].text == "Criminal cases: 2"
 
 
@@ -93,7 +95,7 @@ def test_hindi_formatter_segments_expected_text(stub_transliteration) -> None:
     formatter = HindiVideoTextFormatter()
     segments = formatter.segment_texts(_sample_record())
 
-    assert segments["age"].text == "आयु: ३६"
+    assert segments["age"].text == "३६"
     assert segments["party"].text == "देवनागरी:CPI(ML)(L)\nराजनीतिक दल"
     assert segments["constituency"].text == (
         "देवनागरी:AGIAON (SC)\nनिर्वाचन क्षेत्र\nदेवनागरी:196-Tarari constituency, Serial 619, Part 140"
@@ -102,8 +104,8 @@ def test_hindi_formatter_segments_expected_text(stub_transliteration) -> None:
     assert segments["education"].text == (
         "स्नातक शिक्षा प्राप्त है\nदेवनागरी:B.A. from H.D. Jain College, Ara in 2015"
     )
-    assert segments["assets"].text == "संपत्ति: ३ लाख"
-    assert segments["liabilities"].text == "ऋण: १० हज़ार"
+    assert segments["assets"].text == "३,१६,५००"
+    assert segments["liabilities"].text == "१०,०००"
     assert segments["criminal_cases"].text == "आपराधिक मामले: २"
 
 
@@ -115,7 +117,7 @@ def test_pipeline_populate_video_text_hindi_updates_assets(stub_transliteration)
 
     assets_segment = assets.segments["assets"]
     assert assets_segment.overlay_text is not None
-    assert assets_segment.overlay_text.text == "संपत्ति: ३ लाख"
+    assert assets_segment.overlay_text.text == "३,१६,५००"
     name_segment = assets.segments["name"]
     assert name_segment.overlay_text is not None
     assert name_segment.overlay_text.text.startswith("देवनागरी:Manoj Manzil")

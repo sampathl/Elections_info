@@ -8,7 +8,7 @@ from typing import Dict, Sequence, Tuple
 from src.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
 
 from .base import ImageLayerSpec, TextLayerSpec, VideoLayoutStrategy
-from ..paths import VIDEO_LOCALE_PATHS
+from ..paths import locale_assets
 from ..utils import sanitize_filename_fragment
 
 __all__ = ["EnglishVideoLayoutStrategy"]
@@ -46,20 +46,24 @@ class EnglishVideoLayoutStrategy(VideoLayoutStrategy):
         primary_font: str | None = None,
         party_symbol_path: Path | None = None,
     ) -> None:
-        config = VIDEO_LOCALE_PATHS[self.locale]
+        config = locale_assets(self.locale)
 
-        self._background_directory = (
-            background_directory or config.background_directory
-        ).resolve()
-        self._output_directory = (
-            output_directory or config.output_directory
-        ).resolve()
+        background_dir = (background_directory or config.background_directory).resolve()
+        self._background_directory = background_dir
+
+        if output_directory is None:
+            default_output = (background_dir.parent / "output").resolve()
+        else:
+            default_output = output_directory.resolve()
+        self._output_directory = default_output
         self._output_directory.mkdir(parents=True, exist_ok=True)
         self._primary_font = primary_font
         if party_symbol_path is not None:
             self._party_symbol_path = party_symbol_path.resolve()
         else:
             self._party_symbol_path = config.party_symbol_path
+        background_label = self._background_directory.name.lower()
+        self._text_color = "#000000" if "white" in background_label else "#FFFFFF"
 
     @property
     def background_directory(self) -> Path:
@@ -105,7 +109,7 @@ class EnglishVideoLayoutStrategy(VideoLayoutStrategy):
                 max_width_ratio=0.9,
                 box_color=None,
                 box_opacity=0.0,
-                color="#FFFFFF",
+                color=self._text_color,
             )
         ]
 
@@ -135,7 +139,7 @@ class EnglishVideoLayoutStrategy(VideoLayoutStrategy):
     ) -> str:
         candidate_fragment = sanitize_filename_fragment(assets.record.candidate_name)
         segment_fragment = sanitize_filename_fragment(segment.key)
-        return f"{candidate_fragment}_{segment_fragment}.mp4"
+        return f"{candidate_fragment}_{segment_fragment}_en.mp4"
 
     def _resolve_background_filename(self, segment: SegmentAsset) -> str:
         if segment.key == "education" and segment.overlay_text is not None:

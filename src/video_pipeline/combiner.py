@@ -6,23 +6,15 @@ import random
 from pathlib import Path
 from typing import Sequence
 
-from .paths import TEXTURE_DIRECTORY
+from .paths import CREDITS_IMAGE, DISCLAIMER_IMAGE, TEXTURE_DIRECTORY
 from .utils import write_videofile
 
-try:  # Keep compatibility with either MoviePy namespace style.
-    import moviepy as mp  # type: ignore
+import moviepy as mp  # type: ignore
 
-    CompositeVideoClip = mp.CompositeVideoClip  # type: ignore[attr-defined]
-    ImageClip = mp.ImageClip  # type: ignore[attr-defined]
-    VideoFileClip = mp.VideoFileClip  # type: ignore[attr-defined]
-    concatenate_videoclips = mp.concatenate_videoclips  # type: ignore[attr-defined]
-except Exception:  # pragma: no cover - fallback for legacy MoviePy installs.
-    from moviepy.editor import (  # type: ignore
-        CompositeVideoClip,
-        ImageClip,
-        VideoFileClip,
-        concatenate_videoclips,
-    )
+CompositeVideoClip = mp.CompositeVideoClip  # type: ignore[attr-defined]
+ImageClip = mp.ImageClip  # type: ignore[attr-defined]
+VideoFileClip = mp.VideoFileClip  # type: ignore[attr-defined]
+concatenate_videoclips = mp.concatenate_videoclips  # type: ignore[attr-defined]
 
 TEXTURE_OPACITY = 0.12
 _TEXTURE_SUFFIXES = {".jpg", ".jpeg", ".png"}
@@ -48,6 +40,8 @@ def stitch_videos(
     final_clip = None
     texture_clip = None
     composite_clip = None
+    disclaimer_clip = None
+    credits_clip = None
 
     try:
         for path in video_paths:
@@ -55,6 +49,16 @@ def stitch_videos(
                 clips.append(VideoFileClip(str(path)))
             except Exception as exc:
                 raise RuntimeError(f"Failed to load segment clip '{path}': {exc}") from exc
+
+        target_size = clips[0].size if clips else None
+
+        disclaimer_clip = _build_static_clip(DISCLAIMER_IMAGE, target_size)
+        if disclaimer_clip is not None:
+            clips.insert(0, disclaimer_clip)
+
+        credits_clip = _build_static_clip(CREDITS_IMAGE, target_size)
+        if credits_clip is not None:
+            clips.append(credits_clip)
 
         final_clip = concatenate_videoclips(clips, method="compose")
         texture_clip = _build_texture_overlay(final_clip)
@@ -125,4 +129,13 @@ def _set_opacity(clip, opacity):
         return clip.set_opacity(opacity)
     if hasattr(clip, "with_opacity"):
         return clip.with_opacity(opacity)
+    return clip
+
+
+def _build_static_clip(image_path: Path, size):
+    if not image_path.exists():
+        return None
+    clip = ImageClip(str(image_path), duration=1)
+    if size is not None and tuple(clip.size) != tuple(size):
+        clip = _resize_clip(clip, size)
     return clip
