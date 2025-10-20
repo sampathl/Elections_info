@@ -1,0 +1,235 @@
+"""Skeleton pipeline for SSML, audio, and video generation."""
+
+from __future__ import annotations
+
+import re
+from pathlib import Path
+from typing import Iterable, List, Sequence
+
+from contestants.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
+from contestants.audio_pipeline.ssml_generators.factory import CandidateNarratorFactory
+from contestants.audio_pipeline.tts_clients.google_tts_client import (
+    DEFAULT_CHIRP3_MODEL,
+    select_chirp3_voice,
+    synthesize_audio_with_chirp3,
+)
+from contestants.entities.candidate_record import CandidateRecord
+from contestants.entities.loaders import iter_candidate_records
+from contestants.video_pipeline.combiner import stitch_videos
+from contestants.video_pipeline.layouts import (
+    EnglishVideoLayoutStrategy,
+    HindiVideoLayoutStrategy,
+    VideoLayoutStrategy,
+)
+from contestants.video_pipeline.paths import candidate_base_directory, choose_background_directory
+from contestants.video_pipeline.utils import sanitize_filename_fragment
+from contestants.video_pipeline.segment_renderer import SegmentVideoRenderer
+from contestants.video_pipeline.text_generators import VideoTextFactory
+
+
+class NarrationPipeline:
+    """High-level pipeline orchestrator for narration artefacts."""
+
+    def __init__(self, *, locale: str, segment_order: Sequence[str] | None = None) -> None:
+        self.locale = locale
+        self._segment_order = segment_order
+
+    def build_assets(self, record: CandidateRecord) -> CandidateNarrationAssets:
+        """Return an empty asset set for the record."""
+        assets = CandidateNarrationAssets(record=record)
+        base_dir = candidate_base_directory(record)
+        assets.configure_output_paths(base_dir, self.locale)
+        seed = f"{record.constituency_id}:{record.candidate_id}"
+        assets.background_directory = choose_background_directory(self.locale, seed=seed)
+        return assets
+
+    def populate_ssml(
+        self,
+        assets: CandidateNarrationAssets,
+        wrap_with_speak: bool = True,
+        store_full_ssml: bool = False,
+    ) -> None:
+        """Populate SSML fragments on the provided assets."""
+        narrator = CandidateNarratorFactory().create(self.locale)
+        segments = narrator.ssml_segments(assets.record)
+
+        for key, fragment in segments.items():
+            if wrap_with_speak and fragment and not fragment.lstrip().startswith("<speak"):
+                wrapped = f"<speak>{fragment}</speak>"
+            else:
+                wrapped = fragment
+            assets.update_segment(key, ssml=wrapped)
+            if store_full_ssml:
+                assets.full_ssml = narrator.ssml_text(
+                    assets.record, include_speak_wrapper=wrap_with_speak
+                )
+
+    def populate_text(self, assets: CandidateNarrationAssets) -> None:
+        """Populate human-readable text for each segment."""
+        narrator = CandidateNarratorFactory().create(self.locale)
+        segments = narrator.ssml_segments(assets.record)
+
+        for key, fragment in segments.items():
+            plain = self._strip_markup(fragment)
+            assets.update_segment(key, text=plain)
+        full_plain = narrator.ssml_text(
+            assets.record, include_speak_wrapper=False
+        )
+        assets.full_text = self._strip_markup(full_plain)
+
+    def populate_video_text(self, assets: CandidateNarrationAssets) -> None:
+        """Populate overlay text used for per-segment video captions."""
+        formatter = VideoTextFactory().create(self.locale)
+        overlays = formatter.segment_texts(assets.record)
+
+        for key, overlay in overlays.items():
+            assets.update_segment(key, overlay_text=overlay)
+
+    def synthesize_audio(self, assets: CandidateNarrationAssets) -> None:
+        """Generate per-segment audio files."""
+        audio_directory = assets.audio_segments_dir
+        if audio_directory is None:
+            raise ValueError("Audio segments directory has not been configured on assets.")
+        audio_directory.mkdir(parents=True, exist_ok=True)
+        voice_selection = select_chirp3_voice(self.locale, model=DEFAULT_CHIRP3_MODEL)
+
+        for segment in self.segment_sequence(assets):
+            ssml = segment.ssml
+            if not ssml:
+                continue
+
+            ssml = ssml.strip()
+            if not ssml:
+                continue
+
+            if not ssml.lstrip().startswith("<speak"):
+                ssml = f"<speak>{ssml}</speak>"
+
+            file_stem = self._segment_audio_stem(assets.record.candidate_name, segment.key)
+            output_path = audio_directory / f"{file_stem}_{self.locale}.mp3"
+            synthesize_audio_with_chirp3(
+                ssml,
+                str(output_path),
+                voice_selection,
+                self.locale,
+            )
+            assets.update_segment(segment.key, audio_path=output_path)
+
+    def render_video(self, assets: CandidateNarrationAssets) -> None:
+        """Generate per-segment video clips."""
+        video_directory = assets.video_segments_dir
+        if video_directory is None:
+            raise ValueError("Video segments directory has not been configured on assets.")
+
+        background_directory = assets.background_directory
+
+        if self.locale == "en":
+            strategy = EnglishVideoLayoutStrategy(
+                background_directory=background_directory,
+                output_directory=video_directory,
+            )
+        elif self.locale == "hi":
+            strategy = HindiVideoLayoutStrategy(
+                background_directory=background_directory,
+                output_directory=video_directory,
+            )
+        else:
+            raise NotImplementedError(
+                f"Video rendering not yet implemented for locale '{self.locale}'"
+            )
+
+        renderer = SegmentVideoRenderer(layout_strategy=strategy)
+
+        segments = list(self.segment_sequence(assets))
+        renderer.render_segments(assets, segments)
+
+        video_paths = [segment.video_path for segment in segments if segment.video_path]
+        if not video_paths:
+            assets.stitched_video_path = None
+            return
+
+        stitched_output_path = self._default_stitched_video_path(assets, strategy)
+        stitched_output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        stitch_videos(video_paths, stitched_output_path, fps=strategy.preferred_fps())
+        assets.stitched_video_path = stitched_output_path
+
+    def stitch_audio(self, assets: CandidateNarrationAssets, output_path: Path) -> None:
+        """Combine per-segment audio into a single timeline."""
+        # To be implemented: combine audio clips and update `stitched_audio_path`.
+        raise NotImplementedError
+
+    def stitch_video(self, assets: CandidateNarrationAssets, output_path: Path) -> None:
+        """Combine per-segment video clips into a single render."""
+        # To be implemented: combine video clips and update `stitched_video_path`.
+        raise NotImplementedError
+
+    def segment_sequence(self, assets: CandidateNarrationAssets) -> Iterable[SegmentAsset]:
+        """Yield segments in the configured order."""
+        order = self._segment_order
+        if order is None:
+            return assets.ordered_segments()
+        return [assets.ensure_segment(key) for key in order]
+
+    def iter_assets_from_csv(
+        self,
+        csv_path: Path,
+        *,
+        wrap_with_speak: bool = True,
+    ) -> Iterable[CandidateNarrationAssets]:
+        """Yield populated assets for each record in the CSV."""
+
+        for record in iter_candidate_records(csv_path):
+            assets = self.build_assets(record)
+            self.populate_ssml(
+                assets,
+                wrap_with_speak=wrap_with_speak,
+                store_full_ssml=True,
+            )
+            self.populate_text(assets)
+            yield assets
+
+    def combine_text_report(
+        self,
+        assets_list: Iterable[CandidateNarrationAssets],
+    ) -> str:
+        """Return combined SSML/text output suitable for a single file."""
+
+        lines: list[str] = []
+        for idx, assets in enumerate(assets_list, start=1):
+            header = f"## {idx:03d} - {assets.record.candidate_name} ({assets.record.constituency})"
+            lines.append(header)
+            lines.append("# SSML")
+            lines.append(assets.full_ssml or "(no SSML)")
+            lines.append("# Text")
+            lines.append(assets.full_text or "(no text)")
+            lines.append("")
+        return "\n".join(lines).strip()
+
+    @staticmethod
+    def _strip_markup(text: str) -> str:
+        if not text:
+            return ""
+        cleaned = re.sub(r"<mark[^>]*?>", "", text)
+        cleaned = cleaned.replace("<speak>", "").replace("</speak>", "")
+        return cleaned.strip()
+
+    @staticmethod
+    def _segment_audio_stem(candidate_name: str, segment_key: str) -> str:
+        base = f"{candidate_name}_{segment_key}"
+        sanitized = re.sub(r"[^A-Za-z0-9_-]+", "_", base).strip("_")
+        return sanitized or "segment"
+
+    def _default_stitched_video_path(
+        self,
+        assets: CandidateNarrationAssets,
+        strategy: VideoLayoutStrategy,
+    ) -> Path:
+        candidate_fragment = sanitize_filename_fragment(
+            assets.record.candidate_name,
+            allow_unicode=(self.locale == "hi"),
+        )
+        filename = f"{candidate_fragment}_{self.locale}_stitched.mp4"
+        base_directory = assets.locale_directory or strategy.output_directory
+        base_directory.mkdir(parents=True, exist_ok=True)
+        return base_directory / filename

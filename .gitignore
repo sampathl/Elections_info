@@ -1,4 +1,6 @@
 #.gitignore
+contestants/static
+winners/static
 /static
 token.json
 client_secret_lok_sabha.json
