@@ -90,6 +90,9 @@ class HindiVideoTextFormatter(VideoTextFormatter):
         constituency_source = record.constituency.strip()
         if constituency_source:
             primary = self._transliterate(constituency_source)
+            year = record.election_year.strip()
+            if year:
+                primary = f"{primary} ({self._transliterate(year)})"
         else:
             primary = "अज्ञात निर्वाचन क्षेत्र"
         return VideoSegmentText(text=primary)

@@ -53,10 +53,14 @@ class HindiNarrationFormatter(_FormatterBase, LocaleFormatter):
             descriptor = f"<break time='200ms'/> {party_ssml} पार्टी से संबद्ध हैं"
         return self._with_mark(f", {descriptor}", self.mark_party)
 
-    def constituency_segment(self, constituency_ssml: str) -> str:
+    def constituency_segment(self, constituency_ssml: str, *, year: str = "") -> str:
         if not constituency_ssml:
             return ""
-        phrase = f"{constituency_ssml} सीट के लिए चुनाव लड़ रहे हैं"
+        translated_year = year.translate(_DEVANAGARI_DIGITS) if year else ""
+        if translated_year:
+            phrase = f"{translated_year} में, {constituency_ssml} सीट से विजयी रहे।"
+        else:
+            phrase = f"{constituency_ssml} सीट से विजयी रहे।"
         return self._with_mark(f", {phrase}", self.mark_constituency)
 
     def age_segment(self, age_text: str) -> str:
@@ -67,18 +71,18 @@ class HindiNarrationFormatter(_FormatterBase, LocaleFormatter):
 
     def education_segment(self, education_level: str, details: str) -> str:
         mapping = {
-            "Doctorate": "डॉक्टरेट की उपाधि प्राप्त है",
-            "Post Graduate": "स्नातकोत्तर शिक्षा प्राप्त है",
-            "Graduate": "स्नातक शिक्षा प्राप्त है",
-            "Graduate Professional": "व्यावसायिक स्नातक शिक्षा प्राप्त है",
-            "12th Pass": "उच्च माध्यमिक तक पढ़ाई की है",
-            "10th Pass": "माध्यमिक तक पढ़ाई की है",
-            "8th Pass": "मध्य स्तर तक पढ़ाई की है",
-            "5th Pass": "प्राथमिक स्तर की शिक्षा प्राप्त है",
-            "Illiterate": "शिक्षित नहीं हैं",
-            "Literate": "मूल रूप से शिक्षित हैं",
-            "Others": "अन्य शिक्षा प्राप्त है",
-            "Not Given": "शिक्षा की जानकारी उपलब्ध नहीं है",
+            "Doctorate": "डॉक्टरेट की उपाधि प्राप्त थे",
+            "Post Graduate": "स्नातकोत्तर शिक्षा प्राप्त थे",
+            "Graduate": "स्नातक शिक्षा प्राप्त थे",
+            "Graduate Professional": "व्यावसायिक स्नातक शिक्षा प्राप्त थे",
+            "12th Pass": "उच्च माध्यमिक तक पढ़ाई की थे",
+            "10th Pass": "माध्यमिक तक पढ़ाई की थे",
+            "8th Pass": "मध्य स्तर तक पढ़ाई की थे",
+            "5th Pass": "प्राथमिक स्तर की शिक्षा प्राप्त थे",
+            "Illiterate": "शिक्षित नहीं थें",
+            "Literate": "मूल रूप से शिक्षित थें",
+            "Others": "अन्य शिक्षा प्राप्त थे",
+            "Not Given": "शिक्षा की जानकारी उपलब्ध नहीं थे",
         }
         base = mapping.get(
             education_level.strip(), f"{education_level or 'अस्पष्ट शिक्षा'}"
@@ -88,14 +92,14 @@ class HindiNarrationFormatter(_FormatterBase, LocaleFormatter):
 
     def criminal_segment(self, criminal_text: str) -> str:
         if criminal_text == "unknown":
-            phrase = "आपराधिक स्थिति अज्ञात है"
+            phrase = "आपराधिक स्थिति अज्ञात थे"
         elif criminal_text == "0":
-            phrase = "कोई आपराधिक मामला दर्ज नहीं है"
+            phrase = "कोई आपराधिक मामला दर्ज नहीं था"
         elif criminal_text == "1":
-            phrase = "एक आपराधिक मामला दर्ज है"
+            phrase = "एक आपराधिक मामला दर्ज था"
         else:
             phrase = (
-                f"<break time='200ms'/> {criminal_text.translate(_DEVANAGARI_DIGITS)} आपराधिक मामले दर्ज हैं"
+                f"<break time='200ms'/> {criminal_text.translate(_DEVANAGARI_DIGITS)} आपराधिक मामले दर्ज थे"
             )
         return self._with_mark(f", {phrase}", self.mark_criminal)
 
@@ -121,20 +125,20 @@ class HindiNarrationFormatter(_FormatterBase, LocaleFormatter):
 
     def assets_segment(self, amount: Optional[MoneyAmount]) -> str:
         if amount is None:
-            phrase = "संपत्ति का मूल्य उपलब्ध नहीं है"
+            phrase = "संपत्ति का मूल्य उपलब्ध नहीं थे"
         elif amount.rupees == 0:
-            phrase = "कोई संपत्ति घोषित नहीं की गई है"
+            phrase = "कोई संपत्ति घोषित नहीं की गई था"
         else:
-            phrase = f"घोषित संपत्ति {self._numeric_phrase(amount)} की है"
+            phrase = f"घोषित संपत्ति {self._numeric_phrase(amount)} की था"
         return self._with_mark(phrase, self.mark_assets)
 
     def liabilities_segment(self, amount: Optional[MoneyAmount]) -> str:
         if amount is None:
-            phrase = "ऋण का मूल्य उपलब्ध नहीं है"
+            phrase = "ऋण का मूल्य उपलब्ध नहीं थे"
         elif amount.rupees == 0:
-            phrase = "कोई ऋण दर्ज नहीं है"
+            phrase = "कोई ऋण दर्ज नहीं था"
         else:
-            phrase = f"घोषित ऋण {self._numeric_phrase(amount)} का है"
+            phrase = f"घोषित ऋण {self._numeric_phrase(amount)} का था"
         return self._with_mark(phrase, self.mark_liabilities)
 
     def combine_financial_segments(self, assets: str, liabilities: str) -> str:

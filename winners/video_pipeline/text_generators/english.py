@@ -65,6 +65,9 @@ class EnglishVideoTextFormatter(VideoTextFormatter):
 
     def _constituency_segment(self, record: CandidateRecord) -> VideoSegmentText:
         constituency = record.constituency.strip() or "Seat unspecified"
+        year = record.election_year.strip()
+        if year:
+            constituency = f"{constituency} ({year})"
         return VideoSegmentText(text=constituency)
 
     def _age_segment(self, record: CandidateRecord) -> VideoSegmentText:

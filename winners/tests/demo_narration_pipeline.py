@@ -39,6 +39,7 @@ def _sample_record() -> CandidateRecord:
         liabilities_description="10 Thousand",
         voter_info="196-Tarari (Bihar) constituency, at Serial no 619 in Part no 140",
         url="https://www.myneta.info/bihar2020/candidate.php?candidate_id=9784",
+        election_year="2015",
     )
 
 

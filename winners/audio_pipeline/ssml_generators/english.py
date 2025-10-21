@@ -44,19 +44,20 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
             return ""
         lower = party_text.lower()
         if lower == "independent":
-            descriptor = "is an independent candidate."
+            descriptor = "was an independent candidate."
         elif "party" in lower:
-            descriptor = f"is a member of the {party_ssml}."
+            descriptor = f"was a member of the {party_ssml}."
         else:
-            descriptor = f"is a member of the {party_ssml} party."
+            descriptor = f"was a member of the {party_ssml} party."
         return self._with_mark(f", {descriptor}", self.mark_party)
 
-    def constituency_segment(self, constituency_ssml: str) -> str:
+    def constituency_segment(self, constituency_ssml: str, year: str) -> str:
         if not constituency_ssml:
             return ""
         return self._with_mark(
-            ", contesting for the {constituency} seat".format(
-                constituency=constituency_ssml
+            ", won for the {constituency} seat in the {year}".format(
+                constituency=constituency_ssml,
+                year = year
             ),
             self.mark_constituency,
         )
@@ -72,18 +73,18 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
             "Post Graduate": "holds a post graduate degree",
             "Graduate": "holds a graduate degree",
             "Graduate Professional": "is a graduate professional",
-            "12th Pass": "has completed higher secondary education",
-            "10th Pass": "has completed secondary education",
-            "8th Pass": "has completed middle school",
-            "5th Pass": "has primary education",
-            "Illiterate": "is illiterate",
-            "Literate": "is literate with unspecified formal education",
-            "Others": "has other educational qualifications",
-            "Not Given": "has unspecified educational background",
+            "12th Pass": "had completed higher secondary education",
+            "10th Pass": "had completed secondary education",
+            "8th Pass": "had completed middle school",
+            "5th Pass": "had primary education",
+            "Illiterate": "was illiterate",
+            "Literate": "was literate with unspecified formal education",
+            "Others": "had other educational qualifications",
+            "Not Given": "had unspecified educational background",
         }
         base = descriptions.get(
             education_level.strip(),
-            "has {education} education".format(education=education_level or "unspecified"),
+            "had {education} education".format(education=education_level or "unspecified"),
         )
         suffix = f" ({details})" if details else ""
         return self._with_mark(f" {base}, {suffix}.", self.mark_education)
@@ -92,11 +93,11 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
         if criminal_text == "unknown":
             phrase = "legal standing is unknown"
         elif criminal_text == "0":
-            phrase = "has no criminal cases on record"
+            phrase = "had no criminal cases on record"
         elif criminal_text == "1":
-            phrase = "has one criminal case on record"
+            phrase = "had one criminal case on record"
         else:
-            phrase = f"has {criminal_text} criminal cases on record"
+            phrase = f"had {criminal_text} criminal cases on record"
         return self._with_mark(f" {phrase}.", self.mark_criminal)
 
     def _numeric_phrase(self, amount: MoneyAmount) -> str:
@@ -121,11 +122,11 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
 
     def assets_segment(self, amount: Optional[MoneyAmount]) -> str:
         if amount is None:
-            phrase = " assets with unspecified value."
+            phrase = "had assets with unspecified value."
         elif amount.rupees == 0:
-            phrase = " no assets declared."
+            phrase = "had no assets declared."
         else:
-            phrase = f" assets valued at {self._numeric_phrase(amount)}."
+            phrase = f"had assets valued at {self._numeric_phrase(amount)}."
         return self._with_mark(phrase, self.mark_assets)
 
     def liabilities_segment(self, amount: Optional[MoneyAmount]) -> str:

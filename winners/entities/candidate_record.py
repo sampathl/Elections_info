@@ -23,6 +23,7 @@ class CandidateRecord:
     liabilities_description: str
     voter_info: str
     url: str
+    election_year: str = ""
 
     def __post_init__(self) -> None:
         for field in fields(self):

@@ -32,7 +32,7 @@ class LocaleFormatter(Protocol):
     def party_segment(self, party_text: str, party_ssml: str) -> str:
         ...
 
-    def constituency_segment(self, constituency_ssml: str) -> str:
+    def constituency_segment(self, constituency_ssml: str, *, year: str = "") -> str:
         ...
 
     def age_segment(self, age_text: str) -> str:

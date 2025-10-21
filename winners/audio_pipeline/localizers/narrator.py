@@ -105,7 +105,8 @@ class LocalizedNarrator(CandidateNarrator):
         )
 
         constituency_segment = self._formatter.constituency_segment(
-            self._ssml_value(entity.constituency)
+            self._ssml_value(entity.constituency),
+            year=entity.election_year,
         )
 
         age_segment = self._formatter.age_segment(entity.age.strip())

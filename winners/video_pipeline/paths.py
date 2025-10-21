@@ -10,12 +10,20 @@ from typing import Optional, Sequence
 from winners.entities.candidate_record import CandidateRecord
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-OUTPUT_ROOT = (
-    PROJECT_ROOT / "static" / "Bihar" / "winners" / "2015"
-).resolve()
+_WINNER_OUTPUT_BASE = PROJECT_ROOT / "static" / "Bihar" / "winners"
+_DEFAULT_YEAR = "2015"
+OUTPUT_ROOT = (_WINNER_OUTPUT_BASE / _DEFAULT_YEAR).resolve()
 BACKGROUND_SET_ROOT = (
     PROJECT_ROOT / "static" / "background" / "back_ground_images" / "2025"
 ).resolve()
+
+
+def configure_output_year(year: str) -> Path:
+    """Set and return the output directory root for the provided election year."""
+    global OUTPUT_ROOT
+    selected_year = str(year).strip() or _DEFAULT_YEAR
+    OUTPUT_ROOT = (_WINNER_OUTPUT_BASE / selected_year).resolve()
+    return OUTPUT_ROOT
 
 
 @dataclass(frozen=True)

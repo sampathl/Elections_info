@@ -23,6 +23,7 @@ except ImportError as exc:  # pragma: no cover - runtime dependency notice
 
 from winners.audio_pipeline.pipelines.narration import NarrationPipeline
 from winners.entities.candidate_record import CandidateRecord
+from winners.video_pipeline.paths import configure_output_year
 
 REQUIRED_COLUMNS: Iterable[str] = (
     "Constituency_ID",
@@ -50,8 +51,8 @@ def _sanitize(value) -> str:
     return str(value).strip()
 
 
-def _row_to_record(row: Dict[str, object]) -> CandidateRecord:
-    return CandidateRecord(
+def _row_to_record(row: Dict[str, object], *, year: str = "") -> CandidateRecord:
+    record = CandidateRecord(
         constituency_id=_sanitize(row.get("Constituency_ID", "")),
         candidate_id=_sanitize(row.get("Candidate_ID", "")),
         constituency=_sanitize(row.get("Constituency", "")),
@@ -69,6 +70,8 @@ def _row_to_record(row: Dict[str, object]) -> CandidateRecord:
         voter_info=_sanitize(row.get("voter_info", "")),
         url=_sanitize(row.get("url", "")),
     )
+    record.election_year = str(year).strip()
+    return record
 
 
 def _generate_for_locale(
@@ -123,7 +126,8 @@ def _validate_columns(frame: pd.DataFrame) -> None:
         )
 
 
-def run_batch(csv_path: Path, *, limit: int | None = None) -> None:
+def run_batch(csv_path: Path, *, limit: int | None = None, year: str = "2015") -> None:
+    configure_output_year(year)
     logging.info("Loading candidate data from %s", csv_path)
     data = pd.read_csv(csv_path)
     _validate_columns(data)
@@ -138,7 +142,7 @@ def run_batch(csv_path: Path, *, limit: int | None = None) -> None:
     }
 
     for idx, row in enumerate(records, start=1):
-        record = _row_to_record(row)
+        record = _row_to_record(row, year=year)
         if not record.constituency_id or not record.candidate_id:
             logging.warning(
                 "Skipping row %d; missing Constituency_ID or Candidate_ID.", idx
@@ -173,6 +177,11 @@ def parse_args() -> argparse.Namespace:
         help="Optional cap on number of rows to process (useful for smoke tests).",
     )
     parser.add_argument(
+        "--year",
+        default="2015",
+        help="Election year used to route outputs under static/Bihar/winners/<year>/",
+    )
+    parser.add_argument(
         "--log-level",
         default="INFO",
         help="Logging level (DEBUG, INFO, WARNING, ERROR). Default: INFO.",
@@ -186,7 +195,7 @@ def main() -> None:
         level=getattr(logging, args.log_level.upper(), logging.INFO),
         format="%(levelname)s %(message)s",
     )
-    run_batch(args.csv, limit=args.limit)
+    run_batch(args.csv, limit=args.limit, year=args.year)
 
 
 if __name__ == "__main__":
