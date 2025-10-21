@@ -26,21 +26,18 @@ from winners.entities.candidate_record import CandidateRecord
 from winners.video_pipeline.paths import configure_output_year
 
 REQUIRED_COLUMNS: Iterable[str] = (
-    "Constituency_ID",
-    "Candidate_ID",
-    "Constituency",
+    "constituency_id",
+    "candidate_id",
+    "constituency",
     "Election_Type",
-    "Candidate_name",
-    "Party",
-    "Criminal_Cases",
-    "Education",
+    "candidate_name",
+    "party",
+    "criminal_cases",
     "education_details",
-    "age",
     "total_assets",
     "assets_description",
     "total_liabilities",
     "liabilities_description",
-    "voter_info",
     "url",
 )
 
@@ -53,15 +50,15 @@ def _sanitize(value) -> str:
 
 def _row_to_record(row: Dict[str, object], *, year: str = "") -> CandidateRecord:
     record = CandidateRecord(
-        constituency_id=_sanitize(row.get("Constituency_ID", "")),
-        candidate_id=_sanitize(row.get("Candidate_ID", "")),
-        constituency=_sanitize(row.get("Constituency", "")),
+        constituency_id=_sanitize(row.get("constituency_id", "")),
+        candidate_id=_sanitize(row.get("candidate_id", "")),
+        constituency=_sanitize(row.get("constituency", "")),
         election_type=_sanitize(row.get("Election_Type", "")),
-        candidate_name=_sanitize(row.get("Candidate_name", "")),
-        party=_sanitize(row.get("Party", "")),
-        criminal_cases=_sanitize(row.get("Criminal_Cases", "")),
-        education=_sanitize(row.get("Education", "")),
-        education_details=_sanitize(row.get("education_details", "")),
+        candidate_name=_sanitize(row.get("candidate_name", "")),
+        party=_sanitize(row.get("party", "")),
+        criminal_cases=_sanitize(row.get("criminal_cases", "")),
+        education=_sanitize(row.get("education_details", "")),
+        education_details=_sanitize(row.get("education_de", "")),
         age=_sanitize(row.get("age", "")),
         total_assets=_sanitize(row.get("total_assets", "")),
         assets_description=_sanitize(row.get("assets_description", "")),
@@ -69,8 +66,8 @@ def _row_to_record(row: Dict[str, object], *, year: str = "") -> CandidateRecord
         liabilities_description=_sanitize(row.get("liabilities_description", "")),
         voter_info=_sanitize(row.get("voter_info", "")),
         url=_sanitize(row.get("url", "")),
+        election_year=_sanitize(row.get("election_year",""))
     )
-    record.election_year = str(year).strip()
     return record
 
 

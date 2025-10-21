@@ -8,7 +8,7 @@ from typing import Dict, Sequence, Tuple
 from winners.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
 
 from .base import ImageLayerSpec, TextLayerSpec, VideoLayoutStrategy
-from ..paths import locale_assets
+from ..paths import locale_assets, resolve_party_symbol_path
 from ..utils import sanitize_filename_fragment
 
 __all__ = ["HindiVideoLayoutStrategy"]
@@ -127,11 +127,14 @@ class HindiVideoLayoutStrategy(VideoLayoutStrategy):
     ) -> Sequence[ImageLayerSpec]:
         if segment.key != "party":
             return []
-        if self._party_symbol_path is None or not self._party_symbol_path.exists():
+        symbol_path = resolve_party_symbol_path(assets.record.party)
+        if symbol_path is None or not symbol_path.exists():
+            symbol_path = self._party_symbol_path
+        if symbol_path is None or not symbol_path.exists():
             return []
         return [
             ImageLayerSpec(
-                path=self._party_symbol_path,
+                path=symbol_path,
                 anchor=(0.5, 0.82),
                 max_width_ratio=0.33,
                 max_height_ratio=0.22,
