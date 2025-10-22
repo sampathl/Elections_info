@@ -5,6 +5,7 @@ from typing import Optional, List, Dict, Any, Tuple
 from google.cloud import texttospeech_v1beta1 as  texttospeech
 from google.protobuf.json_format import MessageToDict
 from itertools import cycle
+from winners.utils.logging_config import get_pipeline_logger, PipelineLoggerAdapter
 
 # --- Configuration for Indian Language Codes and Voice Cycling ---
 
@@ -44,6 +45,8 @@ DEFAULT_CHIRP3_MODEL: str = "Chirp3-HD"
 # Create a cycler object for random but cycling voice selection
 # This holds the state and ensures voices are used one after the other before repeating.
 voice_cycler = cycle(random.sample(DEFAULT_CHIRP3_VOICES, len(DEFAULT_CHIRP3_VOICES)))
+
+_LOGGER: PipelineLoggerAdapter = get_pipeline_logger(__name__, component="tts")
 
 
 def select_chirp3_voice(
@@ -125,12 +128,14 @@ def synthesize_audio_with_chirp3(
             f"Supported codes are: {', '.join(LANGUAGE_MAP.keys())}"
         )
 
+    tts_logger = _LOGGER.bind(locale=language_code_2letter, segment="audio")
+    tts_logger.debug("Preparing TTS synthesis request")
+
     # 3. Initialize the client
     client = texttospeech.TextToSpeechClient()
 
     # 4. Set the text input (check for SSML structure)
     if text_or_ssml.strip().startswith('<speak'):
-        print(text_or_ssml)
         synthesis_input = texttospeech.SynthesisInput(ssml=text_or_ssml)
     else:
         synthesis_input = texttospeech.SynthesisInput(text=text_or_ssml)
@@ -163,14 +168,31 @@ def synthesize_audio_with_chirp3(
 
     # 7. Perform the text-to-speech request
     resolved_voice_name = voice_params["name"]
-    print(f"Synthesizing audio using voice: {resolved_voice_name}...")
-    response = client.synthesize_speech( req )
-    print("Synthesis complete.")
+    tts_logger.debug(
+        "Synthesizing audio",
+        extra={
+            "voice": resolved_voice_name,
+            "model": model,
+            "ssml_length": len(text_or_ssml),
+        },
+    )
+    try:
+        response = client.synthesize_speech(req)
+    except Exception:
+        tts_logger.exception(
+            "Text-to-speech synthesis failed",
+            extra={
+                "voice": resolved_voice_name,
+                "model": model,
+            },
+        )
+        raise
+    tts_logger.info("Synthesis complete", extra={"voice": resolved_voice_name})
 
     # 8. The response's audio_content is binary. Write it to a file.
     with open(output_filepath, "wb") as out:
         out.write(response.audio_content)
-        print(f'Audio content successfully written to file "{output_filepath}"')
+        tts_logger.info("Audio content written", extra={"output_path": output_filepath})
     #print(response)
     # 9. Return the response structure without the audio_content
     # Convert the protobuf response object to a dictionary.
@@ -180,7 +202,7 @@ def synthesize_audio_with_chirp3(
         
     except Exception as e:
         if "DESCRIPTOR" in str(e):
-            print("Falling back to internal Protobuf dictionary conversion...")
+            tts_logger.debug("Falling back to internal Protobuf dictionary conversion")
             
             # --- THE WORKAROUND ---
             # The 'response' object is often an instance of google.protobuf.Message
@@ -195,7 +217,7 @@ def synthesize_audio_with_chirp3(
             except Exception as fallback_error:
                 # If proto.Message.to_dict fails, print the original error 
                 # and re-raise to show the core problem
-                print(e)
+                tts_logger.error("Failed to convert protobuf response to dict", exc_info=True)
                 raise e
         else:
             raise e
@@ -203,7 +225,10 @@ def synthesize_audio_with_chirp3(
     # 4. Return the response structure without the audio_content
     if 'audio_content' in response_dict:
         del response_dict['audio_content']
-        print(response_dict)
+        tts_logger.debug(
+            "TTS response metadata received",
+            extra={"response_keys": sorted(response_dict.keys())},
+        )
     return response_dict, resolved_voice_name
 
 # --- Command Line Example Block ---

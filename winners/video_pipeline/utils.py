@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import re
 from pathlib import Path
 
@@ -23,12 +24,17 @@ def sanitize_filename_fragment(
 
 def write_videofile(clip, output_path: Path, *, fps: int) -> None:
     """Persist a MoviePy clip to disk using consistent encoder defaults."""
+    ffmpeg_opts = {"fps": fps,
+            "codec": "libx264",
+            "audio_codec": "aac",
+            "preset": "veryfast",          # faster encoder preset
+            "threads": os.cpu_count() or 0,
+            "ffmpeg_params": ["-crf", "23"]  # or your preferred CRF/bitrate
+        }
     try:
         clip.write_videofile(
             str(output_path),
-            fps=fps,
-            codec="libx264",
-            audio_codec="aac",
+            **ffmpeg_opts
         )
     except TypeError:
         clip.write_videofile(

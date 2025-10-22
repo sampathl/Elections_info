@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Optional, Sequence
 
 from winners.entities.candidate_record import CandidateRecord
+from winners.video_pipeline.utils import sanitize_filename_fragment
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 _WINNER_OUTPUT_BASE = PROJECT_ROOT / "static" / "Bihar" / "winners"
@@ -152,7 +153,8 @@ def choose_background_music(seed: Optional[str] = None) -> Optional[Path]:
         return None
 
     if seed is None:
-        return candidates[0]
+        rng = random.Random()
+        return rng.choice(candidates)
 
     rng = random.Random(seed)
     return rng.choice(candidates)
@@ -188,3 +190,19 @@ def resolve_party_symbol_path(party: str) -> Optional[Path]:
 def _sanitize_filename_fragment(value: str) -> str:
     """Return a filesystem-friendly fragment for attempting symbol lookups."""
     return re.sub(r"[^A-Za-z0-9]+", "_", value).strip("_")
+
+
+def combined_video_directory(record: CandidateRecord, locale: str) -> Path:
+    """Return the directory for storing combined videos."""
+    combined_root = (OUTPUT_ROOT / "Combined").resolve()
+    combined_root.mkdir(parents=True, exist_ok=True)
+    return combined_root
+
+
+def combined_video_filename(record: CandidateRecord, locale: str, stitched_path: Path) -> str:
+    """Return the filename for combined video copies."""
+    constituency_fragment = sanitize_filename_fragment(record.constituency_id or "unknown")
+    candidate_fragment = sanitize_filename_fragment(record.candidate_id or "unknown")
+    locale_fragment = sanitize_filename_fragment(locale or "xx")
+    original_name = stitched_path.name
+    return f"{constituency_fragment}_{candidate_fragment}_{locale_fragment}_{original_name}"

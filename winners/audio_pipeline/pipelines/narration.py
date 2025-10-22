@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import logging
 import re
 from pathlib import Path
-from typing import Iterable, List, Sequence
+from shutil import copy2
+from typing import Iterable, List, Sequence, Union
 
 from winners.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
 from winners.audio_pipeline.ssml_generators.factory import CandidateNarratorFactory
@@ -21,26 +23,56 @@ from winners.video_pipeline.layouts import (
     HindiVideoLayoutStrategy,
     VideoLayoutStrategy,
 )
-from winners.video_pipeline.paths import candidate_base_directory, choose_background_directory
+from winners.video_pipeline.paths import (
+    candidate_base_directory,
+    choose_background_directory,
+    combined_video_directory,
+    combined_video_filename,
+)
 from winners.video_pipeline.utils import sanitize_filename_fragment
 from winners.video_pipeline.segment_renderer import SegmentVideoRenderer
 from winners.video_pipeline.text_generators import VideoTextFactory
+from winners.utils.logging_config import PipelineLoggerAdapter, get_pipeline_logger
 
 
 class NarrationPipeline:
     """High-level pipeline orchestrator for narration artefacts."""
 
-    def __init__(self, *, locale: str, segment_order: Sequence[str] | None = None) -> None:
+    def __init__(
+        self,
+        *,
+        locale: str,
+        segment_order: Sequence[str] | None = None,
+        logger: Union[logging.Logger, PipelineLoggerAdapter, None] = None,
+    ) -> None:
         self.locale = locale
         self._segment_order = segment_order
+        if logger is None:
+            base_logger = get_pipeline_logger(__name__, locale=locale, component="narration")
+        elif isinstance(logger, PipelineLoggerAdapter):
+            base_logger = logger.bind(locale=locale, component="narration")
+        else:
+            base_logger = PipelineLoggerAdapter(logger, {"locale": locale, "component": "narration"})
+        self._logger = base_logger.bind(segment="-")
 
     def build_assets(self, record: CandidateRecord) -> CandidateNarrationAssets:
         """Return an empty asset set for the record."""
+        stage_logger = self._logger.bind(
+            candidate=record.candidate_id or record.candidate_name or "-",
+            component="assets",
+            segment="-",
+        )
+        stage_logger.info(
+            "Preparing assets for %s (%s)",
+            record.candidate_name or "Unknown Candidate",
+            record.constituency or "Unknown Constituency",
+        )
         assets = CandidateNarrationAssets(record=record)
         base_dir = candidate_base_directory(record)
         assets.configure_output_paths(base_dir, self.locale)
         seed = f"{record.constituency_id}:{record.candidate_id}"
         assets.background_directory = choose_background_directory(self.locale, seed=seed)
+        stage_logger.debug("Assets configured under %s", assets.locale_directory)
         return assets
 
     def populate_ssml(
@@ -50,6 +82,12 @@ class NarrationPipeline:
         store_full_ssml: bool = False,
     ) -> None:
         """Populate SSML fragments on the provided assets."""
+        stage_logger = self._logger.bind(
+            candidate=assets.record.candidate_id or assets.record.candidate_name or "-",
+            component="ssml",
+            segment="-",
+        )
+        stage_logger.info("Generating SSML segments")
         narrator = CandidateNarratorFactory().create(self.locale)
         segments = narrator.ssml_segments(assets.record)
 
@@ -59,6 +97,7 @@ class NarrationPipeline:
             else:
                 wrapped = fragment
             assets.update_segment(key, ssml=wrapped)
+            stage_logger.debug("SSML segment %s length=%d", key, len(wrapped or ""))
             if store_full_ssml:
                 assets.full_ssml = narrator.ssml_text(
                     assets.record, include_speak_wrapper=wrap_with_speak
@@ -66,12 +105,19 @@ class NarrationPipeline:
 
     def populate_text(self, assets: CandidateNarrationAssets) -> None:
         """Populate human-readable text for each segment."""
+        stage_logger = self._logger.bind(
+            candidate=assets.record.candidate_id or assets.record.candidate_name or "-",
+            component="text",
+            segment="-",
+        )
+        stage_logger.info("Populating plain text segments")
         narrator = CandidateNarratorFactory().create(self.locale)
         segments = narrator.ssml_segments(assets.record)
 
         for key, fragment in segments.items():
             plain = self._strip_markup(fragment)
             assets.update_segment(key, text=plain)
+            stage_logger.debug("Plain text segment %s length=%d", key, len(plain or ""))
         full_plain = narrator.ssml_text(
             assets.record, include_speak_wrapper=False
         )
@@ -79,11 +125,18 @@ class NarrationPipeline:
 
     def populate_video_text(self, assets: CandidateNarrationAssets) -> None:
         """Populate overlay text used for per-segment video captions."""
+        stage_logger = self._logger.bind(
+            candidate=assets.record.candidate_id or assets.record.candidate_name or "-",
+            component="overlay",
+            segment="-",
+        )
+        stage_logger.info("Generating overlay text for video segments")
         formatter = VideoTextFactory().create(self.locale)
         overlays = formatter.segment_texts(assets.record)
 
         for key, overlay in overlays.items():
             assets.update_segment(key, overlay_text=overlay)
+            stage_logger.debug("Overlay segment %s length=%d", key, len(overlay.text or ""))
 
     def synthesize_audio(self, assets: CandidateNarrationAssets) -> None:
         """Generate per-segment audio files."""
@@ -91,15 +144,25 @@ class NarrationPipeline:
         if audio_directory is None:
             raise ValueError("Audio segments directory has not been configured on assets.")
         audio_directory.mkdir(parents=True, exist_ok=True)
+        stage_logger = self._logger.bind(
+            candidate=assets.record.candidate_id or assets.record.candidate_name or "-",
+            component="audio",
+            segment="-",
+        )
+        stage_logger.info("Synthesizing audio clips in %s", audio_directory)
         voice_selection = select_chirp3_voice(self.locale, model=DEFAULT_CHIRP3_MODEL)
+        stage_logger.debug("Using voice %s", voice_selection)
 
         for segment in self.segment_sequence(assets):
+            segment_logger = stage_logger.bind(segment=segment.key)
             ssml = segment.ssml
             if not ssml:
+                segment_logger.warning("Skipping audio synthesis; SSML missing")
                 continue
 
             ssml = ssml.strip()
             if not ssml:
+                segment_logger.warning("Skipping audio synthesis; SSML empty after trimming")
                 continue
 
             if not ssml.lstrip().startswith("<speak"):
@@ -107,12 +170,17 @@ class NarrationPipeline:
 
             file_stem = self._segment_audio_stem(assets.record.candidate_name, segment.key)
             output_path = audio_directory / f"{file_stem}_{self.locale}.mp3"
-            synthesize_audio_with_chirp3(
-                ssml,
-                str(output_path),
-                voice_selection,
-                self.locale,
-            )
+            try:
+                synthesize_audio_with_chirp3(
+                    ssml,
+                    str(output_path),
+                    voice_selection,
+                    self.locale,
+                )
+            except Exception:
+                segment_logger.exception("Audio synthesis failed for segment")
+                raise
+            segment_logger.info("Audio synthesized at %s", output_path)
             assets.update_segment(segment.key, audio_path=output_path)
 
     def render_video(self, assets: CandidateNarrationAssets) -> None:
@@ -122,6 +190,12 @@ class NarrationPipeline:
             raise ValueError("Video segments directory has not been configured on assets.")
 
         background_directory = assets.background_directory
+        stage_logger = self._logger.bind(
+            candidate=assets.record.candidate_id or assets.record.candidate_name or "-",
+            component="video",
+            segment="-",
+        )
+        stage_logger.info("Rendering video segments in %s", video_directory)
 
         if self.locale == "en":
             strategy = EnglishVideoLayoutStrategy(
@@ -138,21 +212,58 @@ class NarrationPipeline:
                 f"Video rendering not yet implemented for locale '{self.locale}'"
             )
 
-        renderer = SegmentVideoRenderer(layout_strategy=strategy)
+        renderer = SegmentVideoRenderer(
+            layout_strategy=strategy,
+            logger=self._logger.bind(
+                candidate=assets.record.candidate_id or assets.record.candidate_name or "-",
+                component="segment_renderer",
+                segment="-",
+            ),
+        )
 
         segments = list(self.segment_sequence(assets))
-        renderer.render_segments(assets, segments)
+        render_results = renderer.render_segments(assets, segments)
+        stage_logger.info("Rendered %d segment clip(s)", len(render_results))
 
         video_paths = [segment.video_path for segment in segments if segment.video_path]
         if not video_paths:
+            stage_logger.warning("No segment videos produced; skipping stitching")
             assets.stitched_video_path = None
+            self._log_segment_summary(assets)
             return
 
         stitched_output_path = self._default_stitched_video_path(assets, strategy)
         stitched_output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        stitch_videos(video_paths, stitched_output_path, fps=strategy.preferred_fps())
+        stitch_logger = self._logger.bind(
+            candidate=assets.record.candidate_id or assets.record.candidate_name or "-",
+            component="stitch",
+            segment="stitched",
+        )
+        try:
+            stitch_videos(
+                video_paths,
+                stitched_output_path,
+                fps=strategy.preferred_fps(),
+                logger=stitch_logger,
+            )
+        except Exception:
+            stitch_logger.exception("Failed to stitch rendered segments")
+            raise
+        stitch_logger.info("Stitched video ready at %s", stitched_output_path)
         assets.stitched_video_path = stitched_output_path
+
+        combined_dir = combined_video_directory(assets.record, self.locale)
+        combined_filename = combined_video_filename(assets.record, self.locale, stitched_output_path)
+        combined_path = combined_dir / combined_filename
+        try:
+            copy2(stitched_output_path, combined_path)
+        except Exception:
+            stitch_logger.exception("Failed to copy stitched video to combined directory")
+        else:
+            stitch_logger.info("Copied stitched video to %s", combined_path)
+
+        self._log_segment_summary(assets)
 
     def stitch_audio(self, assets: CandidateNarrationAssets, output_path: Path) -> None:
         """Combine per-segment audio into a single timeline."""
@@ -233,3 +344,19 @@ class NarrationPipeline:
         base_directory = assets.locale_directory or strategy.output_directory
         base_directory.mkdir(parents=True, exist_ok=True)
         return base_directory / filename
+
+    def _log_segment_summary(self, assets: CandidateNarrationAssets) -> None:
+        summary_logger = self._logger.bind(
+            candidate=assets.record.candidate_id or assets.record.candidate_name or "-",
+            component="summary",
+            segment="-",
+        )
+        summary = assets.summary()
+        if not summary:
+            summary_logger.info("No segments available for summary logging")
+            return
+        formatted = ", ".join(
+            f"{key}={'ok' if value else 'missing'}"
+            for key, value in summary.items()
+        )
+        summary_logger.info("Segment completeness: %s", formatted)

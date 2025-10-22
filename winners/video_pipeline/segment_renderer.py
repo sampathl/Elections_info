@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+import logging
 import math
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Sequence, Tuple
+from typing import Iterable, Sequence, Tuple, Union
 
 try:  # Prefer the newer MoviePy API when available.
     import moviepy as mp  # type: ignore
@@ -36,6 +37,7 @@ from winners.entities.narration_assets import CandidateNarrationAssets, SegmentA
 from .layouts.base import ImageLayerSpec, TextLayerSpec, VideoLayoutStrategy
 from .tests.size_helper import load_font, wrap_text_no_breaks
 from .utils import write_videofile
+from winners.utils.logging_config import PipelineLoggerAdapter, get_pipeline_logger
 
 
 @dataclass(frozen=True)
@@ -47,19 +49,41 @@ class RenderResult:
 class SegmentVideoRenderer:
     """Compose background, text layers, and audio into a segment video clip."""
 
-    def __init__(self, *, layout_strategy: VideoLayoutStrategy) -> None:
+    def __init__(
+        self,
+        *,
+        layout_strategy: VideoLayoutStrategy,
+        logger: Union[PipelineLoggerAdapter, logging.Logger, None] = None,
+    ) -> None:
         self._layout = layout_strategy
         self._resolution = self._layout.preferred_resolution()
         self._fps = self._layout.preferred_fps()
+        if logger is None:
+            base_logger = get_pipeline_logger(__name__, component="segment_renderer")
+        elif isinstance(logger, PipelineLoggerAdapter):
+            base_logger = logger.bind(component="segment_renderer")
+        else:
+            base_logger = PipelineLoggerAdapter(logger, {"component": "segment_renderer"})
+        self._logger = base_logger.bind(segment="-")
 
     def render_segments(
         self,
         assets: CandidateNarrationAssets,
         segments: Iterable[SegmentAsset],
     ) -> Sequence[RenderResult]:
+        segment_list = list(segments)
+        batch_logger = self._logger.bind(
+            candidate=assets.record.candidate_id or assets.record.candidate_name or "-",
+            segment="-",
+        )
+        batch_logger.debug("Rendering %d segment(s)", len(segment_list))
         results: list[RenderResult] = []
-        for segment in segments:
-            output_path = self.render_segment(assets, segment)
+        for segment in segment_list:
+            try:
+                output_path = self.render_segment(assets, segment)
+            except Exception:
+                batch_logger.bind(segment=segment.key).exception("Segment render failed")
+                raise
             if output_path is not None:
                 results.append(RenderResult(segment_key=segment.key, output_path=output_path))
         return results
@@ -69,36 +93,52 @@ class SegmentVideoRenderer:
         assets: CandidateNarrationAssets,
         segment: SegmentAsset,
     ) -> Path | None:
+        segment_logger = self._logger.bind(
+            candidate=assets.record.candidate_id or assets.record.candidate_name or "-",
+            segment=segment.key,
+        )
         if segment.audio_path is None:
             # Cannot render without audio to set the duration.
+            segment_logger.warning("Skipping render; audio missing for segment")
             return None
         if segment.overlay_text is None:
             # Defer rendering until overlay text has been populated.
+            segment_logger.warning("Skipping render; overlay text missing for segment")
             return None
 
         background_path = self._layout.background_for_segment(assets, segment)
         text_layers = self._layout.text_layers_for_segment(assets, segment)
         if not any(layer.text.strip() for layer in text_layers):
+            segment_logger.warning("Skipping render; overlay text empty for segment")
             return None
 
         image_layers = self._layout.image_layers_for_segment(assets, segment)
+        if segment.key == "party" and not image_layers:
+            segment_logger.warning("Skipping render; no party symbol available for segment")
+            return None
 
         duration = self._determine_duration(segment)
+        segment_logger.debug("Segment duration determined as %.2fs", duration)
         output_path = self._layout.output_directory / self._layout.output_filename_for_segment(
             assets, segment
         )
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        self._compose_clip(
-            background_path=background_path,
-            text_layers=text_layers,
-            image_layers=image_layers,
-            audio_path=segment.audio_path,
-            duration=duration,
-            output_path=output_path,
-        )
+        try:
+            self._compose_clip(
+                background_path=background_path,
+                text_layers=text_layers,
+                image_layers=image_layers,
+                audio_path=segment.audio_path,
+                duration=duration,
+                output_path=output_path,
+            )
+        except Exception:
+            segment_logger.exception("Failed to compose video clip")
+            raise
 
         assets.update_segment(segment.key, video_path=output_path)
+        segment_logger.info("Rendered segment clip at %s", output_path)
         return output_path
 
     def _determine_duration(self, segment: SegmentAsset) -> float:

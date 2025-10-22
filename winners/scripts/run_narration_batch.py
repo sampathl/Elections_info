@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import logging
 import sys
 from pathlib import Path
 from typing import Dict, Iterable
@@ -24,6 +23,11 @@ except ImportError as exc:  # pragma: no cover - runtime dependency notice
 from winners.audio_pipeline.pipelines.narration import NarrationPipeline
 from winners.entities.candidate_record import CandidateRecord
 from winners.video_pipeline.paths import configure_output_year
+from winners.utils.logging_config import (
+    PipelineLoggerAdapter,
+    get_pipeline_logger,
+    setup_logging,
+)
 
 REQUIRED_COLUMNS: Iterable[str] = (
     "constituency_id",
@@ -76,43 +80,22 @@ def _generate_for_locale(
     pipeline: NarrationPipeline,
     *,
     store_full_ssml: bool,
-) -> None:
+    logger: PipelineLoggerAdapter,
+) -> CandidateNarrationAssets:
+    locale_logger = logger.bind(candidate=record.candidate_id or record.candidate_name or "-", segment="-")
+    locale_logger.info(
+        "Starting locale pipeline for %s (%s)",
+        record.candidate_name or "Unknown Candidate",
+        record.constituency or "Unknown Constituency",
+    )
     assets = pipeline.build_assets(record)
     pipeline.populate_ssml(assets, wrap_with_speak=True, store_full_ssml=store_full_ssml)
     pipeline.populate_text(assets)
     pipeline.populate_video_text(assets)
-
-    try:
-        pipeline.synthesize_audio(assets)
-    except Exception as exc:  # pragma: no cover - depends on external TTS
-        logging.error(
-            "Audio synthesis failed for %s (%s) [%s]: %s",
-            record.candidate_name,
-            record.constituency,
-            pipeline.locale,
-            exc,
-        )
-    try:
-        pipeline.render_video(assets)
-    except Exception as exc:  # pragma: no cover - depends on runtime env
-        logging.error(
-            "Video render failed for %s (%s) [%s]: %s",
-            record.candidate_name,
-            record.constituency,
-            pipeline.locale,
-            exc,
-        )
-    else:
-        stitched = assets.stitched_video_path
-        if stitched:
-            logging.info("[%s] Stitched video created at %s", pipeline.locale, stitched)
-        else:
-            logging.info(
-                "[%s] No stitched video produced for %s (%s)",
-                pipeline.locale,
-                record.candidate_name,
-                record.constituency,
-            )
+    pipeline.synthesize_audio(assets)
+    pipeline.render_video(assets)
+    locale_logger.info("Locale pipeline complete")
+    return assets
 
 
 def _validate_columns(frame: pd.DataFrame) -> None:
@@ -123,9 +106,16 @@ def _validate_columns(frame: pd.DataFrame) -> None:
         )
 
 
-def run_batch(csv_path: Path, *, limit: int | None = None, year: str = "2015") -> None:
+def run_batch(
+    csv_path: Path,
+    *,
+    limit: int | None = None,
+    year: str = "2015",
+    logger: PipelineLoggerAdapter | None = None,
+) -> None:
     configure_output_year(year)
-    logging.info("Loading candidate data from %s", csv_path)
+    batch_logger = logger or get_pipeline_logger(__name__, component="batch")
+    batch_logger.info("Loading candidate data from %s", csv_path)
     data = pd.read_csv(csv_path)
     _validate_columns(data)
 
@@ -134,28 +124,75 @@ def run_batch(csv_path: Path, *, limit: int | None = None, year: str = "2015") -
         records = records[:limit]
 
     pipelines = {
-        "en": NarrationPipeline(locale="en"),
-        "hi": NarrationPipeline(locale="hi"),
+        locale: NarrationPipeline(
+            locale=locale,
+            logger=batch_logger.bind(component="pipeline", locale=locale),
+        )
+        for locale in ("en", "hi")
     }
+
+    totals = {locale: {"success": 0, "failure": 0} for locale in pipelines}
+    failed_runs: list[tuple[str, str]] = []
+    total_records = len(records)
 
     for idx, row in enumerate(records, start=1):
         record = _row_to_record(row, year=year)
+        candidate_identifier = record.candidate_id or record.candidate_name or "unknown"
+        candidate_logger = batch_logger.bind(candidate=candidate_identifier, locale="-")
         if not record.constituency_id or not record.candidate_id:
-            logging.warning(
+            candidate_logger.warning(
                 "Skipping row %d; missing Constituency_ID or Candidate_ID.", idx
             )
             continue
 
-        logging.info(
+        candidate_logger.info(
             "[%d/%d] Processing %s (%s)",
             idx,
-            len(records),
+            total_records,
             record.candidate_name or "Unknown Candidate",
             record.constituency or "Unknown Constituency",
         )
 
-        _generate_for_locale(record, pipelines["en"], store_full_ssml=False)
-        _generate_for_locale(record, pipelines["hi"], store_full_ssml=True)
+        for locale, pipeline in pipelines.items():
+            locale_logger = candidate_logger.bind(locale=locale)
+            try:
+                assets = _generate_for_locale(
+                    record,
+                    pipeline,
+                    store_full_ssml=(locale == "hi"),
+                    logger=locale_logger,
+                )
+            except Exception:
+                totals[locale]["failure"] += 1
+                locale_logger.exception("Locale pipeline failed")
+                failed_runs.append((candidate_identifier, locale))
+            else:
+                totals[locale]["success"] += 1
+                stitched = assets.stitched_video_path
+                if stitched:
+                    locale_logger.info("Stitched video created at %s", stitched)
+                else:
+                    locale_logger.warning(
+                        "No stitched video produced for %s (%s)",
+                        record.candidate_name or "Unknown Candidate",
+                        record.constituency or "Unknown Constituency",
+                    )
+
+        candidate_logger.info("Completed processing")
+
+    for locale, counts in totals.items():
+        batch_logger.info(
+            "[%s] Success=%d Failure=%d",
+            locale,
+            counts["success"],
+            counts["failure"],
+        )
+
+    if failed_runs:
+        formatted = ", ".join(f"{candidate}:{locale}" for candidate, locale in failed_runs)
+        batch_logger.warning("Failures encountered for: %s", formatted)
+    else:
+        batch_logger.info("All locale pipelines completed successfully")
 
 
 def parse_args() -> argparse.Namespace:
@@ -183,16 +220,36 @@ def parse_args() -> argparse.Namespace:
         default="INFO",
         help="Logging level (DEBUG, INFO, WARNING, ERROR). Default: INFO.",
     )
+    parser.add_argument(
+        "--file-log-level",
+        default="DEBUG",
+        help="File handler logging level. Default: DEBUG.",
+    )
+    parser.add_argument(
+        "--log-dir",
+        type=Path,
+        default=None,
+        help="Directory for batch log files (defaults to <output_root>/logs).",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    logging.basicConfig(
-        level=getattr(logging, args.log_level.upper(), logging.INFO),
-        format="%(levelname)s %(message)s",
+    output_root = configure_output_year(args.year)
+    log_directory = args.log_dir or (output_root / "logs")
+    log_path = setup_logging(
+        log_directory,
+        console_level=args.log_level,
+        file_level=args.file_log_level,
     )
-    run_batch(args.csv, limit=args.limit, year=args.year)
+    batch_logger = get_pipeline_logger(__name__, component="batch")
+    batch_logger.info("Logging configured; file handler at %s", log_path)
+    try:
+        run_batch(args.csv, limit=args.limit, year=args.year, logger=batch_logger)
+    except Exception:
+        batch_logger.exception("Narration batch run failed")
+        raise
 
 
 if __name__ == "__main__":
