@@ -55,7 +55,7 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
         if not constituency_ssml:
             return ""
         return self._with_mark(
-            ", won for the {constituency} seat in the {year}".format(
+            ", won for the, {constituency} seat in the {year}".format(
                 constituency=constituency_ssml,
                 year = year
             ),
@@ -122,7 +122,7 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
 
     def assets_segment(self, amount: Optional[MoneyAmount]) -> str:
         if amount is None:
-            phrase = "had assets with unspecified value."
+            phrase = "assets of unkown value."
         elif amount.rupees == 0:
             phrase = "had no assets declared."
         else:
@@ -131,7 +131,7 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
 
     def liabilities_segment(self, amount: Optional[MoneyAmount]) -> str:
         if amount is None:
-            phrase = ",liabilities with unspecified value."
+            phrase = ",liabilities of unkown value."
         elif amount.rupees == 0:
             phrase = ", no liabilities declared."
         else:

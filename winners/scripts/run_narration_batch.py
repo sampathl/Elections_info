@@ -6,6 +6,7 @@ import argparse
 import sys
 from pathlib import Path
 from typing import Dict, Iterable
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 PROJECT_PARENT = PROJECT_ROOT.parent
@@ -135,50 +136,58 @@ def run_batch(
     failed_runs: list[tuple[str, str]] = []
     total_records = len(records)
 
-    for idx, row in enumerate(records, start=1):
-        record = _row_to_record(row, year=year)
-        candidate_identifier = record.candidate_id or record.candidate_name or "unknown"
-        candidate_logger = batch_logger.bind(candidate=candidate_identifier, locale="-")
-        if not record.constituency_id or not record.candidate_id:
-            candidate_logger.warning(
-                "Skipping row %d; missing Constituency_ID or Candidate_ID.", idx
+    with ThreadPoolExecutor(max_workers=len(pipelines)) as executor:
+        for idx, row in enumerate(records, start=1):
+            record = _row_to_record(row, year=year)
+            candidate_identifier = record.candidate_id or record.candidate_name or "unknown"
+            candidate_logger = batch_logger.bind(candidate=candidate_identifier, locale="-")
+            if not record.constituency_id or not record.candidate_id:
+                candidate_logger.warning(
+                    "Skipping row %d; missing Constituency_ID or Candidate_ID.", idx
+                )
+                continue
+
+            candidate_logger.info(
+                "[%d/%d] Processing %s (%s)",
+                idx,
+                total_records,
+                record.candidate_name or "Unknown Candidate",
+                record.constituency or "Unknown Constituency",
             )
-            continue
 
-        candidate_logger.info(
-            "[%d/%d] Processing %s (%s)",
-            idx,
-            total_records,
-            record.candidate_name or "Unknown Candidate",
-            record.constituency or "Unknown Constituency",
-        )
-
-        for locale, pipeline in pipelines.items():
-            locale_logger = candidate_logger.bind(locale=locale)
-            try:
-                assets = _generate_for_locale(
+            future_to_locale: dict = {}
+            for locale, pipeline in pipelines.items():
+                locale_logger = candidate_logger.bind(locale=locale)
+                future = executor.submit(
+                    _generate_for_locale,
                     record,
                     pipeline,
                     store_full_ssml=(locale == "hi"),
                     logger=locale_logger,
                 )
-            except Exception:
-                totals[locale]["failure"] += 1
-                locale_logger.exception("Locale pipeline failed")
-                failed_runs.append((candidate_identifier, locale))
-            else:
-                totals[locale]["success"] += 1
-                stitched = assets.stitched_video_path
-                if stitched:
-                    locale_logger.info("Stitched video created at %s", stitched)
-                else:
-                    locale_logger.warning(
-                        "No stitched video produced for %s (%s)",
-                        record.candidate_name or "Unknown Candidate",
-                        record.constituency or "Unknown Constituency",
-                    )
+                future_to_locale[future] = (locale, locale_logger)
 
-        candidate_logger.info("Completed processing")
+            for future in as_completed(future_to_locale):
+                locale, locale_logger = future_to_locale[future]
+                try:
+                    assets = future.result()
+                except Exception:
+                    totals[locale]["failure"] += 1
+                    locale_logger.exception("Locale pipeline failed")
+                    failed_runs.append((candidate_identifier, locale))
+                else:
+                    totals[locale]["success"] += 1
+                    stitched = assets.stitched_video_path
+                    if stitched:
+                        locale_logger.info("Stitched video created at %s", stitched)
+                    else:
+                        locale_logger.warning(
+                            "No stitched video produced for %s (%s)",
+                            record.candidate_name or "Unknown Candidate",
+                            record.constituency or "Unknown Constituency",
+                        )
+
+            candidate_logger.info("Completed processing")
 
     for locale, counts in totals.items():
         batch_logger.info(
@@ -193,6 +202,7 @@ def run_batch(
         batch_logger.warning("Failures encountered for: %s", formatted)
     else:
         batch_logger.info("All locale pipelines completed successfully")
+
 
 
 def parse_args() -> argparse.Namespace:

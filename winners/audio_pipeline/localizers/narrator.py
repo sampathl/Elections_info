@@ -19,6 +19,20 @@ logger = logging.getLogger(__name__)
 
 __all__ = ["CandidateNarrator", "LocalizedNarrator"]
 
+_PARTY_NAME_OVERRIDES: Dict[str, str] = {
+    "BJP": "Bharatiya Janata Party",
+    "JMM": "Jharkhand Mukti Morcha",
+    "CPI": "Communist Party of India",
+    "INC": "Indian National Congress",
+    "CPI(ML)(L)": "Communist Party of India (Marxist–Leninist) Liberation",
+    "JD(U)": "Janata Dal (United)",
+    "IND": "Independent",
+    "CPI(M)": "Communist Party of India (Marxist)",
+    "BSP": "Bahujan Samaj Party",
+    "RJD": "Rashtriya Janata Dal",
+    "LJP": "Lok Janshakti Party",
+}
+
 
 class CandidateNarrator(Protocol):
     def ssml_segments(self, entity: CandidateRecord) -> Dict[str, str]:
@@ -88,6 +102,13 @@ class LocalizedNarrator(CandidateNarrator):
         numeric_only = re.sub(r"[^0-9]", "", stripped)
         return numeric_only or "unknown"
 
+    def _party_display_value(self, party: str) -> str:
+        normalized = (party or "").strip()
+        if not normalized:
+            return ""
+        override = _PARTY_NAME_OVERRIDES.get(normalized.upper())
+        return override or normalized
+
     def ssml_segments(self, entity: CandidateRecord) -> Dict[str, str]:
         assets_amount = self._formatter.parse_money_amount(
             entity.assets_description, entity.total_assets
@@ -100,8 +121,10 @@ class LocalizedNarrator(CandidateNarrator):
             self._ssml_value(entity.candidate_name), entity
         )
 
+        party_display = self._party_display_value(entity.party)
         party_segment = self._formatter.party_segment(
-            entity.party, self._ssml_value(entity.party)
+            party_display,
+            self._ssml_value(party_display),
         )
 
         constituency_segment = self._formatter.constituency_segment(

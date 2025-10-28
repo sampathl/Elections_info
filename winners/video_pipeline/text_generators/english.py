@@ -99,7 +99,7 @@ class EnglishVideoTextFormatter(VideoTextFormatter):
 
     def _assets_segment(self, amount: Optional[MoneyAmount]) -> VideoSegmentText:
         if amount is None:
-            primary = "Not declared"
+            primary = "Unknown"
         elif amount.rupees == 0:
             primary = "0"
         else:
@@ -108,7 +108,7 @@ class EnglishVideoTextFormatter(VideoTextFormatter):
 
     def _liabilities_segment(self, amount: Optional[MoneyAmount]) -> VideoSegmentText:
         if amount is None:
-            primary = "Not declared"
+            primary = "Unknown"
         elif amount.rupees == 0:
             primary = "0"
         else:
