@@ -189,7 +189,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--static",
-        default="static",
+        default="Elections_info/static/Bihar/2025_data/candidate_static",
         help=(
             "Directory where downloaded images (icons) should be saved. "
             "This directory is passed to the underlying candidate scraper."
