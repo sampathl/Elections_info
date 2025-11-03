@@ -8,51 +8,43 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Sequence
 
-from winners.entities.candidate_record import CandidateRecord
-from winners.video_pipeline.utils import sanitize_filename_fragment
+from contestants.entities.candidate_record import CandidateRecord
+from contestants.video_pipeline.utils import sanitize_filename_fragment
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-_WINNER_OUTPUT_BASE = PROJECT_ROOT / "static" / "Bihar" / "winners"
-_DEFAULT_YEAR = "2015"
+_WINNER_OUTPUT_BASE = PROJECT_ROOT / "static" / "Bihar" / "contestants"
+_DEFAULT_YEAR = "2025"
 OUTPUT_ROOT = (_WINNER_OUTPUT_BASE / _DEFAULT_YEAR).resolve()
 BACKGROUND_SET_ROOT = (
     PROJECT_ROOT / "static" / "background" / "back_ground_images" / "2025"
 ).resolve()
+CANDIDATE_IMAGE_ROOT = (
+    PROJECT_ROOT / "static" / "Bihar" / "2025_data" / "candidate_static"
+).resolve()
 
-_PARTY_IMAGE_LOOKUP = {
-    "bjp": 0,
-    "bharatiya janata party": 0,
-    "rashtriya lok samta party": 1,
-    "rlsp": 1,
-    "jmm": 2,
-    "jharkhand mukti morcha": 2,
-    "all india majlis-e-ittehadul muslimeen": 3,
-    "aimim": 3,
-    "cpi": 4,
-    "communist party of india": 4,
-    "inc": 5,
-    "indian national congress": 5,
-    "cpi(ml)(l)": 6,
-    "communist party of india (marxist-leninist) liberation": 6,
-    "jd(u)": 7,
-    "janata dal (united)": 7,
-    "ind": 8,
-    "independent": 8,
-    "independents": 8,
-    "cpi(m)": 9,
-    "communist party of india (marxist)": 9,
-    "hindustani awam morcha (secular)": 10,
-    "ham (s)": 10,
-    "bsp": 11,
-    "bahujan samaj party": 11,
-    "rjd": 12,
-    "rashtriya janata dal": 12,
-    "vikassheel insaan party": 13,
-    "vip": 13,
-    "ljp": 14,
-    "lok jan shakti party": 14,
-    "lok janshakti party": 14,
-}
+_PARTY_IMAGE_LOOKUP = {'bjp': 0,
+ 'cpi(ml)(l)': 2,
+ 'voters party international': 3,
+ 'jan suraaj party': 4,
+ 'bsp': 5,
+ 'janshakti janta dal': 6,
+ 'rashtriya jansambhavna party': 8,
+ 'vikassheel insaan party': 9,
+ 'jd(u)': 10,
+ 'rjd': 11,
+ 'rashtriya lok janshakti party': 12,
+ 'aap': 15,
+ 'the plurals party': 20,
+ 'aazad samaj party (kanshi ram)': 29,
+ 'cpi': 30,
+ 'inc': 31,
+ 'lok janshakti party (ram vilas)': 36,
+ 'right to recall party': 38,
+ 'samata party': 43,    
+ 'cpi(m)': 50,
+ 'suheldev bharatiya samaj party': 55,
+ 'all india majlis-e-ittehadul muslimeen': 61
+ }
 
 _PARTY_SYMBOL_EXTENSIONS: Sequence[str] = (".png", ".jpg", ".jpeg", ".svg")
 _PARTY_SYMBOL_SOURCE_DIRS: Sequence[Path] = (
@@ -187,6 +179,42 @@ def resolve_party_symbol_path(party: str) -> Optional[Path]:
     return None
 
 
+def resolve_candidate_image_path(candidate_id: str | int | None) -> Optional[Path]:
+    """Return the candidate image path for the provided candidate id."""
+    if candidate_id is None:
+        return None
+
+    identifier = str(candidate_id).strip()
+    if not identifier:
+        return None
+
+    candidate_path = (CANDIDATE_IMAGE_ROOT / f"{identifier}.jpg").resolve()
+    if candidate_path.exists():
+        return candidate_path
+
+    # Fallback: normalise numeric identifiers that may include leading zeros or decimals.
+    normalized_numeric: Optional[str] = None
+    try:
+        # Attempt to interpret as float first to handle values like "19.0".
+        numeric_value = float(identifier)
+        if numeric_value.is_integer():
+            normalized_numeric = str(int(numeric_value))
+        else:
+            normalized_numeric = None
+    except ValueError:
+        try:
+            normalized_numeric = str(int(identifier))
+        except ValueError:
+            normalized_numeric = None
+
+    if normalized_numeric and normalized_numeric != identifier:
+        normalized_path = (CANDIDATE_IMAGE_ROOT / f"{normalized_numeric}.jpg").resolve()
+        if normalized_path.exists():
+            return normalized_path
+
+    return None
+
+
 def _sanitize_filename_fragment(value: str) -> str:
     """Return a filesystem-friendly fragment for attempting symbol lookups."""
     return re.sub(r"[^A-Za-z0-9]+", "_", value).strip("_")
@@ -194,15 +222,15 @@ def _sanitize_filename_fragment(value: str) -> str:
 
 def combined_video_directory(record: CandidateRecord, locale: str) -> Path:
     """Return the directory for storing combined videos."""
-    combined_root = (OUTPUT_ROOT / "Combined").resolve()
+    constituency_id = sanitize_filename_fragment(record.constituency_id or "unknown")
+    locale_fragment = sanitize_filename_fragment(locale or "xx")
+    combined_root = (_WINNER_OUTPUT_BASE / "Combined" / constituency_id / locale_fragment).resolve()
     combined_root.mkdir(parents=True, exist_ok=True)
     return combined_root
 
 
 def combined_video_filename(record: CandidateRecord, locale: str, stitched_path: Path) -> str:
     """Return the filename for combined video copies."""
-    constituency_fragment = sanitize_filename_fragment(record.constituency_id or "unknown")
     candidate_fragment = sanitize_filename_fragment(record.candidate_id or "unknown")
-    locale_fragment = sanitize_filename_fragment(locale or "xx")
-    original_name = stitched_path.name
-    return f"{constituency_fragment}_{candidate_fragment}_{locale_fragment}_{original_name}"
+    year_fragment = sanitize_filename_fragment(record.election_year or _DEFAULT_YEAR)
+    return f"{candidate_fragment}_{year_fragment}{stitched_path.suffix}"

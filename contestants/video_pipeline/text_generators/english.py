@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing import Dict, Optional
 
-from winners.audio_pipeline.localizers.money import MoneyAmount
-from winners.audio_pipeline.shared.money_parser import parse_money_amount as _parse_money_text
-from winners.audio_pipeline.ssml_generators.base import _format_decimal_english
-from winners.entities.candidate_record import CandidateRecord
+from contestants.audio_pipeline.localizers.money import MoneyAmount
+from contestants.audio_pipeline.shared.money_parser import parse_money_amount as _parse_money_text
+from contestants.audio_pipeline.ssml_generators.base import _format_decimal_english
+from contestants.entities.candidate_record import CandidateRecord
 
 from .base import VideoSegmentText, VideoTextFormatter
 

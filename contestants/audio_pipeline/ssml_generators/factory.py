@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing import Dict, Type
 
-from winners.audio_pipeline.ssml_generators.english import EnglishNarrationFormatter
-from winners.audio_pipeline.ssml_generators.hindi import HindiNarrationFormatter
-from winners.audio_pipeline.ssml_generators.base import LocaleFormatter
-from winners.audio_pipeline.localizers.narrator import LocalizedNarrator
+from contestants.audio_pipeline.ssml_generators.english import EnglishNarrationFormatter
+from contestants.audio_pipeline.ssml_generators.hindi import HindiNarrationFormatter
+from contestants.audio_pipeline.ssml_generators.base import LocaleFormatter
+from contestants.audio_pipeline.localizers.narrator import LocalizedNarrator
 
 __all__ = ["CandidateNarratorFactory"]
 

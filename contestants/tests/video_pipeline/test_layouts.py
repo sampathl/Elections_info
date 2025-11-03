@@ -4,11 +4,11 @@ from pathlib import Path
 
 import pytest
 
-from winners.entities.candidate_record import CandidateRecord
-from winners.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
-from winners.video_pipeline.layouts.english import EnglishVideoLayoutStrategy
-from winners.video_pipeline.layouts.hindi import HindiVideoLayoutStrategy
-from winners.video_pipeline.text_generators import VideoSegmentText
+from contestants.entities.candidate_record import CandidateRecord
+from contestants.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
+from contestants.video_pipeline.layouts.english import EnglishVideoLayoutStrategy
+from contestants.video_pipeline.layouts.hindi import HindiVideoLayoutStrategy
+from contestants.video_pipeline.text_generators import VideoSegmentText
 
 
 @pytest.fixture

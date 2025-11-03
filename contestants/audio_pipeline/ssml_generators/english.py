@@ -4,14 +4,14 @@ from __future__ import annotations
 
 from typing import Optional
 
-from winners.audio_pipeline.localizers.money import MoneyAmount
-from winners.audio_pipeline.shared.money_parser import parse_money_amount as _parse_money_text
-from winners.audio_pipeline.ssml_generators.base import (
+from contestants.audio_pipeline.localizers.money import MoneyAmount
+from contestants.audio_pipeline.shared.money_parser import parse_money_amount as _parse_money_text
+from contestants.audio_pipeline.ssml_generators.base import (
     LocaleFormatter,
     _FormatterBase,
     _format_decimal_english,
 )
-from winners.entities.candidate_record import CandidateRecord
+from contestants.entities.candidate_record import CandidateRecord
 
 __all__ = ["EnglishNarrationFormatter"]
 
@@ -69,18 +69,18 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
 
     def education_segment(self, education_level: str, details: str) -> str:
         descriptions = {
-            "Doctorate": "holds a doctorate degree",
-            "Post Graduate": "holds a post graduate degree",
-            "Graduate": "holds a graduate degree",
-            "Graduate Professional": "is a graduate professional",
-            "12th Pass": "has completed higher secondary education",
-            "10th Pass": "has completed secondary education",
-            "8th Pass": "has completed middle school",
-            "5th Pass": "has primary education",
-            "Illiterate": "is illiterate",
-            "Literate": "is literate with unspecified formal education",
-            "Others": "has other educational qualifications",
-            "Not Given": "has unspecified educational background",
+            "Doctorate": "holds a doctorate degree,",
+            "Post Graduate": "holds a post graduate degree,",
+            "Graduate": "holds a graduate degree,",
+            "Graduate Professional": "is a graduate professional,",
+            "12th Pass": "has completed higher secondary education,",
+            "10th Pass": "has completed secondary education,",
+            "8th Pass": "has completed middle school,",
+            "5th Pass": "has primary education,",
+            "Illiterate": "is illiterate,",
+            "Literate": "is literate with unspecified formal education,",
+            "Others": "has other educational qualifications,",
+            "Not Given": "has unspecified educational background,",
         }
         base = descriptions.get(
             education_level.strip(),
@@ -122,7 +122,7 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
 
     def assets_segment(self, amount: Optional[MoneyAmount]) -> str:
         if amount is None:
-            phrase = "assets of unkown value."
+            phrase = "assets of unknown value."
         elif amount.rupees == 0:
             phrase = "no assets declared."
         else:
@@ -131,7 +131,7 @@ class EnglishNarrationFormatter(_FormatterBase, LocaleFormatter):
 
     def liabilities_segment(self, amount: Optional[MoneyAmount]) -> str:
         if amount is None:
-            phrase = ",liabilities of unkown value."
+            phrase = ",liabilities of unknown value."
         elif amount.rupees == 0:
             phrase = ", no liabilities declared."
         else:

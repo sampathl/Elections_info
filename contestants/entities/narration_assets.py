@@ -6,8 +6,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import ClassVar, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence
 
-from winners.entities.candidate_record import CandidateRecord
-from winners.video_pipeline.text_generators.base import VideoSegmentText
+from contestants.entities.candidate_record import CandidateRecord
+from contestants.video_pipeline.text_generators.base import VideoSegmentText
 
 
 @dataclass

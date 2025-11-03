@@ -5,7 +5,7 @@ from typing import Optional, List, Dict, Any, Tuple
 from google.cloud import texttospeech_v1beta1 as  texttospeech
 from google.protobuf.json_format import MessageToDict
 from itertools import cycle
-from winners.utils.logging_config import get_pipeline_logger, PipelineLoggerAdapter
+from contestants.utils.logging_config import get_pipeline_logger, PipelineLoggerAdapter
 
 # --- Configuration for Indian Language Codes and Voice Cycling ---
 

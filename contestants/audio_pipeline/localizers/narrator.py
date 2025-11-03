@@ -6,13 +6,13 @@ import logging
 import re
 from typing import Dict, Optional, Protocol
 
-from winners.audio_pipeline.ssml_generators.base import LocaleFormatter
-from winners.audio_pipeline.phonetics.phonetics_generator import (
+from contestants.audio_pipeline.ssml_generators.base import LocaleFormatter
+from contestants.audio_pipeline.phonetics.phonetics_generator import (
     generate_phoneme_string,
     generate_ssml_phonetics,
     generate_ssml_phonetics_native,
 )
-from winners.entities.candidate_record import CandidateRecord
+from contestants.entities.candidate_record import CandidateRecord
 
 
 logger = logging.getLogger(__name__)
@@ -31,6 +31,9 @@ _PARTY_NAME_OVERRIDES: Dict[str, str] = {
     "BSP": "Bahujan Samaj Party",
     "RJD": "Rashtriya Janata Dal",
     "LJP": "Lok Janshakti Party",
+    "AAP":"Aam Aadmi Party",
+    "SUCI(C)":"Socialist Unity Centre of India (Communist)",
+    "NCP":" Nationalist Congress Party",
 }
 
 

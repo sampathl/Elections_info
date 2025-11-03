@@ -6,7 +6,7 @@ import csv
 from pathlib import Path
 from typing import Dict, Iterable, Iterator, List
 
-from winners.entities.candidate_record import CandidateRecord
+from contestants.entities.candidate_record import CandidateRecord
 
 
 EXPECTED_COLUMNS = (

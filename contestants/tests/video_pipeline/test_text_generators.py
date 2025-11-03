@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import pytest
 
-from winners.audio_pipeline.pipelines.narration import NarrationPipeline
-from winners.entities.candidate_record import CandidateRecord
-from winners.video_pipeline.text_generators import VideoSegmentText, VideoTextFactory
-from winners.video_pipeline.text_generators.english import EnglishVideoTextFormatter
-from winners.video_pipeline.text_generators.hindi import HindiVideoTextFormatter
-from winners.video_pipeline.text_generators import hindi as hindi_module
+from contestants.audio_pipeline.pipelines.narration import NarrationPipeline
+from contestants.entities.candidate_record import CandidateRecord
+from contestants.video_pipeline.text_generators import VideoSegmentText, VideoTextFactory
+from contestants.video_pipeline.text_generators.english import EnglishVideoTextFormatter
+from contestants.video_pipeline.text_generators.hindi import HindiVideoTextFormatter
+from contestants.video_pipeline.text_generators import hindi as hindi_module
 
 
 def _sample_record() -> CandidateRecord:

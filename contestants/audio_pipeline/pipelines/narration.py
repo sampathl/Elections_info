@@ -8,31 +8,31 @@ from pathlib import Path
 from shutil import copy2
 from typing import Iterable, List, Sequence, Union
 
-from winners.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
-from winners.audio_pipeline.ssml_generators.factory import CandidateNarratorFactory
-from winners.audio_pipeline.tts_clients.google_tts_client import (
+from contestants.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
+from contestants.audio_pipeline.ssml_generators.factory import CandidateNarratorFactory
+from contestants.audio_pipeline.tts_clients.google_tts_client import (
     DEFAULT_CHIRP3_MODEL,
     select_chirp3_voice,
     synthesize_audio_with_chirp3,
 )
-from winners.entities.candidate_record import CandidateRecord
-from winners.entities.loaders import iter_candidate_records
-from winners.video_pipeline.combiner import stitch_videos
-from winners.video_pipeline.layouts import (
+from contestants.entities.candidate_record import CandidateRecord
+from contestants.entities.loaders import iter_candidate_records
+from contestants.video_pipeline.combiner import stitch_videos
+from contestants.video_pipeline.layouts import (
     EnglishVideoLayoutStrategy,
     HindiVideoLayoutStrategy,
     VideoLayoutStrategy,
 )
-from winners.video_pipeline.paths import (
+from contestants.video_pipeline.paths import (
     candidate_base_directory,
     choose_background_directory,
     combined_video_directory,
     combined_video_filename,
 )
-from winners.video_pipeline.utils import sanitize_filename_fragment
-from winners.video_pipeline.segment_renderer import SegmentVideoRenderer
-from winners.video_pipeline.text_generators import VideoTextFactory
-from winners.utils.logging_config import PipelineLoggerAdapter, get_pipeline_logger
+from contestants.video_pipeline.utils import sanitize_filename_fragment
+from contestants.video_pipeline.segment_renderer import SegmentVideoRenderer
+from contestants.video_pipeline.text_generators import VideoTextFactory
+from contestants.utils.logging_config import PipelineLoggerAdapter, get_pipeline_logger
 
 
 class NarrationPipeline:

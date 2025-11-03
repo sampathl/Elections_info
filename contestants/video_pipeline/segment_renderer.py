@@ -32,12 +32,12 @@ except Exception:  # pragma: no cover - fallback to legacy API
     )
     import moviepy.video.fx.all as vfx  # type: ignore
 
-from winners.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
+from contestants.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
 
 from .layouts.base import ImageLayerSpec, TextLayerSpec, VideoLayoutStrategy
 from .tests.size_helper import load_font, wrap_text_no_breaks
 from .utils import write_videofile
-from winners.utils.logging_config import PipelineLoggerAdapter, get_pipeline_logger
+from contestants.utils.logging_config import PipelineLoggerAdapter, get_pipeline_logger
 
 
 @dataclass(frozen=True)
@@ -113,9 +113,17 @@ class SegmentVideoRenderer:
             return None
 
         image_layers = self._layout.image_layers_for_segment(assets, segment)
+        if image_layers:
+            segment_logger.debug(
+                "Resolved %d image layer(s): %s",
+                len(image_layers),
+                [str(layer.path) for layer in image_layers],
+            )
+        else:
+            segment_logger.debug("No image layers resolved for segment")
         if segment.key == "party" and not image_layers:
             segment_logger.warning("Skipping render; no party symbol available for segment")
-            return None
+            #return None
 
         duration = self._determine_duration(segment)
         segment_logger.debug("Segment duration determined as %.2fs", duration)

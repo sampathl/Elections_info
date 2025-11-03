@@ -12,8 +12,8 @@ for path in (PROJECT_PARENT, PROJECT_ROOT):
         sys.path.insert(0, str(path))
 
 try:
-    from winners.entities.candidate_record import CandidateRecord
-    from winners.audio_pipeline.pipelines.narration import NarrationPipeline
+    from contestants.entities.candidate_record import CandidateRecord
+    from contestants.audio_pipeline.pipelines.narration import NarrationPipeline
 except ModuleNotFoundError as exc:
     print(f"SKIPPED narration demo: {exc}")
     raise SystemExit(0)
@@ -24,7 +24,7 @@ def _sample_record() -> CandidateRecord:
 
     return CandidateRecord(
         constituency_id="24311",
-        candidate_id="19",
+        candidate_id="192",
         constituency="AGIAON (SC)",
         election_type="General",
         candidate_name="Manoj Manzil",
@@ -94,8 +94,6 @@ def run_english_demo(record: CandidateRecord) -> None:
 
 
 def run_hindi_demo(record: CandidateRecord) -> None:
-    record.candidate_id=2
-    record.constituency_id=4
     #record.party=None
     #record.liabilities_description=None
     hindi_pipeline = NarrationPipeline(locale="hi")

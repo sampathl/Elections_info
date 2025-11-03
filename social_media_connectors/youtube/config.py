@@ -10,7 +10,7 @@ CONNECTOR_ROOT = PACKAGE_ROOT
 LOG_FILE_PATH = PACKAGE_ROOT.parent / "youtube_upload.log"
 DEFAULT_MANIFEST_PATH = "/Users/saml16/projects/Elections_info/static/Bihar/winners/playlist_csv_2010.csv"
 
-DEFAULT_CLIENT_SECRETS_FILE = "client_hehehe.json"
+DEFAULT_CLIENT_SECRETS_FILE = "/Users/saml16/Desktop/Keys/youtube_creator.json"
 DEFAULT_TOKEN_FILE = "token.json"
 
 OAUTH_SCOPES: Tuple[str, ...] = (

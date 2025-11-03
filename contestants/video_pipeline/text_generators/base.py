@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, Protocol
 
-from winners.entities.candidate_record import CandidateRecord
+from contestants.entities.candidate_record import CandidateRecord
 
 
 @dataclass(frozen=True)

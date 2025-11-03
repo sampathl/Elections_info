@@ -4,15 +4,15 @@ from __future__ import annotations
 
 from typing import Optional
 
-from winners.audio_pipeline.localizers.money import MoneyAmount
-from winners.audio_pipeline.shared.money_parser import parse_money_amount as _parse_money_text
-from winners.audio_pipeline.ssml_generators.base import (
+from contestants.audio_pipeline.localizers.money import MoneyAmount
+from contestants.audio_pipeline.shared.money_parser import parse_money_amount as _parse_money_text
+from contestants.audio_pipeline.ssml_generators.base import (
     LocaleFormatter,
     _DEVANAGARI_DIGITS,
     _FormatterBase,
     _format_decimal_indian,
 )
-from winners.entities.candidate_record import CandidateRecord
+from contestants.entities.candidate_record import CandidateRecord
 
 
 __all__ = ["HindiNarrationFormatter"]
@@ -56,7 +56,7 @@ class HindiNarrationFormatter(_FormatterBase, LocaleFormatter):
     def constituency_segment(self, constituency_ssml: str, *, year: str = "") -> str:
         if not constituency_ssml:
             return ""
-        phrase = f"{constituency_ssml} सीट से विजयी रहे।"
+        phrase = f"{constituency_ssml} सीट के लिए चुनाव लड़ रहे हैं,"
         return self._with_mark(f", {phrase}", self.mark_constituency)
 
     def age_segment(self, age_text: str) -> str:

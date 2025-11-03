@@ -7,7 +7,7 @@ from decimal import Decimal, InvalidOperation
 from functools import lru_cache
 from typing import Iterable, Mapping, Optional, Tuple
 
-from winners.audio_pipeline.localizers.money import MoneyAmount
+from contestants.audio_pipeline.localizers.money import MoneyAmount
 
 _NUMERIC_PATTERN = re.compile(r"[-+]?[0-9]+(?:[.,][0-9]+)?")
 _BASE_UNIT_MULTIPLIERS = {

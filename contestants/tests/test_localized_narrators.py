@@ -18,8 +18,8 @@ for path in (PROJECT_PARENT, PROJECT_ROOT):
 
 
 try:
-    from winners.entities.candidate_record import CandidateRecord
-    from winners.audio_pipeline.ssml_generators.factory import CandidateNarratorFactory
+    from contestants.entities.candidate_record import CandidateRecord
+    from contestants.audio_pipeline.ssml_generators.factory import CandidateNarratorFactory
 except ModuleNotFoundError as exc:  # e.g. optional deps like `inflect` missing
     CandidateRecord = None  # type: ignore[assignment]
     CandidateNarratorFactory = None  # type: ignore[assignment]

@@ -5,8 +5,8 @@ from __future__ import annotations
 from decimal import Decimal
 from typing import Optional, Protocol
 
-from winners.audio_pipeline.localizers.money import MoneyAmount
-from winners.entities.candidate_record import CandidateRecord
+from contestants.audio_pipeline.localizers.money import MoneyAmount
+from contestants.entities.candidate_record import CandidateRecord
 
 
 __all__ = [

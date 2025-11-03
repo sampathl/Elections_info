@@ -16,7 +16,7 @@ from .paths import (
     choose_background_music,
 )
 from .utils import write_videofile
-from winners.utils.logging_config import PipelineLoggerAdapter, get_pipeline_logger
+from contestants.utils.logging_config import PipelineLoggerAdapter, get_pipeline_logger
 
 CompositeVideoClip = mp.CompositeVideoClip  # type: ignore[attr-defined]
 CompositeAudioClip = mp.CompositeAudioClip  # type: ignore[attr-defined]

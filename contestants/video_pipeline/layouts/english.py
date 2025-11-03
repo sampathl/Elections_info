@@ -5,10 +5,14 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Dict, Sequence, Tuple
 
-from winners.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
+from contestants.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
 
 from .base import ImageLayerSpec, TextLayerSpec, VideoLayoutStrategy
-from ..paths import locale_assets, resolve_party_symbol_path
+from ..paths import (
+    locale_assets,
+    resolve_candidate_image_path,
+    resolve_party_symbol_path,
+)
 from ..utils import sanitize_filename_fragment
 
 __all__ = ["EnglishVideoLayoutStrategy"]
@@ -118,13 +122,29 @@ class EnglishVideoLayoutStrategy(VideoLayoutStrategy):
         assets: CandidateNarrationAssets,
         segment: SegmentAsset,
     ) -> Sequence[ImageLayerSpec]:
+        if segment.key == "name":
+            print("***** name being called ********")
+            candidate_path = resolve_candidate_image_path(assets.record.candidate_id)
+            if candidate_path is None or not candidate_path.exists():
+                return []
+            print("***** name image being called ********")
+            
+            return [
+                ImageLayerSpec(
+                    path=candidate_path,
+                    anchor=(0.5, 0.82),
+                    max_width_ratio=0.33,
+                    max_height_ratio=0.25,
+                    padding=(0, -40),
+                )
+            ]
+
         if segment.key != "party":
             return []
         symbol_path = resolve_party_symbol_path(assets.record.party)
         if symbol_path is None or not symbol_path.exists():
-            symbol_path = self._party_symbol_path
-        if symbol_path is None or not symbol_path.exists():
             return []
+        print("***** segment being called ********")
         return [
             ImageLayerSpec(
                 path=symbol_path,

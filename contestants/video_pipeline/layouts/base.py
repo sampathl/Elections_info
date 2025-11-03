@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Protocol, Sequence, Tuple
 
-from winners.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
+from contestants.entities.narration_assets import CandidateNarrationAssets, SegmentAsset
 
 
 @dataclass(frozen=True)
